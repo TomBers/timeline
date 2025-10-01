@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Construction of the Great Pyramid of Giza",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Pyramid+of+Giza",
+    "description": "Built as a tomb for the Pharaoh Khufu during Egypt's Fourth Dynasty, the Great Pyramid is the oldest of the Seven Wonders of the Ancient World.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+    "year": -2560
+  },
+  {
+    "title": "Magna Carta is sealed",
+    "image_src": "https://via.placeholder.com/640x360?text=Magna+Carta",
+    "description": "King John of England affixed his seal to the Magna Carta at Runnymede, establishing principles that limited royal authority and influenced constitutional law.",
+    "weblink": "https://en.wikipedia.org/wiki/Magna_Carta",
+    "year": 1215
+  },
+  {
+    "title": "Johannes Gutenberg invents the printing press",
+    "image_src": "https://via.placeholder.com/640x360?text=Printing+Press",
+    "description": "Gutenberg's movable-type printing press revolutionized the spread of information, literacy, and ideas across Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Printing_press",
+    "year": 1440
+  },
+  {
+    "title": "Christopher Columbus reaches the Americas",
+    "image_src": "https://via.placeholder.com/640x360?text=Columbus+Voyage",
+    "description": "Columbus's first voyage across the Atlantic led to sustained European contact with the Americas.",
+    "weblink": "https://en.wikipedia.org/wiki/Voyages_of_Christopher_Columbus",
+    "year": 1492
+  },
+  {
+    "title": "Martin Luther posts the Ninety-five Theses",
+    "image_src": "https://via.placeholder.com/640x360?text=Ninety-five+Theses",
+    "description": "Luther's theses criticized certain practices of the Catholic Church and catalyzed the Protestant Reformation.",
+    "weblink": "https://en.wikipedia.org/wiki/Ninety-five_Theses",
+    "year": 1517
+  },
+  {
+    "title": "Declaration of Independence",
+    "image_src": "https://via.placeholder.com/640x360?text=Declaration+of+Independence",
+    "description": "The Thirteen Colonies declared independence from Great Britain, forming the United States of America.",
+    "weblink": "https://en.wikipedia.org/wiki/United_States_Declaration_of_Independence",
+    "year": 1776
+  },
+  {
+    "title": "French Revolution begins",
+    "image_src": "https://via.placeholder.com/640x360?text=French+Revolution",
+    "description": "The French Revolution dramatically transformed French society and politics, influencing modern democratic movements.",
+    "weblink": "https://en.wikipedia.org/wiki/French_Revolution",
+    "year": 1789
+  },
+  {
+    "title": "First powered flight",
+    "image_src": "https://via.placeholder.com/640x360?text=Wright+Brothers",
+    "description": "The Wright brothers achieved the first controlled, sustained flight of a powered, heavier-than-air aircraft at Kitty Hawk.",
+    "weblink": "https://en.wikipedia.org/wiki/Wright_brothers",
+    "year": 1903
+  },
+  {
+    "title": "First Moon landing (Apollo 11)",
+    "image_src": "https://via.placeholder.com/640x360?text=Apollo+11",
+    "description": "Neil Armstrong and Buzz Aldrin became the first humans to walk on the Moon, marking a milestone in space exploration.",
+    "weblink": "https://en.wikipedia.org/wiki/Apollo_11",
+    "year": 1969
+  },
+  {
+    "title": "Fall of the Berlin Wall",
+    "image_src": "https://via.placeholder.com/640x360?text=Berlin+Wall",
+    "description": "The opening of the border between East and West Berlin symbolized the end of the Cold War and led to German reunification.",
+    "weblink": "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+    "year": 1989
+  },
+  {
+    "title": "The World Wide Web becomes publicly available",
+    "image_src": "https://via.placeholder.com/640x360?text=World+Wide+Web",
+    "description": "Tim Berners-Lee opened the World Wide Web to the public, enabling the modern internet as we know it.",
+    "weblink": "https://en.wikipedia.org/wiki/World_Wide_Web",
+    "year": 1991
+  },
+  {
+    "title": "Human Genome Project completed",
+    "image_src": "https://via.placeholder.com/640x360?text=Human+Genome+Project",
+    "description": "An international research effort successfully mapped and sequenced the human genome, transforming biology and medicine.",
+    "weblink": "https://en.wikipedia.org/wiki/Human_Genome_Project",
+    "year": 2003
+  }
+]

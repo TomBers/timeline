@@ -1,0 +1,130 @@
+<Layouts.app flash={@flash}>
+  <div class="space-y-6" id="game-root">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-bold">Timeline — Prototype</h1>
+      <p class="text-base text-base-content/70">
+        Drag an event from the pool into a timeline slot. Click Score when done.
+      </p>
+    </header>
+
+    <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
+      <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
+      <button id="reset-btn" class="btn" phx-click="reset">New game</button>
+      <button id="shuffle-btn" class="btn btn-ghost" phx-click="shuffle_pool">
+        Shuffle pool
+      </button>
+    </section>
+
+    <%= if @score do %>
+      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-4">
+        <div class="flex flex-wrap gap-6 items-center">
+          <div>
+            <div class="text-3xl font-extrabold">{@score.percent_correct}%</div>
+            <div class="text-sm text-base-content/70">Correct positions</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">
+              {@score.correct_positions} / {@score.total_slots}
+            </div>
+            <div class="text-sm text-base-content/70">Spots exactly right</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">{@score.total_displacement}</div>
+            <div class="text-sm text-base-content/70">Total displacement (lower is better)</div>
+          </div>
+          <div class="ml-auto">
+            <%= cond do %>
+              <% @score.filled_slots < @score.total_slots -> %>
+                <span class="text-sm text-warning">
+                  Score based on {@score.filled_slots} of {@score.total_slots} placed.
+                </span>
+              <% true -> %>
+                <span class="text-sm text-success">All slots filled. Great!</span>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
+    <section aria-label="timeline" id="timeline" phx-hook="DnDSlots" class="space-y-3">
+      <h2 class="text-lg font-semibold">Timeline</h2>
+      <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+        <%= for {event_id, idx} <- Enum.with_index(@slots) do %>
+          <div
+            id={"slot-#{idx}"}
+            data-slot-idx={idx}
+            data-filled={not is_nil(event_id)}
+            class={[
+              "card",
+              "bg-base-200",
+              "border-2",
+              "transition-colors",
+              is_nil(event_id) && "border-dashed border-base-300 hover:border-primary",
+              !is_nil(event_id) && "border-base-200"
+            ]}
+          >
+            <div class="card-body p-4">
+              <div class="flex justify-between items-center mb-2">
+                <div class="text-sm font-semibold">Slot {idx + 1}</div>
+
+                <%= if event_id do %>
+                  <button
+                    class="btn btn-xs btn-outline"
+                    phx-click="remove_from_slot"
+                    phx-value-slot={idx}
+                    id={"remove-slot-#{idx}"}
+                  >
+                    Remove
+                  </button>
+                <% end %>
+              </div>
+
+              <%= if event_id && @events_by_id[event_id] do %>
+                <h3 class="font-semibold text-sm transition-transform duration-200 ease-out will-change-transform animate-[fade-in_180ms_ease-out]">
+                  {@events_by_id[event_id].title}
+                </h3>
+              <% else %>
+                <div class="text-base-content/60 text-sm italic">Drag an event here</div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <section aria-label="pool" id="pool" phx-hook="DnDPool" class="space-y-3">
+      <h2 class="text-lg font-semibold">Event Pool</h2>
+
+      <%= if @pool == [] do %>
+        <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
+          No remaining events in the pool.
+        </div>
+      <% else %>
+        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <%= for event <- @pool do %>
+            <div
+              id={"pool-#{event.id}"}
+              data-event-id={event.id}
+              draggable="true"
+              class="card border-2 border-base-300 hover:border-primary transition-colors cursor-move"
+            >
+              <div class="card-body p-4">
+                <div class="flex items-center justify-between -mt-1 mb-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
+                    <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
+                  </span>
+                  <span class="text-[10px] text-base-content/50 uppercase tracking-wider">
+                    Card
+                  </span>
+                </div>
+                <h3 class="font-semibold select-none">
+                  {event.title}
+                </h3>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</Layouts.app>
