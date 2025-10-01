@@ -554,5 +554,264 @@
     "description": "Watson and Crick determined the double helix structure of DNA, revolutionizing biology and medicine.",
     "weblink": "https://en.wikipedia.org/wiki/Molecular_Structure_of_Nucleic_Acids:_A_Structure_for_Deoxyribose_Nucleic_Acid",
     "year": 1953
+  },
+  {
+    "title": "Rosa Parks refuses to give up bus seat",
+    "image_src": "https://via.placeholder.com/640x360?text=Rosa+Parks",
+    "description": "Parks' refusal to give up her seat sparked the Montgomery Bus Boycott and energized the Civil Rights Movement.",
+    "weblink": "https://en.wikipedia.org/wiki/Rosa_Parks",
+    "year": 1955
+  },
+  {
+    "title": "Soviet Union launches Sputnik",
+    "image_src": "https://via.placeholder.com/640x360?text=Sputnik",
+    "description": "The first artificial satellite triggered the Space Race between the United States and Soviet Union.",
+    "weblink": "https://en.wikipedia.org/wiki/Sputnik_1",
+    "year": 1957
+  },
+  {
+    "title": "Cuban Missile Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Cuban+Missile+Crisis",
+    "description": "The world came closest to nuclear war during this 13-day confrontation between the US and Soviet Union.",
+    "weblink": "https://en.wikipedia.org/wiki/Cuban_Missile_Crisis",
+    "year": 1962
+  },
+  {
+    "title": "Martin Luther King Jr. 'I Have a Dream' speech",
+    "image_src": "https://via.placeholder.com/640x360?text=I+Have+a+Dream",
+    "description": "King's iconic speech at the March on Washington became a defining moment of the Civil Rights Movement.",
+    "weblink": "https://en.wikipedia.org/wiki/I_Have_a_Dream",
+    "year": 1963
+  },
+  {
+    "title": "Assassination of John F. Kennedy",
+    "image_src": "https://via.placeholder.com/640x360?text=JFK",
+    "description": "President Kennedy was assassinated in Dallas, shocking the nation and world.",
+    "weblink": "https://en.wikipedia.org/wiki/Assassination_of_John_F._Kennedy",
+    "year": 1963
+  },
+  {
+    "title": "First Moon landing (Apollo 11)",
+    "image_src": "https://via.placeholder.com/640x360?text=Apollo+11",
+    "description": "Neil Armstrong and Buzz Aldrin became the first humans to walk on the Moon, marking a milestone in space exploration.",
+    "weblink": "https://en.wikipedia.org/wiki/Apollo_11",
+    "year": 1969
+  },
+  {
+    "title": "Woodstock Festival",
+    "image_src": "https://via.placeholder.com/640x360?text=Woodstock",
+    "description": "The iconic music festival became a symbol of the 1960s counterculture and peace movement.",
+    "weblink": "https://en.wikipedia.org/wiki/Woodstock",
+    "year": 1969
+  },
+  {
+    "title": "Watergate scandal",
+    "image_src": "https://via.placeholder.com/640x360?text=Watergate",
+    "description": "The political scandal led to President Nixon's resignation and increased skepticism of government.",
+    "weblink": "https://en.wikipedia.org/wiki/Watergate_scandal",
+    "year": 1972
+  },
+  {
+    "title": "Vietnam War ends",
+    "image_src": "https://via.placeholder.com/640x360?text=Vietnam+War",
+    "description": "The fall of Saigon marked the end of the Vietnam War and reunification of Vietnam under communist rule.",
+    "weblink": "https://en.wikipedia.org/wiki/Vietnam_War",
+    "year": 1975
+  },
+  {
+    "title": "Apple Computer founded",
+    "image_src": "https://via.placeholder.com/640x360?text=Apple",
+    "description": "Steve Jobs and Steve Wozniak founded Apple, helping launch the personal computer revolution.",
+    "weblink": "https://en.wikipedia.org/wiki/Apple_Inc.",
+    "year": 1976
+  },
+  {
+    "title": "First test-tube baby born",
+    "image_src": "https://via.placeholder.com/640x360?text=IVF",
+    "description": "Louise Brown's birth through in vitro fertilization opened new possibilities for treating infertility.",
+    "weblink": "https://en.wikipedia.org/wiki/Louise_Brown",
+    "year": 1978
+  },
+  {
+    "title": "Iranian Revolution",
+    "image_src": "https://via.placeholder.com/640x360?text=Iranian+Revolution",
+    "description": "The overthrow of the Shah established an Islamic republic and reshaped Middle Eastern politics.",
+    "weblink": "https://en.wikipedia.org/wiki/Iranian_Revolution",
+    "year": 1979
+  },
+  {
+    "title": "Solidarity movement in Poland",
+    "image_src": "https://via.placeholder.com/640x360?text=Solidarity",
+    "description": "The independent trade union challenged communist rule and inspired democratic movements across Eastern Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Solidarity_(Polish_trade_union)",
+    "year": 1980
+  },
+  {
+    "title": "Chernobyl nuclear disaster",
+    "image_src": "https://via.placeholder.com/640x360?text=Chernobyl",
+    "description": "The worst nuclear accident in history contaminated large areas and raised questions about nuclear power safety.",
+    "weblink": "https://en.wikipedia.org/wiki/Chernobyl_disaster",
+    "year": 1986
+  },
+  {
+    "title": "Fall of the Berlin Wall",
+    "image_src": "https://via.placeholder.com/640x360?text=Berlin+Wall",
+    "description": "The opening of the border between East and West Berlin symbolized the end of the Cold War and led to German reunification.",
+    "weblink": "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+    "year": 1989
+  },
+  {
+    "title": "Tiananmen Square protests",
+    "image_src": "https://via.placeholder.com/640x360?text=Tiananmen",
+    "description": "Pro-democracy demonstrations in Beijing were violently suppressed, shocking the world.",
+    "weblink": "https://en.wikipedia.org/wiki/1989_Tiananmen_Square_protests_and_massacre",
+    "year": 1989
+  },
+  {
+    "title": "The World Wide Web becomes publicly available",
+    "image_src": "https://via.placeholder.com/640x360?text=World+Wide+Web",
+    "description": "Tim Berners-Lee opened the World Wide Web to the public, enabling the modern internet as we know it.",
+    "weblink": "https://en.wikipedia.org/wiki/World_Wide_Web",
+    "year": 1991
+  },
+  {
+    "title": "Soviet Union dissolves",
+    "image_src": "https://via.placeholder.com/640x360?text=USSR+Dissolution",
+    "description": "The collapse of the Soviet Union ended the Cold War and reshaped the global political landscape.",
+    "weblink": "https://en.wikipedia.org/wiki/Dissolution_of_the_Soviet_Union",
+    "year": 1991
+  },
+  {
+    "title": "Nelson Mandela elected President of South Africa",
+    "image_src": "https://via.placeholder.com/640x360?text=Mandela",
+    "description": "Mandela's election marked the end of apartheid and the beginning of democratic rule in South Africa.",
+    "weblink": "https://en.wikipedia.org/wiki/Nelson_Mandela",
+    "year": 1994
+  },
+  {
+    "title": "Dolly the sheep cloned",
+    "image_src": "https://via.placeholder.com/640x360?text=Dolly",
+    "description": "The first mammal cloned from an adult cell raised ethical questions and demonstrated new possibilities in genetics.",
+    "weblink": "https://en.wikipedia.org/wiki/Dolly_(sheep)",
+    "year": 1996
+  },
+  {
+    "title": "Hong Kong returned to China",
+    "image_src": "https://via.placeholder.com/640x360?text=Hong+Kong",
+    "description": "British colonial rule ended as Hong Kong was transferred to Chinese sovereignty under 'one country, two systems.'",
+    "weblink": "https://en.wikipedia.org/wiki/Handover_of_Hong_Kong",
+    "year": 1997
+  },
+  {
+    "title": "Google founded",
+    "image_src": "https://via.placeholder.com/640x360?text=Google",
+    "description": "Larry Page and Sergey Brin founded Google, which would become the world's dominant search engine.",
+    "weblink": "https://en.wikipedia.org/wiki/Google",
+    "year": 1998
+  },
+  {
+    "title": "Euro currency introduced",
+    "image_src": "https://via.placeholder.com/640x360?text=Euro",
+    "description": "The common European currency was launched, representing a major step in European economic integration.",
+    "weblink": "https://en.wikipedia.org/wiki/Euro",
+    "year": 1999
+  },
+  {
+    "title": "September 11 terrorist attacks",
+    "image_src": "https://via.placeholder.com/640x360?text=9-11",
+    "description": "Terrorist attacks on the World Trade Center and Pentagon killed nearly 3,000 people and reshaped global politics.",
+    "weblink": "https://en.wikipedia.org/wiki/September_11_attacks",
+    "year": 2001
+  },
+  {
+    "title": "Human Genome Project completed",
+    "image_src": "https://via.placeholder.com/640x360?text=Human+Genome+Project",
+    "description": "An international research effort successfully mapped and sequenced the human genome, transforming biology and medicine.",
+    "weblink": "https://en.wikipedia.org/wiki/Human_Genome_Project",
+    "year": 2003
+  },
+  {
+    "title": "Facebook launched",
+    "image_src": "https://via.placeholder.com/640x360?text=Facebook",
+    "description": "Mark Zuckerberg launched Facebook from his Harvard dorm room, beginning the social media revolution.",
+    "weblink": "https://en.wikipedia.org/wiki/Facebook",
+    "year": 2004
+  },
+  {
+    "title": "YouTube founded",
+    "image_src": "https://via.placeholder.com/640x360?text=YouTube",
+    "description": "The video-sharing platform transformed how people consume and create media content.",
+    "weblink": "https://en.wikipedia.org/wiki/YouTube",
+    "year": 2005
+  },
+  {
+    "title": "iPhone released",
+    "image_src": "https://via.placeholder.com/640x360?text=iPhone",
+    "description": "Apple's revolutionary smartphone changed mobile computing and communication forever.",
+    "weblink": "https://en.wikipedia.org/wiki/IPhone",
+    "year": 2007
+  },
+  {
+    "title": "Global Financial Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Financial+Crisis",
+    "description": "The collapse of major financial institutions triggered the worst economic crisis since the Great Depression.",
+    "weblink": "https://en.wikipedia.org/wiki/Financial_crisis_of_2007%E2%80%932008",
+    "year": 2008
+  },
+  {
+    "title": "Barack Obama elected President",
+    "image_src": "https://via.placeholder.com/640x360?text=Obama",
+    "description": "Obama became the first African American president of the United States.",
+    "weblink": "https://en.wikipedia.org/wiki/Barack_Obama",
+    "year": 2008
+  },
+  {
+    "title": "Arab Spring begins",
+    "image_src": "https://via.placeholder.com/640x360?text=Arab+Spring",
+    "description": "Pro-democracy uprisings spread across the Middle East and North Africa, toppling several governments.",
+    "weblink": "https://en.wikipedia.org/wiki/Arab_Spring",
+    "year": 2010
+  },
+  {
+    "title": "Osama bin Laden killed",
+    "image_src": "https://via.placeholder.com/640x360?text=Bin+Laden",
+    "description": "US forces killed the al-Qaeda leader in Pakistan, nearly 10 years after the 9/11 attacks.",
+    "weblink": "https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden",
+    "year": 2011
+  },
+  {
+    "title": "Discovery of Higgs boson",
+    "image_src": "https://via.placeholder.com/640x360?text=Higgs+Boson",
+    "description": "CERN scientists confirmed the existence of the Higgs boson, validating the Standard Model of particle physics.",
+    "weblink": "https://en.wikipedia.org/wiki/Higgs_boson",
+    "year": 2012
+  },
+  {
+    "title": "Paris Climate Agreement adopted",
+    "image_src": "https://via.placeholder.com/640x360?text=Paris+Agreement",
+    "description": "Nearly 200 nations agreed to combat climate change and limit global temperature rise.",
+    "weblink": "https://en.wikipedia.org/wiki/Paris_Agreement",
+    "year": 2015
+  },
+  {
+    "title": "Brexit referendum",
+    "image_src": "https://via.placeholder.com/640x360?text=Brexit",
+    "description": "The United Kingdom voted to leave the European Union, beginning a complex separation process.",
+    "weblink": "https://en.wikipedia.org/wiki/2016_United_Kingdom_European_Union_membership_referendum",
+    "year": 2016
+  },
+  {
+    "title": "COVID-19 pandemic declared",
+    "image_src": "https://via.placeholder.com/640x360?text=COVID-19",
+    "description": "The World Health Organization declared a global pandemic that would profoundly impact every aspect of life worldwide.",
+    "weblink": "https://en.wikipedia.org/wiki/COVID-19_pandemic",
+    "year": 2020
+  },
+  {
+    "title": "James Webb Space Telescope launched",
+    "image_src": "https://via.placeholder.com/640x360?text=Webb+Telescope",
+    "description": "NASA's most powerful space telescope was launched to study the earliest galaxies and search for signs of life.",
+    "weblink": "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope",
+    "year": 2021
   }
 ]
