@@ -112,26 +112,6 @@ defmodule Timeline.WikiImages do
   end
 
   @impl true
-  def handle_call({:acquire, _kind}, _from, state) do
-    now = now_ms()
-    window_elapsed = now - state.rl_window_start
-
-    {rl_count, rl_window_start} =
-      if window_elapsed >= state.rl_window_ms do
-        {0, now}
-      else
-        {state.rl_count, state.rl_window_start}
-      end
-
-    if rl_count < state.rl_limit do
-      {:reply, :ok, %{state | rl_count: rl_count + 1, rl_window_start: rl_window_start}}
-    else
-      ms_to_reset = max(rl_window_start + state.rl_window_ms - now, 0)
-      {:reply, {:wait, ms_to_reset}, state}
-    end
-  end
-
-  @impl true
   def handle_call(:ensure_table, _from, state) do
     _ = create_table_owned()
     {:reply, :ok, state}

@@ -259,6 +259,147 @@ const hooks = {
       });
     },
   },
+  PeriodRange: {
+    mounted() {
+      const d = this.el.dataset;
+      this._id = d.id;
+      this._axisMin = parseInt(d.axisMin, 10);
+      this._axisMax = parseInt(d.axisMax, 10);
+      this._guessStart = parseInt(d.guessStart, 10);
+      this._guessEnd = parseInt(d.guessEnd, 10);
+      this._drag = null;
+
+      this._posToYear = (clientX) => {
+        const rect = this.el.getBoundingClientRect();
+        const span = this._axisMax - this._axisMin;
+        if (rect.width <= 0 || span <= 0) return this._axisMin;
+        let ratio = (clientX - rect.left) / rect.width;
+        ratio = Math.max(0, Math.min(1, ratio));
+        return Math.round(this._axisMin + ratio * span);
+      };
+
+      this._clampRange = (start, end) => {
+        const minDur = 1;
+        start = Math.max(
+          this._axisMin,
+          Math.min(start, this._axisMax - minDur),
+        );
+        end = Math.max(start + minDur, Math.min(end, this._axisMax));
+        return [start, end];
+      };
+
+      this._pushGuess = (start, end) => {
+        const [s, e] = this._clampRange(start, end);
+        this._guessStart = s;
+        this._guessEnd = e;
+        this.pushEvent("set_guess", {
+          id: this._id,
+          guess_start: s,
+          guess_end: e,
+        });
+      };
+
+      this._onPointerDown = (e) => {
+        // Allow only primary interactions for mouse; always allow touch/pen
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        const target = e.target;
+        const handle = target.closest("[data-role='handle']");
+        const guess = target.closest("[data-role='guess']");
+        if (!handle && !guess) return;
+
+        e.preventDefault();
+
+        const mode = handle
+          ? handle.getAttribute("data-edge") === "start"
+            ? "resize-start"
+            : "resize-end"
+          : "move";
+
+        const startAtDown = this._guessStart;
+        const endAtDown = this._guessEnd;
+        const pointerYear = this._posToYear(e.clientX);
+        const duration = endAtDown - startAtDown;
+        const offset = pointerYear - startAtDown;
+
+        this._drag = {
+          pointerId: e.pointerId,
+          mode,
+          startAtDown,
+          endAtDown,
+          offset,
+          duration,
+        };
+
+        this._boundMove = this._onPointerMove.bind(this);
+        this._boundUp = this._onPointerUp.bind(this);
+        window.addEventListener("pointermove", this._boundMove, {
+          passive: false,
+        });
+        window.addEventListener("pointerup", this._boundUp, { passive: false });
+        window.addEventListener("pointercancel", this._boundUp, {
+          passive: false,
+        });
+      };
+
+      this._onPointerMove = (e) => {
+        if (!this._drag || e.pointerId !== this._drag.pointerId) return;
+        e.preventDefault();
+
+        const y = this._posToYear(e.clientX);
+
+        if (this._drag.mode === "move") {
+          let newStart = Math.round(y - this._drag.offset);
+          let newEnd = newStart + this._drag.duration;
+
+          // Clamp to axis while preserving duration
+          const span = this._axisMax - this._axisMin;
+          if (newEnd > this._axisMax) {
+            newEnd = this._axisMax;
+            newStart = newEnd - this._drag.duration;
+          }
+          if (newStart < this._axisMin) {
+            newStart = this._axisMin;
+            newEnd = newStart + this._drag.duration;
+          }
+
+          this._pushGuess(newStart, newEnd);
+        } else if (this._drag.mode === "resize-start") {
+          let newStart = Math.min(y, this._guessEnd - 1);
+          this._pushGuess(newStart, this._guessEnd);
+        } else if (this._drag.mode === "resize-end") {
+          let newEnd = Math.max(y, this._guessStart + 1);
+          this._pushGuess(this._guessStart, newEnd);
+        }
+      };
+
+      this._onPointerUp = (e) => {
+        if (!this._drag || e.pointerId !== this._drag.pointerId) return;
+        e.preventDefault();
+        window.removeEventListener("pointermove", this._boundMove);
+        window.removeEventListener("pointerup", this._boundUp);
+        window.removeEventListener("pointercancel", this._boundUp);
+        this._drag = null;
+      };
+
+      this.el.addEventListener("pointerdown", this._onPointerDown, {
+        passive: false,
+      });
+    },
+    updated() {
+      // Refresh cached dataset values in case LV updated them
+      const d = this.el.dataset;
+      this._axisMin = parseInt(d.axisMin, 10);
+      this._axisMax = parseInt(d.axisMax, 10);
+      this._guessStart = parseInt(d.guessStart, 10);
+      this._guessEnd = parseInt(d.guessEnd, 10);
+    },
+    destroyed() {
+      this.el.removeEventListener("pointerdown", this._onPointerDown);
+      window.removeEventListener("pointermove", this._boundMove);
+      window.removeEventListener("pointerup", this._boundUp);
+      window.removeEventListener("pointercancel", this._boundUp);
+    },
+  },
 };
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
