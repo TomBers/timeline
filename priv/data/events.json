@@ -813,5 +813,180 @@
     "description": "NASA's most powerful space telescope was launched to study the earliest galaxies and search for signs of life.",
     "weblink": "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope",
     "year": 2021
+  },
+  {
+    "title": "Tunguska event",
+    "image_src": "https://via.placeholder.com/640x360?text=Tunguska",
+    "description": "A massive explosion flattened 2,000 square kilometers of Siberian forest, likely caused by a meteor or comet fragment, in the largest impact event in recorded history.",
+    "weblink": "https://en.wikipedia.org/wiki/Tunguska_event",
+    "year": 1908
+  },
+  {
+    "title": "The Great Emu War",
+    "image_src": "https://via.placeholder.com/640x360?text=Emu+War",
+    "description": "Australian military forces were deployed with machine guns against emus destroying crops in Western Australia. The emus effectively won.",
+    "weblink": "https://en.wikipedia.org/wiki/Emu_War",
+    "year": 1932
+  },
+  {
+    "title": "Dancing Plague of 1518",
+    "image_src": "https://via.placeholder.com/640x360?text=Dancing+Plague",
+    "description": "In Strasbourg, hundreds of people danced uncontrollably for days, with some dancing until they collapsed or died from exhaustion.",
+    "weblink": "https://en.wikipedia.org/wiki/Dancing_plague_of_1518",
+    "year": 1518
+  },
+  {
+    "title": "War of the Bucket",
+    "image_src": "https://via.placeholder.com/640x360?text=Bucket+War",
+    "description": "A conflict between Bologna and Modena that allegedly started over a stolen wooden bucket resulted in about 2,000 deaths.",
+    "weblink": "https://en.wikipedia.org/wiki/War_of_the_Bucket",
+    "year": 1325
+  },
+  {
+    "title": "Defenestration of Prague",
+    "image_src": "https://via.placeholder.com/640x360?text=Defenestration",
+    "description": "Protestant nobles threw two Catholic officials out of a castle window, triggering the Thirty Years' War that would devastate Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Defenestrations_of_Prague",
+    "year": 1618
+  },
+  {
+    "title": "Year Without a Summer",
+    "image_src": "https://via.placeholder.com/640x360?text=Year+Without+Summer",
+    "description": "The eruption of Mount Tambora caused global climate anomalies, resulting in snow in June, crop failures, and widespread famine across the Northern Hemisphere.",
+    "weblink": "https://en.wikipedia.org/wiki/Year_Without_a_Summer",
+    "year": 1816
+  },
+  {
+    "title": "The Great Molasses Flood",
+    "image_src": "https://via.placeholder.com/640x360?text=Molasses+Flood",
+    "description": "A massive storage tank burst in Boston, releasing 2.3 million gallons of molasses in a 25-foot wave that killed 21 people and injured 150.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Molasses_Flood",
+    "year": 1919
+  },
+  {
+    "title": "Cadaver Synod",
+    "image_src": "https://via.placeholder.com/640x360?text=Cadaver+Synod",
+    "description": "Pope Stephen VI had the corpse of his predecessor Pope Formosus exhumed, dressed in papal vestments, and put on trial in the Vatican.",
+    "weblink": "https://en.wikipedia.org/wiki/Cadaver_Synod",
+    "year": 897
+  },
+  {
+    "title": "The Football War",
+    "image_src": "https://via.placeholder.com/640x360?text=Football+War",
+    "description": "El Salvador and Honduras fought a brief war triggered by violence during World Cup qualifying matches, though deeper tensions existed.",
+    "weblink": "https://en.wikipedia.org/wiki/Football_War",
+    "year": 1969
+  },
+  {
+    "title": "Pepsi becomes 6th largest military",
+    "image_src": "https://via.placeholder.com/640x360?text=Pepsi+Navy",
+    "description": "The Soviet Union traded 17 submarines, a cruiser, a frigate, and a destroyer to PepsiCo in exchange for Pepsi products, briefly making Pepsi the owner of the 6th largest navy.",
+    "weblink": "https://en.wikipedia.org/wiki/Pepsi",
+    "year": 1989
+  },
+  {
+    "title": "London Beer Flood",
+    "image_src": "https://via.placeholder.com/640x360?text=Beer+Flood",
+    "description": "A vat containing over 135,000 gallons of beer ruptured at a London brewery, causing a domino effect that released nearly 400,000 gallons and killed 8 people.",
+    "weblink": "https://en.wikipedia.org/wiki/London_Beer_Flood",
+    "year": 1814
+  },
+  {
+    "title": "Tanganyika Laughter Epidemic",
+    "image_src": "https://via.placeholder.com/640x360?text=Laughter+Epidemic",
+    "description": "An outbreak of uncontrollable laughter started at a girls' school in Tanzania and spread to over 1,000 people, forcing schools to close for months.",
+    "weblink": "https://en.wikipedia.org/wiki/Tanganyika_laughter_epidemic",
+    "year": 1962
+  },
+  {
+    "title": "Pope's Banquet Disaster",
+    "image_src": "https://via.placeholder.com/640x360?text=Chestnuts",
+    "description": "Pope Clement VII's chef served a dinner featuring dormice cooked in honey, followed by a dessert of chestnuts that poisoned many guests, though the Pope survived.",
+    "weblink": "https://en.wikipedia.org/wiki/Pope_Clement_VII",
+    "year": 1534
+  },
+  {
+    "title": "The Night of the Living Broadcasts",
+    "image_src": "https://via.placeholder.com/640x360?text=War+of+Worlds",
+    "description": "Orson Welles' radio adaptation of War of the Worlds caused panic as listeners believed Martians were actually invading Earth.",
+    "weblink": "https://en.wikipedia.org/wiki/The_War_of_the_Worlds_(1938_radio_drama)",
+    "year": 1938
+  },
+  {
+    "title": "Whiskey Rebellion",
+    "image_src": "https://via.placeholder.com/640x360?text=Whiskey+Rebellion",
+    "description": "Western Pennsylvania farmers violently protested a federal whiskey tax, forcing President Washington to personally lead troops to suppress the uprising.",
+    "weblink": "https://en.wikipedia.org/wiki/Whiskey_Rebellion",
+    "year": 1794
+  },
+  {
+    "title": "Battle of Karánsebes",
+    "image_src": "https://via.placeholder.com/640x360?text=Karansebes",
+    "description": "The Austrian army allegedly fought itself in a confused night battle, suffering thousands of casualties before the Ottoman enemy even arrived.",
+    "weblink": "https://en.wikipedia.org/wiki/Battle_of_Kar%C3%A1nsebes",
+    "year": 1788
+  },
+  {
+    "title": "The Great Stink",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Stink",
+    "description": "A heatwave caused the Thames River to smell so bad that Parliament couldn't meet, finally forcing London to build a modern sewer system.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Stink",
+    "year": 1858
+  },
+  {
+    "title": "Pig War between US and Britain",
+    "image_src": "https://via.placeholder.com/640x360?text=Pig+War",
+    "description": "A territorial dispute between the US and Britain nearly erupted into war after an American farmer shot a British pig eating his potatoes.",
+    "weblink": "https://en.wikipedia.org/wiki/Pig_War_(1859)",
+    "year": 1859
+  },
+  {
+    "title": "The Toledo War",
+    "image_src": "https://via.placeholder.com/640x360?text=Toledo+War",
+    "description": "Michigan and Ohio nearly went to war over a strip of land containing Toledo. Ohio got the territory; Michigan got the Upper Peninsula as consolation.",
+    "weblink": "https://en.wikipedia.org/wiki/Toledo_War",
+    "year": 1835
+  },
+  {
+    "title": "Carrington Event",
+    "image_src": "https://via.placeholder.com/640x360?text=Solar+Storm",
+    "description": "The largest recorded solar storm caused auroras visible near the equator and set telegraph systems on fire. A similar event today could cause trillions in damage.",
+    "weblink": "https://en.wikipedia.org/wiki/Carrington_Event",
+    "year": 1859
+  },
+  {
+    "title": "Emperor Norton proclaims himself",
+    "image_src": "https://via.placeholder.com/640x360?text=Emperor+Norton",
+    "description": "Joshua Norton declared himself 'Emperor of the United States' in San Francisco. The city played along, accepting his self-printed currency and giving him free meals.",
+    "weblink": "https://en.wikipedia.org/wiki/Emperor_Norton",
+    "year": 1859
+  },
+  {
+    "title": "Lighthouse keeper eaten by lice",
+    "image_src": "https://via.placeholder.com/640x360?text=Flannan+Isles",
+    "description": "Three lighthouse keepers mysteriously vanished from a Scottish island, leaving behind a stopped clock, an untouched meal, and an overturned chair.",
+    "weblink": "https://en.wikipedia.org/wiki/Flannan_Isles_Lighthouse",
+    "year": 1900
+  },
+  {
+    "title": "Vatican's Swiss Guard attacked by sacks",
+    "image_src": "https://via.placeholder.com/640x360?text=Sack+of+Rome",
+    "description": "During the Sack of Rome, 147 Swiss Guards died defending Pope Clement VII, while 42 survived. May 6 is still Swiss Guard memorial day.",
+    "weblink": "https://en.wikipedia.org/wiki/Sack_of_Rome_(1527)",
+    "year": 1527
+  },
+  {
+    "title": "Overtoun Bridge dog suicides",
+    "image_src": "https://via.placeholder.com/640x360?text=Overtoun+Bridge",
+    "description": "Since the 1960s, hundreds of dogs have jumped from the same spot on this Scottish bridge. The mystery remains unsolved.",
+    "weblink": "https://en.wikipedia.org/wiki/Overtoun_Bridge",
+    "year": 1960
+  },
+  {
+    "title": "The Great Horse Manure Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Horse+Manure",
+    "description": "In the 1890s, cities predicted they'd be buried under horse manure by the 1930s. The automobile solved the crisis in an unexpected way.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_horse_manure_crisis_of_1894",
+    "year": 1894
   }
 ]
