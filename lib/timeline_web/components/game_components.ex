@@ -63,14 +63,6 @@ defmodule TimelineWeb.GameComponents do
           <p class={[@compact && "mt-1", !@compact && "mt-2", "text-base-content/80"]}>
             {description(@event)}
           </p>
-          <a
-            :if={@show_link && weblink(@event)}
-            href={weblink(@event)}
-            target={@link_target}
-            class="link link-primary mt-2 inline-block"
-          >
-            Learn more
-          </a>
         </details>
       </div>
     </div>
