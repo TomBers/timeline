@@ -43,10 +43,10 @@ defmodule TimelineWeb.GameComponents do
           <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
             <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
           </span>
-          <span class="text-[10px] text-base-content/50 uppercase tracking-wider">
-            Card
-          </span>
         </div>
+        <h3 class={["font-semibold", @compact && "text-sm"]}>
+          {title(@event)}
+        </h3>
         <figure :if={image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
           <img
             src={image_src(@event)}
@@ -69,9 +69,6 @@ defmodule TimelineWeb.GameComponents do
             <.icon name="hero-photo" class="w-6 h-6 opacity-50" />
           </div>
         </figure>
-        <h3 class={["font-semibold", @compact && "text-sm"]}>
-          {title(@event)}
-        </h3>
 
         <div
           :if={@show_description && description(@event)}
