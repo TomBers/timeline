@@ -13,48 +13,7 @@
     "weblink": "https://en.wikipedia.org/wiki/Magna_Carta",
     "year": 1215
   },
-  {
-    "title": "Johannes Gutenberg invents the printing press",
-    "image_src": "https://via.placeholder.com/640x360?text=Printing+Press",
-    "description": "Gutenberg's movable-type printing press revolutionized the spread of information, literacy, and ideas across Europe.",
-    "weblink": "https://en.wikipedia.org/wiki/Printing_press",
-    "year": 1440
-  },
-  {
-    "title": "Christopher Columbus reaches the Americas",
-    "image_src": "https://via.placeholder.com/640x360?text=Columbus+Voyage",
-    "description": "Columbus's first voyage across the Atlantic led to sustained European contact with the Americas.",
-    "weblink": "https://en.wikipedia.org/wiki/Voyages_of_Christopher_Columbus",
-    "year": 1492
-  },
-  {
-    "title": "Martin Luther posts the Ninety-five Theses",
-    "image_src": "https://via.placeholder.com/640x360?text=Ninety-five+Theses",
-    "description": "Luther's theses criticized certain practices of the Catholic Church and catalyzed the Protestant Reformation.",
-    "weblink": "https://en.wikipedia.org/wiki/Ninety-five_Theses",
-    "year": 1517
-  },
-  {
-    "title": "Declaration of Independence",
-    "image_src": "https://via.placeholder.com/640x360?text=Declaration+of+Independence",
-    "description": "The Thirteen Colonies declared independence from Great Britain, forming the United States of America.",
-    "weblink": "https://en.wikipedia.org/wiki/United_States_Declaration_of_Independence",
-    "year": 1776
-  },
-  {
-    "title": "French Revolution begins",
-    "image_src": "https://via.placeholder.com/640x360?text=French+Revolution",
-    "description": "The French Revolution dramatically transformed French society and politics, influencing modern democratic movements.",
-    "weblink": "https://en.wikipedia.org/wiki/French_Revolution",
-    "year": 1789
-  },
-  {
-    "title": "First powered flight",
-    "image_src": "https://via.placeholder.com/640x360?text=Wright+Brothers",
-    "description": "The Wright brothers achieved the first controlled, sustained flight of a powered, heavier-than-air aircraft at Kitty Hawk.",
-    "weblink": "https://en.wikipedia.org/wiki/Wright_brothers",
-    "year": 1903
-  },
+
   {
     "title": "First Moon landing (Apollo 11)",
     "image_src": "https://via.placeholder.com/640x360?text=Apollo+11",
@@ -82,5 +41,952 @@
     "description": "An international research effort successfully mapped and sequenced the human genome, transforming biology and medicine.",
     "weblink": "https://en.wikipedia.org/wiki/Human_Genome_Project",
     "year": 2003
+  },
+
+  {
+    "title": "Code of Hammurabi created",
+    "image_src": "https://via.placeholder.com/640x360?text=Code+of+Hammurabi",
+    "description": "One of the oldest deciphered writings of significant length, this Babylonian code of law established standards for commercial interactions and set fines and punishments.",
+    "weblink": "https://en.wikipedia.org/wiki/Code_of_Hammurabi",
+    "year": -1754
+  },
+  {
+    "title": "Traditional date of the Trojan War",
+    "image_src": "https://via.placeholder.com/640x360?text=Trojan+War",
+    "description": "The legendary conflict between the kingdoms of Troy and Mycenaean Greece, immortalized in Homer's epic poems.",
+    "weblink": "https://en.wikipedia.org/wiki/Trojan_War",
+    "year": -1184
+  },
+  {
+    "title": "First Olympic Games held",
+    "image_src": "https://via.placeholder.com/640x360?text=Ancient+Olympics",
+    "description": "The ancient Olympic Games began in Olympia, Greece, establishing a tradition of athletic competition that continues today.",
+    "weblink": "https://en.wikipedia.org/wiki/Ancient_Olympic_Games",
+    "year": -776
+  },
+  {
+    "title": "Founding of Rome",
+    "image_src": "https://via.placeholder.com/640x360?text=Founding+of+Rome",
+    "description": "According to legend, Romulus founded the city of Rome, which would grow to become one of history's greatest empires.",
+    "weblink": "https://en.wikipedia.org/wiki/Founding_of_Rome",
+    "year": -753
+  },
+  {
+    "title": "Buddha achieves enlightenment",
+    "image_src": "https://via.placeholder.com/640x360?text=Buddha",
+    "description": "Siddhartha Gautama attained enlightenment under the Bodhi tree, becoming the Buddha and founding Buddhism.",
+    "weblink": "https://en.wikipedia.org/wiki/Gautama_Buddha",
+    "year": -528
+  },
+  {
+    "title": "Democracy established in Athens",
+    "image_src": "https://via.placeholder.com/640x360?text=Athenian+Democracy",
+    "description": "Cleisthenes introduced reforms that created the world's first known democracy in Athens.",
+    "weblink": "https://en.wikipedia.org/wiki/Athenian_democracy",
+    "year": -508
+  },
+  {
+    "title": "Battle of Marathon",
+    "image_src": "https://via.placeholder.com/640x360?text=Battle+of+Marathon",
+    "description": "Athens defeated the Persian invasion at Marathon, preserving Greek independence and inspiring the marathon race.",
+    "weblink": "https://en.wikipedia.org/wiki/Battle_of_Marathon",
+    "year": -490
+  },
+  {
+    "title": "Construction of the Parthenon begins",
+    "image_src": "https://via.placeholder.com/640x360?text=Parthenon",
+    "description": "Athens began building the Parthenon, a temple dedicated to Athena that represents the pinnacle of ancient Greek architecture.",
+    "weblink": "https://en.wikipedia.org/wiki/Parthenon",
+    "year": -447
+  },
+  {
+    "title": "Death of Socrates",
+    "image_src": "https://via.placeholder.com/640x360?text=Socrates",
+    "description": "The philosopher Socrates was executed in Athens, becoming a martyr for free thought and philosophical inquiry.",
+    "weblink": "https://en.wikipedia.org/wiki/Trial_of_Socrates",
+    "year": -399
+  },
+  {
+    "title": "Alexander the Great begins his conquests",
+    "image_src": "https://via.placeholder.com/640x360?text=Alexander+the+Great",
+    "description": "Alexander embarked on his campaign to create one of the largest empires in history, spreading Greek culture across three continents.",
+    "weblink": "https://en.wikipedia.org/wiki/Alexander_the_Great",
+    "year": -334
+  },
+  {
+    "title": "Construction of the Great Wall of China begins",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Wall+of+China",
+    "description": "Emperor Qin Shi Huang ordered the connection and extension of defensive walls, creating the foundation of the Great Wall.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Wall_of_China",
+    "year": -221
+  },
+  {
+    "title": "Assassination of Julius Caesar",
+    "image_src": "https://via.placeholder.com/640x360?text=Julius+Caesar",
+    "description": "Julius Caesar was assassinated by Roman senators, an event that marked the end of the Roman Republic and the rise of the Roman Empire.",
+    "weblink": "https://en.wikipedia.org/wiki/Assassination_of_Julius_Caesar",
+    "year": -44
+  },
+  {
+    "title": "Birth of Jesus Christ",
+    "image_src": "https://via.placeholder.com/640x360?text=Birth+of+Jesus",
+    "description": "The birth of Jesus of Nazareth, whose teachings formed the basis of Christianity, one of the world's major religions.",
+    "weblink": "https://en.wikipedia.org/wiki/Jesus",
+    "year": -4
+  },
+  {
+    "title": "Crucifixion of Jesus Christ",
+    "image_src": "https://via.placeholder.com/640x360?text=Crucifixion",
+    "description": "The crucifixion and reported resurrection of Jesus became the central event of Christian faith.",
+    "weblink": "https://en.wikipedia.org/wiki/Crucifixion_of_Jesus",
+    "year": 33
+  },
+  {
+    "title": "Eruption of Mount Vesuvius destroys Pompeii",
+    "image_src": "https://via.placeholder.com/640x360?text=Pompeii",
+    "description": "The volcanic eruption buried the Roman cities of Pompeii and Herculaneum, preserving them for archaeological study.",
+    "weblink": "https://en.wikipedia.org/wiki/Eruption_of_Mount_Vesuvius_in_79_AD",
+    "year": 79
+  },
+  {
+    "title": "Constantine converts to Christianity",
+    "image_src": "https://via.placeholder.com/640x360?text=Constantine",
+    "description": "Emperor Constantine's conversion marked the beginning of Christianity's transformation into the dominant religion of the Roman Empire.",
+    "weblink": "https://en.wikipedia.org/wiki/Constantine_the_Great_and_Christianity",
+    "year": 312
+  },
+  {
+    "title": "Fall of the Western Roman Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Fall+of+Rome",
+    "description": "The deposition of Romulus Augustulus marked the end of the Western Roman Empire and the beginning of the Middle Ages in Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Fall_of_the_Western_Roman_Empire",
+    "year": 476
+  },
+  {
+    "title": "Muhammad's revelation and founding of Islam",
+    "image_src": "https://via.placeholder.com/640x360?text=Islamic+Revelation",
+    "description": "Muhammad received his first revelation, marking the beginning of Islam, which would become one of the world's major religions.",
+    "weblink": "https://en.wikipedia.org/wiki/Muhammad",
+    "year": 610
+  },
+  {
+    "title": "Charlemagne crowned Holy Roman Emperor",
+    "image_src": "https://via.placeholder.com/640x360?text=Charlemagne",
+    "description": "Pope Leo III crowned Charlemagne, uniting much of Western Europe and establishing the Holy Roman Empire.",
+    "weblink": "https://en.wikipedia.org/wiki/Charlemagne",
+    "year": 800
+  },
+  {
+    "title": "Battle of Hastings",
+    "image_src": "https://via.placeholder.com/640x360?text=Battle+of+Hastings",
+    "description": "William the Conqueror defeated King Harold II, leading to the Norman conquest of England and transforming English culture.",
+    "weblink": "https://en.wikipedia.org/wiki/Battle_of_Hastings",
+    "year": 1066
+  },
+  {
+    "title": "First Crusade begins",
+    "image_src": "https://via.placeholder.com/640x360?text=First+Crusade",
+    "description": "Pope Urban II launched the First Crusade to recapture Jerusalem, beginning centuries of conflict between Christian and Muslim powers.",
+    "weblink": "https://en.wikipedia.org/wiki/First_Crusade",
+    "year": 1095
+  },
+
+  {
+    "title": "Genghis Khan establishes the Mongol Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Mongol+Empire",
+    "description": "Genghis Khan united the Mongol tribes and began building the largest contiguous land empire in history.",
+    "weblink": "https://en.wikipedia.org/wiki/Mongol_Empire",
+    "year": 1206
+  },
+  {
+    "title": "Black Death reaches Europe",
+    "image_src": "https://via.placeholder.com/640x360?text=Black+Death",
+    "description": "The bubonic plague arrived in Europe, killing an estimated one-third of the continent's population and transforming society.",
+    "weblink": "https://en.wikipedia.org/wiki/Black_Death",
+    "year": 1347
+  },
+  {
+    "title": "Fall of Constantinople",
+    "image_src": "https://via.placeholder.com/640x360?text=Constantinople",
+    "description": "The Ottoman Empire conquered Constantinople, ending the Byzantine Empire and marking a major shift in European and Middle Eastern power.",
+    "weblink": "https://en.wikipedia.org/wiki/Fall_of_Constantinople",
+    "year": 1453
+  },
+  {
+    "title": "Johannes Gutenberg invents the printing press",
+    "image_src": "https://via.placeholder.com/640x360?text=Printing+Press",
+    "description": "Gutenberg's movable-type printing press revolutionized the spread of information, literacy, and ideas across Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Printing_press",
+    "year": 1440
+  },
+  {
+    "title": "Christopher Columbus reaches the Americas",
+    "image_src": "https://via.placeholder.com/640x360?text=Columbus+Voyage",
+    "description": "Columbus's first voyage across the Atlantic led to sustained European contact with the Americas.",
+    "weblink": "https://en.wikipedia.org/wiki/Voyages_of_Christopher_Columbus",
+    "year": 1492
+  },
+  {
+    "title": "Vasco da Gama reaches India",
+    "image_src": "https://via.placeholder.com/640x360?text=Vasco+da+Gama",
+    "description": "Da Gama's voyage established a sea route from Europe to India, opening direct trade between Europe and Asia.",
+    "weblink": "https://en.wikipedia.org/wiki/Vasco_da_Gama",
+    "year": 1498
+  },
+  {
+    "title": "Martin Luther posts the Ninety-five Theses",
+    "image_src": "https://via.placeholder.com/640x360?text=Ninety-five+Theses",
+    "description": "Luther's theses criticized certain practices of the Catholic Church and catalyzed the Protestant Reformation.",
+    "weblink": "https://en.wikipedia.org/wiki/Ninety-five_Theses",
+    "year": 1517
+  },
+  {
+    "title": "Spanish conquest of the Aztec Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Aztec+Conquest",
+    "description": "Hernán Cortés conquered the Aztec Empire, dramatically altering the course of Mexican and Latin American history.",
+    "weblink": "https://en.wikipedia.org/wiki/Spanish_conquest_of_the_Aztec_Empire",
+    "year": 1521
+  },
+  {
+    "title": "Copernicus publishes heliocentric theory",
+    "image_src": "https://via.placeholder.com/640x360?text=Copernicus",
+    "description": "Nicolaus Copernicus published his theory that the Earth orbits the Sun, revolutionizing astronomy and science.",
+    "weblink": "https://en.wikipedia.org/wiki/Nicolaus_Copernicus",
+    "year": 1543
+  },
+  {
+    "title": "Spanish Armada defeated",
+    "image_src": "https://via.placeholder.com/640x360?text=Spanish+Armada",
+    "description": "England defeated the Spanish Armada, establishing English naval dominance and beginning Spain's decline as a world power.",
+    "weblink": "https://en.wikipedia.org/wiki/Spanish_Armada",
+    "year": 1588
+  },
+  {
+    "title": "Jamestown founded",
+    "image_src": "https://via.placeholder.com/640x360?text=Jamestown",
+    "description": "The first permanent English settlement in North America was established in Virginia.",
+    "weblink": "https://en.wikipedia.org/wiki/Jamestown,_Virginia",
+    "year": 1607
+  },
+  {
+    "title": "Galileo observes moons of Jupiter",
+    "image_src": "https://via.placeholder.com/640x360?text=Galileo",
+    "description": "Galileo's telescopic observations provided evidence for the Copernican system and transformed astronomy.",
+    "weblink": "https://en.wikipedia.org/wiki/Galileo_Galilei",
+    "year": 1610
+  },
+  {
+    "title": "Mayflower lands at Plymouth Rock",
+    "image_src": "https://via.placeholder.com/640x360?text=Mayflower",
+    "description": "The Pilgrims arrived in Massachusetts, establishing Plymouth Colony and influencing American culture and values.",
+    "weblink": "https://en.wikipedia.org/wiki/Mayflower",
+    "year": 1620
+  },
+  {
+    "title": "English Civil War begins",
+    "image_src": "https://via.placeholder.com/640x360?text=English+Civil+War",
+    "description": "Conflict erupted between Parliamentarians and Royalists, leading to the execution of King Charles I and temporary abolition of the monarchy.",
+    "weblink": "https://en.wikipedia.org/wiki/English_Civil_War",
+    "year": 1642
+  },
+  {
+    "title": "Isaac Newton publishes Principia Mathematica",
+    "image_src": "https://via.placeholder.com/640x360?text=Newton+Principia",
+    "description": "Newton's work laid the foundations of classical mechanics and revolutionized mathematics and physics.",
+    "weblink": "https://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica",
+    "year": 1687
+  },
+  {
+    "title": "Peter the Great founds St. Petersburg",
+    "image_src": "https://via.placeholder.com/640x360?text=St+Petersburg",
+    "description": "Russia's new capital symbolized Peter's modernization efforts and opened Russia to Western European influence.",
+    "weblink": "https://en.wikipedia.org/wiki/Saint_Petersburg",
+    "year": 1703
+  },
+  {
+    "title": "Declaration of Independence",
+    "image_src": "https://via.placeholder.com/640x360?text=Declaration+of+Independence",
+    "description": "The Thirteen Colonies declared independence from Great Britain, forming the United States of America.",
+    "weblink": "https://en.wikipedia.org/wiki/United_States_Declaration_of_Independence",
+    "year": 1776
+  },
+  {
+    "title": "James Watt patents the steam engine",
+    "image_src": "https://via.placeholder.com/640x360?text=Steam+Engine",
+    "description": "Watt's improved steam engine became the driving force of the Industrial Revolution.",
+    "weblink": "https://en.wikipedia.org/wiki/James_Watt",
+    "year": 1769
+  },
+  {
+    "title": "French Revolution begins",
+    "image_src": "https://via.placeholder.com/640x360?text=French+Revolution",
+    "description": "The French Revolution dramatically transformed French society and politics, influencing modern democratic movements.",
+    "weblink": "https://en.wikipedia.org/wiki/French_Revolution",
+    "year": 1789
+  },
+  {
+    "title": "Napoleon crowned Emperor of France",
+    "image_src": "https://via.placeholder.com/640x360?text=Napoleon",
+    "description": "Napoleon Bonaparte crowned himself emperor, beginning a period of French dominance in Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Napoleon",
+    "year": 1804
+  },
+  {
+    "title": "Battle of Waterloo",
+    "image_src": "https://via.placeholder.com/640x360?text=Waterloo",
+    "description": "Napoleon's final defeat at Waterloo ended the Napoleonic Wars and reshaped European politics for a century.",
+    "weblink": "https://en.wikipedia.org/wiki/Battle_of_Waterloo",
+    "year": 1815
+  },
+  {
+    "title": "First photograph taken",
+    "image_src": "https://via.placeholder.com/640x360?text=First+Photograph",
+    "description": "Joseph Nicéphore Niépce created the first permanent photograph, revolutionizing visual communication.",
+    "weblink": "https://en.wikipedia.org/wiki/History_of_photography",
+    "year": 1826
+  },
+  {
+    "title": "Charles Darwin publishes On the Origin of Species",
+    "image_src": "https://via.placeholder.com/640x360?text=Darwin",
+    "description": "Darwin's theory of evolution by natural selection transformed biology and our understanding of life on Earth.",
+    "weblink": "https://en.wikipedia.org/wiki/On_the_Origin_of_Species",
+    "year": 1859
+  },
+  {
+    "title": "American Civil War begins",
+    "image_src": "https://via.placeholder.com/640x360?text=Civil+War",
+    "description": "The conflict between Union and Confederate states began, ultimately ending slavery and preserving the United States.",
+    "weblink": "https://en.wikipedia.org/wiki/American_Civil_War",
+    "year": 1861
+  },
+  {
+    "title": "Emancipation Proclamation issued",
+    "image_src": "https://via.placeholder.com/640x360?text=Emancipation+Proclamation",
+    "description": "President Lincoln declared freedom for slaves in Confederate states, transforming the Civil War into a fight for human freedom.",
+    "weblink": "https://en.wikipedia.org/wiki/Emancipation_Proclamation",
+    "year": 1863
+  },
+  {
+    "title": "Alexander Graham Bell invents the telephone",
+    "image_src": "https://via.placeholder.com/640x360?text=Telephone",
+    "description": "Bell's invention revolutionized long-distance communication and laid the groundwork for modern telecommunications.",
+    "weblink": "https://en.wikipedia.org/wiki/Alexander_Graham_Bell",
+    "year": 1876
+  },
+  {
+    "title": "Thomas Edison invents the light bulb",
+    "image_src": "https://via.placeholder.com/640x360?text=Light+Bulb",
+    "description": "Edison's practical incandescent light bulb transformed daily life and enabled the modern electric age.",
+    "weblink": "https://en.wikipedia.org/wiki/Thomas_Edison",
+    "year": 1879
+  },
+  {
+    "title": "Statue of Liberty dedicated",
+    "image_src": "https://via.placeholder.com/640x360?text=Statue+of+Liberty",
+    "description": "France's gift to the United States became an enduring symbol of freedom and democracy.",
+    "weblink": "https://en.wikipedia.org/wiki/Statue_of_Liberty",
+    "year": 1886
+  },
+  {
+    "title": "Eiffel Tower completed",
+    "image_src": "https://via.placeholder.com/640x360?text=Eiffel+Tower",
+    "description": "Gustave Eiffel's iron tower became an iconic symbol of Paris and a marvel of engineering.",
+    "weblink": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+    "year": 1889
+  },
+  {
+    "title": "First modern Olympic Games held",
+    "image_src": "https://via.placeholder.com/640x360?text=Modern+Olympics",
+    "description": "The Olympics were revived in Athens, establishing a tradition of international athletic competition.",
+    "weblink": "https://en.wikipedia.org/wiki/1896_Summer_Olympics",
+    "year": 1896
+  },
+  {
+    "title": "First powered flight",
+    "image_src": "https://via.placeholder.com/640x360?text=Wright+Brothers",
+    "description": "The Wright brothers achieved the first controlled, sustained flight of a powered, heavier-than-air aircraft at Kitty Hawk.",
+    "weblink": "https://en.wikipedia.org/wiki/Wright_brothers",
+    "year": 1903
+  },
+  {
+    "title": "Einstein publishes theory of relativity",
+    "image_src": "https://via.placeholder.com/640x360?text=Einstein",
+    "description": "Albert Einstein's special theory of relativity revolutionized physics and our understanding of space and time.",
+    "weblink": "https://en.wikipedia.org/wiki/Theory_of_relativity",
+    "year": 1905
+  },
+  {
+    "title": "Ford introduces Model T",
+    "image_src": "https://via.placeholder.com/640x360?text=Model+T",
+    "description": "Henry Ford's affordable automobile revolutionized transportation and manufacturing through assembly line production.",
+    "weblink": "https://en.wikipedia.org/wiki/Ford_Model_T",
+    "year": 1908
+  },
+  {
+    "title": "Titanic sinks",
+    "image_src": "https://via.placeholder.com/640x360?text=Titanic",
+    "description": "The supposedly unsinkable ship struck an iceberg and sank, killing over 1,500 people in one of history's deadliest maritime disasters.",
+    "weblink": "https://en.wikipedia.org/wiki/Sinking_of_the_Titanic",
+    "year": 1912
+  },
+  {
+    "title": "World War I begins",
+    "image_src": "https://via.placeholder.com/640x360?text=World+War+I",
+    "description": "The assassination of Archduke Franz Ferdinand triggered a global conflict that would reshape the world order.",
+    "weblink": "https://en.wikipedia.org/wiki/World_War_I",
+    "year": 1914
+  },
+  {
+    "title": "Russian Revolution",
+    "image_src": "https://via.placeholder.com/640x360?text=Russian+Revolution",
+    "description": "The Bolshevik Revolution overthrew the Russian government, establishing the first communist state.",
+    "weblink": "https://en.wikipedia.org/wiki/Russian_Revolution",
+    "year": 1917
+  },
+  {
+    "title": "Treaty of Versailles signed",
+    "image_src": "https://via.placeholder.com/640x360?text=Treaty+of+Versailles",
+    "description": "The treaty officially ended World War I but imposed harsh terms on Germany that would contribute to World War II.",
+    "weblink": "https://en.wikipedia.org/wiki/Treaty_of_Versailles",
+    "year": 1919
+  },
+  {
+    "title": "Women's suffrage in the United States",
+    "image_src": "https://via.placeholder.com/640x360?text=Womens+Suffrage",
+    "description": "The 19th Amendment granted American women the right to vote, marking a major victory for the women's rights movement.",
+    "weblink": "https://en.wikipedia.org/wiki/Nineteenth_Amendment_to_the_United_States_Constitution",
+    "year": 1920
+  },
+  {
+    "title": "Discovery of penicillin",
+    "image_src": "https://via.placeholder.com/640x360?text=Penicillin",
+    "description": "Alexander Fleming discovered penicillin, the first true antibiotic, revolutionizing medicine and saving millions of lives.",
+    "weblink": "https://en.wikipedia.org/wiki/Penicillin",
+    "year": 1928
+  },
+  {
+    "title": "Stock market crash and Great Depression",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Depression",
+    "description": "The Wall Street crash triggered a worldwide economic depression that lasted throughout the 1930s.",
+    "weblink": "https://en.wikipedia.org/wiki/Wall_Street_Crash_of_1929",
+    "year": 1929
+  },
+  {
+    "title": "Hitler becomes Chancellor of Germany",
+    "image_src": "https://via.placeholder.com/640x360?text=Hitler",
+    "description": "Adolf Hitler's rise to power marked the beginning of Nazi Germany and set the stage for World War II.",
+    "weblink": "https://en.wikipedia.org/wiki/Adolf_Hitler",
+    "year": 1933
+  },
+  {
+    "title": "World War II begins",
+    "image_src": "https://via.placeholder.com/640x360?text=World+War+II",
+    "description": "Germany's invasion of Poland triggered the deadliest conflict in human history.",
+    "weblink": "https://en.wikipedia.org/wiki/World_War_II",
+    "year": 1939
+  },
+  {
+    "title": "Attack on Pearl Harbor",
+    "image_src": "https://via.placeholder.com/640x360?text=Pearl+Harbor",
+    "description": "Japan's surprise attack brought the United States into World War II and changed the course of the war.",
+    "weblink": "https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor",
+    "year": 1941
+  },
+  {
+    "title": "D-Day invasion",
+    "image_src": "https://via.placeholder.com/640x360?text=D-Day",
+    "description": "Allied forces launched the largest amphibious invasion in history, beginning the liberation of Western Europe from Nazi occupation.",
+    "weblink": "https://en.wikipedia.org/wiki/Normandy_landings",
+    "year": 1944
+  },
+  {
+    "title": "Atomic bombs dropped on Hiroshima and Nagasaki",
+    "image_src": "https://via.placeholder.com/640x360?text=Atomic+Bomb",
+    "description": "The United States dropped atomic bombs on two Japanese cities, ending World War II and beginning the nuclear age.",
+    "weblink": "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki",
+    "year": 1945
+  },
+  {
+    "title": "United Nations founded",
+    "image_src": "https://via.placeholder.com/640x360?text=United+Nations",
+    "description": "The UN was established to promote international cooperation and prevent future world wars.",
+    "weblink": "https://en.wikipedia.org/wiki/United_Nations",
+    "year": 1945
+  },
+  {
+    "title": "India gains independence",
+    "image_src": "https://via.placeholder.com/640x360?text=India+Independence",
+    "description": "India achieved independence from British rule, marking the beginning of decolonization across Asia and Africa.",
+    "weblink": "https://en.wikipedia.org/wiki/Indian_independence_movement",
+    "year": 1947
+  },
+  {
+    "title": "State of Israel established",
+    "image_src": "https://via.placeholder.com/640x360?text=Israel",
+    "description": "The declaration of Israeli independence created a Jewish state and triggered ongoing Middle Eastern conflicts.",
+    "weblink": "https://en.wikipedia.org/wiki/Israeli_Declaration_of_Independence",
+    "year": 1948
+  },
+  {
+    "title": "NATO formed",
+    "image_src": "https://via.placeholder.com/640x360?text=NATO",
+    "description": "The North Atlantic Treaty Organization was created as a collective defense alliance during the Cold War.",
+    "weblink": "https://en.wikipedia.org/wiki/NATO",
+    "year": 1949
+  },
+  {
+    "title": "People's Republic of China established",
+    "image_src": "https://via.placeholder.com/640x360?text=PRC",
+    "description": "Mao Zedong proclaimed the founding of communist China after defeating nationalist forces.",
+    "weblink": "https://en.wikipedia.org/wiki/History_of_the_People%27s_Republic_of_China",
+    "year": 1949
+  },
+  {
+    "title": "Korean War begins",
+    "image_src": "https://via.placeholder.com/640x360?text=Korean+War",
+    "description": "North Korea invaded South Korea, drawing in major powers and establishing a pattern for Cold War proxy conflicts.",
+    "weblink": "https://en.wikipedia.org/wiki/Korean_War",
+    "year": 1950
+  },
+  {
+    "title": "DNA structure discovered",
+    "image_src": "https://via.placeholder.com/640x360?text=DNA",
+    "description": "Watson and Crick determined the double helix structure of DNA, revolutionizing biology and medicine.",
+    "weblink": "https://en.wikipedia.org/wiki/Molecular_Structure_of_Nucleic_Acids:_A_Structure_for_Deoxyribose_Nucleic_Acid",
+    "year": 1953
+  },
+  {
+    "title": "Rosa Parks refuses to give up bus seat",
+    "image_src": "https://via.placeholder.com/640x360?text=Rosa+Parks",
+    "description": "Parks' refusal to give up her seat sparked the Montgomery Bus Boycott and energized the Civil Rights Movement.",
+    "weblink": "https://en.wikipedia.org/wiki/Rosa_Parks",
+    "year": 1955
+  },
+  {
+    "title": "Soviet Union launches Sputnik",
+    "image_src": "https://via.placeholder.com/640x360?text=Sputnik",
+    "description": "The first artificial satellite triggered the Space Race between the United States and Soviet Union.",
+    "weblink": "https://en.wikipedia.org/wiki/Sputnik_1",
+    "year": 1957
+  },
+  {
+    "title": "Cuban Missile Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Cuban+Missile+Crisis",
+    "description": "The world came closest to nuclear war during this 13-day confrontation between the US and Soviet Union.",
+    "weblink": "https://en.wikipedia.org/wiki/Cuban_Missile_Crisis",
+    "year": 1962
+  },
+  {
+    "title": "Martin Luther King Jr. 'I Have a Dream' speech",
+    "image_src": "https://via.placeholder.com/640x360?text=I+Have+a+Dream",
+    "description": "King's iconic speech at the March on Washington became a defining moment of the Civil Rights Movement.",
+    "weblink": "https://en.wikipedia.org/wiki/I_Have_a_Dream",
+    "year": 1963
+  },
+  {
+    "title": "Assassination of John F. Kennedy",
+    "image_src": "https://via.placeholder.com/640x360?text=JFK",
+    "description": "President Kennedy was assassinated in Dallas, shocking the nation and world.",
+    "weblink": "https://en.wikipedia.org/wiki/Assassination_of_John_F._Kennedy",
+    "year": 1963
+  },
+  {
+    "title": "First Moon landing (Apollo 11)",
+    "image_src": "https://via.placeholder.com/640x360?text=Apollo+11",
+    "description": "Neil Armstrong and Buzz Aldrin became the first humans to walk on the Moon, marking a milestone in space exploration.",
+    "weblink": "https://en.wikipedia.org/wiki/Apollo_11",
+    "year": 1969
+  },
+  {
+    "title": "Woodstock Festival",
+    "image_src": "https://via.placeholder.com/640x360?text=Woodstock",
+    "description": "The iconic music festival became a symbol of the 1960s counterculture and peace movement.",
+    "weblink": "https://en.wikipedia.org/wiki/Woodstock",
+    "year": 1969
+  },
+  {
+    "title": "Watergate scandal",
+    "image_src": "https://via.placeholder.com/640x360?text=Watergate",
+    "description": "The political scandal led to President Nixon's resignation and increased skepticism of government.",
+    "weblink": "https://en.wikipedia.org/wiki/Watergate_scandal",
+    "year": 1972
+  },
+  {
+    "title": "Vietnam War ends",
+    "image_src": "https://via.placeholder.com/640x360?text=Vietnam+War",
+    "description": "The fall of Saigon marked the end of the Vietnam War and reunification of Vietnam under communist rule.",
+    "weblink": "https://en.wikipedia.org/wiki/Vietnam_War",
+    "year": 1975
+  },
+  {
+    "title": "Apple Computer founded",
+    "image_src": "https://via.placeholder.com/640x360?text=Apple",
+    "description": "Steve Jobs and Steve Wozniak founded Apple, helping launch the personal computer revolution.",
+    "weblink": "https://en.wikipedia.org/wiki/Apple_Inc.",
+    "year": 1976
+  },
+  {
+    "title": "First test-tube baby born",
+    "image_src": "https://via.placeholder.com/640x360?text=IVF",
+    "description": "Louise Brown's birth through in vitro fertilization opened new possibilities for treating infertility.",
+    "weblink": "https://en.wikipedia.org/wiki/Louise_Brown",
+    "year": 1978
+  },
+  {
+    "title": "Iranian Revolution",
+    "image_src": "https://via.placeholder.com/640x360?text=Iranian+Revolution",
+    "description": "The overthrow of the Shah established an Islamic republic and reshaped Middle Eastern politics.",
+    "weblink": "https://en.wikipedia.org/wiki/Iranian_Revolution",
+    "year": 1979
+  },
+  {
+    "title": "Solidarity movement in Poland",
+    "image_src": "https://via.placeholder.com/640x360?text=Solidarity",
+    "description": "The independent trade union challenged communist rule and inspired democratic movements across Eastern Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Solidarity_(Polish_trade_union)",
+    "year": 1980
+  },
+  {
+    "title": "Chernobyl nuclear disaster",
+    "image_src": "https://via.placeholder.com/640x360?text=Chernobyl",
+    "description": "The worst nuclear accident in history contaminated large areas and raised questions about nuclear power safety.",
+    "weblink": "https://en.wikipedia.org/wiki/Chernobyl_disaster",
+    "year": 1986
+  },
+  {
+    "title": "Fall of the Berlin Wall",
+    "image_src": "https://via.placeholder.com/640x360?text=Berlin+Wall",
+    "description": "The opening of the border between East and West Berlin symbolized the end of the Cold War and led to German reunification.",
+    "weblink": "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+    "year": 1989
+  },
+  {
+    "title": "Tiananmen Square protests",
+    "image_src": "https://via.placeholder.com/640x360?text=Tiananmen",
+    "description": "Pro-democracy demonstrations in Beijing were violently suppressed, shocking the world.",
+    "weblink": "https://en.wikipedia.org/wiki/1989_Tiananmen_Square_protests_and_massacre",
+    "year": 1989
+  },
+  {
+    "title": "The World Wide Web becomes publicly available",
+    "image_src": "https://via.placeholder.com/640x360?text=World+Wide+Web",
+    "description": "Tim Berners-Lee opened the World Wide Web to the public, enabling the modern internet as we know it.",
+    "weblink": "https://en.wikipedia.org/wiki/World_Wide_Web",
+    "year": 1991
+  },
+  {
+    "title": "Soviet Union dissolves",
+    "image_src": "https://via.placeholder.com/640x360?text=USSR+Dissolution",
+    "description": "The collapse of the Soviet Union ended the Cold War and reshaped the global political landscape.",
+    "weblink": "https://en.wikipedia.org/wiki/Dissolution_of_the_Soviet_Union",
+    "year": 1991
+  },
+  {
+    "title": "Nelson Mandela elected President of South Africa",
+    "image_src": "https://via.placeholder.com/640x360?text=Mandela",
+    "description": "Mandela's election marked the end of apartheid and the beginning of democratic rule in South Africa.",
+    "weblink": "https://en.wikipedia.org/wiki/Nelson_Mandela",
+    "year": 1994
+  },
+  {
+    "title": "Dolly the sheep cloned",
+    "image_src": "https://via.placeholder.com/640x360?text=Dolly",
+    "description": "The first mammal cloned from an adult cell raised ethical questions and demonstrated new possibilities in genetics.",
+    "weblink": "https://en.wikipedia.org/wiki/Dolly_(sheep)",
+    "year": 1996
+  },
+  {
+    "title": "Hong Kong returned to China",
+    "image_src": "https://via.placeholder.com/640x360?text=Hong+Kong",
+    "description": "British colonial rule ended as Hong Kong was transferred to Chinese sovereignty under 'one country, two systems.'",
+    "weblink": "https://en.wikipedia.org/wiki/Handover_of_Hong_Kong",
+    "year": 1997
+  },
+  {
+    "title": "Google founded",
+    "image_src": "https://via.placeholder.com/640x360?text=Google",
+    "description": "Larry Page and Sergey Brin founded Google, which would become the world's dominant search engine.",
+    "weblink": "https://en.wikipedia.org/wiki/Google",
+    "year": 1998
+  },
+  {
+    "title": "Euro currency introduced",
+    "image_src": "https://via.placeholder.com/640x360?text=Euro",
+    "description": "The common European currency was launched, representing a major step in European economic integration.",
+    "weblink": "https://en.wikipedia.org/wiki/Euro",
+    "year": 1999
+  },
+  {
+    "title": "September 11 terrorist attacks",
+    "image_src": "https://via.placeholder.com/640x360?text=9-11",
+    "description": "Terrorist attacks on the World Trade Center and Pentagon killed nearly 3,000 people and reshaped global politics.",
+    "weblink": "https://en.wikipedia.org/wiki/September_11_attacks",
+    "year": 2001
+  },
+  {
+    "title": "Human Genome Project completed",
+    "image_src": "https://via.placeholder.com/640x360?text=Human+Genome+Project",
+    "description": "An international research effort successfully mapped and sequenced the human genome, transforming biology and medicine.",
+    "weblink": "https://en.wikipedia.org/wiki/Human_Genome_Project",
+    "year": 2003
+  },
+  {
+    "title": "Facebook launched",
+    "image_src": "https://via.placeholder.com/640x360?text=Facebook",
+    "description": "Mark Zuckerberg launched Facebook from his Harvard dorm room, beginning the social media revolution.",
+    "weblink": "https://en.wikipedia.org/wiki/Facebook",
+    "year": 2004
+  },
+  {
+    "title": "YouTube founded",
+    "image_src": "https://via.placeholder.com/640x360?text=YouTube",
+    "description": "The video-sharing platform transformed how people consume and create media content.",
+    "weblink": "https://en.wikipedia.org/wiki/YouTube",
+    "year": 2005
+  },
+  {
+    "title": "iPhone released",
+    "image_src": "https://via.placeholder.com/640x360?text=iPhone",
+    "description": "Apple's revolutionary smartphone changed mobile computing and communication forever.",
+    "weblink": "https://en.wikipedia.org/wiki/IPhone",
+    "year": 2007
+  },
+  {
+    "title": "Global Financial Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Financial+Crisis",
+    "description": "The collapse of major financial institutions triggered the worst economic crisis since the Great Depression.",
+    "weblink": "https://en.wikipedia.org/wiki/Financial_crisis_of_2007%E2%80%932008",
+    "year": 2008
+  },
+  {
+    "title": "Barack Obama elected President",
+    "image_src": "https://via.placeholder.com/640x360?text=Obama",
+    "description": "Obama became the first African American president of the United States.",
+    "weblink": "https://en.wikipedia.org/wiki/Barack_Obama",
+    "year": 2008
+  },
+  {
+    "title": "Arab Spring begins",
+    "image_src": "https://via.placeholder.com/640x360?text=Arab+Spring",
+    "description": "Pro-democracy uprisings spread across the Middle East and North Africa, toppling several governments.",
+    "weblink": "https://en.wikipedia.org/wiki/Arab_Spring",
+    "year": 2010
+  },
+  {
+    "title": "Osama bin Laden killed",
+    "image_src": "https://via.placeholder.com/640x360?text=Bin+Laden",
+    "description": "US forces killed the al-Qaeda leader in Pakistan, following the 9/11 attacks.",
+    "weblink": "https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden",
+    "year": 2011
+  },
+  {
+    "title": "Discovery of Higgs boson",
+    "image_src": "https://via.placeholder.com/640x360?text=Higgs+Boson",
+    "description": "CERN scientists confirmed the existence of the Higgs boson, validating the Standard Model of particle physics.",
+    "weblink": "https://en.wikipedia.org/wiki/Higgs_boson",
+    "year": 2012
+  },
+  {
+    "title": "Paris Climate Agreement adopted",
+    "image_src": "https://via.placeholder.com/640x360?text=Paris+Agreement",
+    "description": "Nearly 200 nations agreed to combat climate change and limit global temperature rise.",
+    "weblink": "https://en.wikipedia.org/wiki/Paris_Agreement",
+    "year": 2015
+  },
+  {
+    "title": "Brexit referendum",
+    "image_src": "https://via.placeholder.com/640x360?text=Brexit",
+    "description": "The United Kingdom voted to leave the European Union, beginning a complex separation process.",
+    "weblink": "https://en.wikipedia.org/wiki/2016_United_Kingdom_European_Union_membership_referendum",
+    "year": 2016
+  },
+  {
+    "title": "COVID-19 pandemic declared",
+    "image_src": "https://via.placeholder.com/640x360?text=COVID-19",
+    "description": "The World Health Organization declared a global pandemic that would profoundly impact every aspect of life worldwide.",
+    "weblink": "https://en.wikipedia.org/wiki/COVID-19_pandemic",
+    "year": 2020
+  },
+  {
+    "title": "James Webb Space Telescope launched",
+    "image_src": "https://via.placeholder.com/640x360?text=Webb+Telescope",
+    "description": "NASA's most powerful space telescope was launched to study the earliest galaxies and search for signs of life.",
+    "weblink": "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope",
+    "year": 2021
+  },
+  {
+    "title": "Tunguska event",
+    "image_src": "https://via.placeholder.com/640x360?text=Tunguska",
+    "description": "A massive explosion flattened 2,000 square kilometers of Siberian forest, likely caused by a meteor or comet fragment, in the largest impact event in recorded history.",
+    "weblink": "https://en.wikipedia.org/wiki/Tunguska_event",
+    "year": 1908
+  },
+  {
+    "title": "The Great Emu War",
+    "image_src": "https://via.placeholder.com/640x360?text=Emu+War",
+    "description": "Australian military forces were deployed with machine guns against emus destroying crops in Western Australia. The emus effectively won.",
+    "weblink": "https://en.wikipedia.org/wiki/Emu_War",
+    "year": 1932
+  },
+  {
+    "title": "Dancing Plague of 1518",
+    "image_src": "https://via.placeholder.com/640x360?text=Dancing+Plague",
+    "description": "In Strasbourg, hundreds of people danced uncontrollably for days, with some dancing until they collapsed or died from exhaustion.",
+    "weblink": "https://en.wikipedia.org/wiki/Dancing_plague_of_1518",
+    "year": 1518
+  },
+  {
+    "title": "War of the Bucket",
+    "image_src": "https://via.placeholder.com/640x360?text=Bucket+War",
+    "description": "A conflict between Bologna and Modena that allegedly started over a stolen wooden bucket resulted in about 2,000 deaths.",
+    "weblink": "https://en.wikipedia.org/wiki/War_of_the_Bucket",
+    "year": 1325
+  },
+  {
+    "title": "Defenestration of Prague",
+    "image_src": "https://via.placeholder.com/640x360?text=Defenestration",
+    "description": "Protestant nobles threw two Catholic officials out of a castle window, triggering the Thirty Years' War that would devastate Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Defenestrations_of_Prague",
+    "year": 1618
+  },
+  {
+    "title": "Year Without a Summer",
+    "image_src": "https://via.placeholder.com/640x360?text=Year+Without+Summer",
+    "description": "The eruption of Mount Tambora caused global climate anomalies, resulting in snow in June, crop failures, and widespread famine across the Northern Hemisphere.",
+    "weblink": "https://en.wikipedia.org/wiki/Year_Without_a_Summer",
+    "year": 1816
+  },
+  {
+    "title": "The Great Molasses Flood",
+    "image_src": "https://via.placeholder.com/640x360?text=Molasses+Flood",
+    "description": "A massive storage tank burst in Boston, releasing 2.3 million gallons of molasses in a 25-foot wave that killed 21 people and injured 150.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Molasses_Flood",
+    "year": 1919
+  },
+  {
+    "title": "Cadaver Synod",
+    "image_src": "https://via.placeholder.com/640x360?text=Cadaver+Synod",
+    "description": "Pope Stephen VI had the corpse of his predecessor Pope Formosus exhumed, dressed in papal vestments, and put on trial in the Vatican.",
+    "weblink": "https://en.wikipedia.org/wiki/Cadaver_Synod",
+    "year": 897
+  },
+  {
+    "title": "The Football War",
+    "image_src": "https://via.placeholder.com/640x360?text=Football+War",
+    "description": "El Salvador and Honduras fought a brief war triggered by violence during World Cup qualifying matches, though deeper tensions existed.",
+    "weblink": "https://en.wikipedia.org/wiki/Football_War",
+    "year": 1969
+  },
+  {
+    "title": "Pepsi becomes 6th largest military",
+    "image_src": "https://via.placeholder.com/640x360?text=Pepsi+Navy",
+    "description": "The Soviet Union traded 17 submarines, a cruiser, a frigate, and a destroyer to PepsiCo in exchange for Pepsi products, briefly making Pepsi the owner of the 6th largest navy.",
+    "weblink": "https://en.wikipedia.org/wiki/Pepsi",
+    "year": 1989
+  },
+  {
+    "title": "London Beer Flood",
+    "image_src": "https://via.placeholder.com/640x360?text=Beer+Flood",
+    "description": "A vat containing over 135,000 gallons of beer ruptured at a London brewery, causing a domino effect that released nearly 400,000 gallons and killed 8 people.",
+    "weblink": "https://en.wikipedia.org/wiki/London_Beer_Flood",
+    "year": 1814
+  },
+  {
+    "title": "Tanganyika Laughter Epidemic",
+    "image_src": "https://via.placeholder.com/640x360?text=Laughter+Epidemic",
+    "description": "An outbreak of uncontrollable laughter started at a girls' school in Tanzania and spread to over 1,000 people, forcing schools to close for months.",
+    "weblink": "https://en.wikipedia.org/wiki/Tanganyika_laughter_epidemic",
+    "year": 1962
+  },
+  {
+    "title": "Pope's Banquet Disaster",
+    "image_src": "https://via.placeholder.com/640x360?text=Chestnuts",
+    "description": "Pope Clement VII's chef served a dinner featuring dormice cooked in honey, followed by a dessert of chestnuts that poisoned many guests, though the Pope survived.",
+    "weblink": "https://en.wikipedia.org/wiki/Pope_Clement_VII",
+    "year": 1534
+  },
+  {
+    "title": "The Night of the Living Broadcasts",
+    "image_src": "https://via.placeholder.com/640x360?text=War+of+Worlds",
+    "description": "Orson Welles' radio adaptation of War of the Worlds caused panic as listeners believed Martians were actually invading Earth.",
+    "weblink": "https://en.wikipedia.org/wiki/The_War_of_the_Worlds_(1938_radio_drama)",
+    "year": 1938
+  },
+  {
+    "title": "Whiskey Rebellion",
+    "image_src": "https://via.placeholder.com/640x360?text=Whiskey+Rebellion",
+    "description": "Western Pennsylvania farmers violently protested a federal whiskey tax, forcing President Washington to personally lead troops to suppress the uprising.",
+    "weblink": "https://en.wikipedia.org/wiki/Whiskey_Rebellion",
+    "year": 1794
+  },
+  {
+    "title": "Battle of Karánsebes",
+    "image_src": "https://via.placeholder.com/640x360?text=Karansebes",
+    "description": "The Austrian army allegedly fought itself in a confused night battle, suffering thousands of casualties before the Ottoman enemy even arrived.",
+    "weblink": "https://en.wikipedia.org/wiki/Battle_of_Kar%C3%A1nsebes",
+    "year": 1788
+  },
+  {
+    "title": "The Great Stink",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Stink",
+    "description": "A heatwave caused the Thames River to smell so bad that Parliament couldn't meet, finally forcing London to build a modern sewer system.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Stink",
+    "year": 1858
+  },
+  {
+    "title": "Pig War between US and Britain",
+    "image_src": "https://via.placeholder.com/640x360?text=Pig+War",
+    "description": "A territorial dispute between the US and Britain nearly erupted into war after an American farmer shot a British pig eating his potatoes.",
+    "weblink": "https://en.wikipedia.org/wiki/Pig_War_(1859)",
+    "year": 1859
+  },
+  {
+    "title": "The Toledo War",
+    "image_src": "https://via.placeholder.com/640x360?text=Toledo+War",
+    "description": "Michigan and Ohio nearly went to war over a strip of land containing Toledo. Ohio got the territory; Michigan got the Upper Peninsula as consolation.",
+    "weblink": "https://en.wikipedia.org/wiki/Toledo_War",
+    "year": 1835
+  },
+  {
+    "title": "Carrington Event",
+    "image_src": "https://via.placeholder.com/640x360?text=Solar+Storm",
+    "description": "The largest recorded solar storm caused auroras visible near the equator and set telegraph systems on fire. A similar event today could cause trillions in damage.",
+    "weblink": "https://en.wikipedia.org/wiki/Carrington_Event",
+    "year": 1859
+  },
+  {
+    "title": "Emperor Norton proclaims himself",
+    "image_src": "https://via.placeholder.com/640x360?text=Emperor+Norton",
+    "description": "Joshua Norton declared himself 'Emperor of the United States' in San Francisco. The city played along, accepting his self-printed currency and giving him free meals.",
+    "weblink": "https://en.wikipedia.org/wiki/Emperor_Norton",
+    "year": 1859
+  },
+  {
+    "title": "Lighthouse keeper eaten by lice",
+    "image_src": "https://via.placeholder.com/640x360?text=Flannan+Isles",
+    "description": "Three lighthouse keepers mysteriously vanished from a Scottish island, leaving behind a stopped clock, an untouched meal, and an overturned chair.",
+    "weblink": "https://en.wikipedia.org/wiki/Flannan_Isles_Lighthouse",
+    "year": 1900
+  },
+  {
+    "title": "Vatican's Swiss Guard attacked by sacks",
+    "image_src": "https://via.placeholder.com/640x360?text=Sack+of+Rome",
+    "description": "During the Sack of Rome, 147 Swiss Guards died defending Pope Clement VII, while 42 survived. May 6 is still Swiss Guard memorial day.",
+    "weblink": "https://en.wikipedia.org/wiki/Sack_of_Rome_(1527)",
+    "year": 1527
+  },
+  {
+    "title": "Overtoun Bridge dog suicides",
+    "image_src": "https://via.placeholder.com/640x360?text=Overtoun+Bridge",
+    "description": "Hundreds of dogs have jumped from the same spot on this Scottish bridge. The mystery remains unsolved.",
+    "weblink": "https://en.wikipedia.org/wiki/Overtoun_Bridge",
+    "year": 1960
+  },
+  {
+    "title": "The Great Horse Manure Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Horse+Manure",
+    "description": "Cities predicted they'd be buried under horse manure by the 1930s. The automobile solved the crisis in an unexpected way.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_horse_manure_crisis_of_1894",
+    "year": 1894
   }
 ]

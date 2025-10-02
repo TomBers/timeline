@@ -48,7 +48,10 @@
 
     <section aria-label="timeline" id="timeline" phx-hook="DnDSlots" class="space-y-3">
       <h2 class="text-lg font-semibold">Timeline</h2>
-      <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        class="grid gap-3 overflow-x-auto pb-2"
+        style={"grid-template-columns: repeat(#{length(@slots)}, minmax(clamp(11rem, 85vw, 16rem), 1fr)); -webkit-overflow-scrolling: touch;"}
+      >
         <%= for {event_id, idx} <- Enum.with_index(@slots) do %>
           <div
             id={"slot-#{idx}"}
@@ -80,11 +83,25 @@
               </div>
 
               <%= if event_id && @events_by_id[event_id] do %>
-                <h3 class="font-semibold text-sm transition-transform duration-200 ease-out will-change-transform animate-[fade-in_180ms_ease-out]">
-                  {@events_by_id[event_id].title}
-                </h3>
+                <.event_card
+                  event={@events_by_id[event_id]}
+                  compact
+                  show_link={false}
+                  wrap_body={false}
+                  summary_text="Details"
+                />
               <% else %>
-                <div class="text-base-content/60 text-sm italic">Drag an event here</div>
+                <div class="text-base-content/60 text-sm w-full justify-center">
+                  <button
+                    class="btn btn-sm btn-ghost"
+                    phx-click="place_selected"
+                    phx-value-slot={idx}
+                    id={"place-slot-#{idx}"}
+                  >
+                    Tap to place here
+                  </button>
+                  <div class="mt-1 italic text-center">or drag an event here</div>
+                </div>
               <% end %>
             </div>
           </div>
@@ -100,27 +117,24 @@
           No remaining events in the pool.
         </div>
       <% else %>
-        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="grid gap-3"
+          style="grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));"
+        >
           <%= for event <- @pool do %>
             <div
               id={"pool-#{event.id}"}
               data-event-id={event.id}
               draggable="true"
-              class="card border-2 border-base-300 hover:border-primary transition-colors cursor-move"
+              phx-click="select_event"
+              phx-value-id={event.id}
+              aria-selected={@selected_id == event.id}
+              class={[
+                "card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-move",
+                @selected_id == event.id && "ring ring-primary"
+              ]}
             >
-              <div class="card-body p-4">
-                <div class="flex items-center justify-between -mt-1 mb-2">
-                  <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
-                    <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
-                  </span>
-                  <span class="text-[10px] text-base-content/50 uppercase tracking-wider">
-                    Card
-                  </span>
-                </div>
-                <h3 class="font-semibold select-none">
-                  {event.title}
-                </h3>
-              </div>
+              <.event_card event={event} show_link={false} summary_text="Details" />
             </div>
           <% end %>
         </div>

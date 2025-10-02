@@ -30,14 +30,53 @@ defmodule TimelineWeb.GameComponents do
   attr :id, :string, default: nil
   attr :show_link, :boolean, default: true
   attr :link_target, :string, default: "_blank"
+  attr :wrap_body, :boolean, default: true
+  attr :show_description, :boolean, default: true
+  attr :summary_text, :string, default: "Show description"
   attr :rest, :global
 
   def event_card(assigns) do
     ~H"""
-    <div id={@id} class={["flex gap-3", @class]} {@rest}>
-      <h3 class="font-semibold">
-        {title(@event)}
-      </h3>
+    <div id={@id} class={[@class]} {@rest}>
+      <div class={[@wrap_body && "card-body p-4", @compact && "py-3 px-3"]}>
+        <div :if={!@compact} class="flex items-center justify-between -mt-1 mb-2">
+          <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
+            <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
+          </span>
+        </div>
+        <h3 class={["font-semibold", @compact && "text-sm"]}>
+          {title(@event)}
+        </h3>
+        <figure :if={image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
+          <img
+            src={image_src(@event)}
+            alt={title(@event)}
+            class={[
+              "w-full rounded",
+              @compact && "max-h-24 object-cover",
+              !@compact && "max-h-40 object-cover"
+            ]}
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          />
+        </figure>
+        <figure :if={!image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
+          <div class={[
+            "w-full rounded bg-base-300 flex items-center justify-center text-base-content/60",
+            @compact && "h-24",
+            !@compact && "h-40"
+          ]}>
+            <.icon name="hero-photo" class="w-6 h-6 opacity-50" />
+          </div>
+        </figure>
+
+        <p
+          :if={@show_description && description(@event)}
+          class="mt-1 text-xs text-base-content/80"
+        >
+          {description(@event)}
+        </p>
+      </div>
     </div>
     """
   end
@@ -63,4 +102,25 @@ defmodule TimelineWeb.GameComponents do
   defp title(event) do
     normalize_str(get(event, :title)) || "Untitled"
   end
+
+  defp description(event) do
+    normalize_str(get(event, :description))
+  end
+
+  defp image_src(event) do
+    url = normalize_str(get(event, :image_src)) || normalize_str(get(event, :image))
+    if is_placeholder?(url), do: nil, else: url
+  end
+
+  defp is_placeholder?(url) when is_binary(url), do: String.contains?(url, "via.placeholder.com")
+  defp is_placeholder?(_), do: false
+
+  # defp weblink(event) do
+  #   case normalize_str(get(event, :weblink)) do
+  #     nil -> nil
+  #     "http://" <> _ = url -> url
+  #     "https://" <> _ = url -> url
+  #     url -> url
+  #   end
+  # end
 end
