@@ -243,9 +243,17 @@ defmodule Timeline.WikiImages do
   defp ensure_table!() do
     case :ets.whereis(@table) do
       :undefined ->
-        ensure_server_started()
-        GenServer.call(@server, :ensure_table)
-        :ok
+        # If we are inside the WikiImages server process, avoid GenServer.call to self.
+        case Process.whereis(@server) do
+          pid when pid == self() ->
+            create_table_owned()
+            :ok
+
+          _other ->
+            ensure_server_started()
+            GenServer.call(@server, :ensure_table)
+            :ok
+        end
 
       _tid ->
         :ok

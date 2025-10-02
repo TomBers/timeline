@@ -70,27 +70,12 @@ defmodule TimelineWeb.GameComponents do
           </div>
         </figure>
 
-        <div
+        <p
           :if={@show_description && description(@event)}
-          class={[
-            "collapse collapse-arrow mt-2 border border-base-300 bg-base-100 rounded",
-            @compact && "text-xs",
-            !@compact && "text-sm"
-          ]}
-          draggable="false"
-          ondragstart="event.stopPropagation()"
-          onmousedown="event.stopPropagation()"
+          class="mt-1 text-xs text-base-content/80"
         >
-          <input type="checkbox" />
-          <div class="collapse-title px-0">
-            {@summary_text}
-          </div>
-          <div class="collapse-content px-0">
-            <p class={[@compact && "mt-1", !@compact && "mt-2", "text-base-content/80"]}>
-              {description(@event)}
-            </p>
-          </div>
-        </div>
+          {description(@event)}
+        </p>
       </div>
     </div>
     """

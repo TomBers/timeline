@@ -33,7 +33,27 @@ const hooks = {
   DnDPool: {
     mounted() {
       this._activeCard = null;
+      this._dragGhost = null;
+      this._hoverSlot = null;
+      this._pointerId = null;
+      this._offsetX = 0;
+      this._offsetY = 0;
 
+      // Helpers for pointer-based DnD (touch/pen)
+      this._highlightSlot = (el) =>
+        el && el.classList.add("border-primary", "bg-base-100");
+      this._unhighlightSlot = (el) =>
+        el && el.classList.remove("border-primary", "bg-base-100");
+      this._slotAt = (x, y) => {
+        const el = document.elementFromPoint(x, y);
+        if (!el) return null;
+        const slot = el.closest("[data-slot-idx]");
+        if (!slot) return null;
+        const filled = slot.getAttribute("data-filled") === "true";
+        return filled ? null : slot;
+      };
+
+      // Desktop HTML5 drag-and-drop
       this._onDragStart = (e) => {
         const card = e.target.closest("[data-event-id]");
         if (!card) return;
@@ -61,6 +81,124 @@ const hooks = {
 
       this.el.addEventListener("dragstart", this._onDragStart);
       this.el.addEventListener("dragend", this._onDragEnd);
+
+      // Touch/Pen drag-and-drop via Pointer Events
+      this._onPointerDown = (e) => {
+        // Allow native mouse DnD; handle only touch/pen here
+        if (e.pointerType === "mouse") return;
+        if (e.button !== 0) return;
+
+        const card = e.target.closest("[data-event-id]");
+        if (!card) return;
+
+        const id = card.getAttribute("data-event-id");
+        if (!id) return;
+
+        // Prevent page scroll on touch while dragging
+        e.preventDefault();
+
+        this._activeCard = card;
+        this._pointerId = e.pointerId;
+
+        const rect = card.getBoundingClientRect();
+        this._offsetX = e.clientX - rect.left;
+        this._offsetY = e.clientY - rect.top;
+
+        // Visual affordance
+        card.classList.add("ring", "ring-primary");
+
+        // Create a lightweight drag ghost
+        const ghost = card.cloneNode(true);
+        ghost.style.position = "fixed";
+        ghost.style.pointerEvents = "none";
+        ghost.style.left = "0";
+        ghost.style.top = "0";
+        ghost.style.width = rect.width + "px";
+        // scale up slightly for a lifted effect
+        ghost.style.transform = `translate(${e.clientX - this._offsetX}px, ${e.clientY - this._offsetY}px) scale(1.03)`;
+        ghost.style.transition =
+          "transform 120ms ease-out, box-shadow 120ms ease-out, opacity 120ms ease-out";
+        ghost.style.boxShadow = "0 12px 24px rgba(0, 0, 0, 0.2)";
+        ghost.style.borderRadius = "0.75rem"; // ~12px
+        ghost.style.willChange = "transform";
+        ghost.style.zIndex = "9999";
+        ghost.style.opacity = "0.95";
+        this._dragGhost = ghost;
+        document.body.appendChild(ghost);
+
+        // Bind move/up handlers
+        this._boundPointerMove = this._onPointerMove.bind(this);
+        this._boundPointerUp = this._onPointerUp.bind(this);
+        window.addEventListener("pointermove", this._boundPointerMove, {
+          passive: false,
+        });
+        window.addEventListener("pointerup", this._boundPointerUp, {
+          passive: false,
+        });
+        window.addEventListener("pointercancel", this._boundPointerUp, {
+          passive: false,
+        });
+      };
+
+      this._onPointerMove = (e) => {
+        if (this._pointerId !== e.pointerId) return;
+        if (!this._dragGhost) return;
+
+        e.preventDefault();
+
+        // Move ghost
+        this._dragGhost.style.transform = `translate(${e.clientX - this._offsetX}px, ${e.clientY - this._offsetY}px) scale(1.03)`;
+
+        // Highlight hovered empty slot
+        const slot = this._slotAt(e.clientX, e.clientY);
+        if (slot !== this._hoverSlot) {
+          this._unhighlightSlot(this._hoverSlot);
+          this._hoverSlot = slot;
+          this._highlightSlot(this._hoverSlot);
+        }
+      };
+
+      this._onPointerUp = (e) => {
+        if (this._pointerId !== e.pointerId) return;
+        e.preventDefault();
+
+        // Remove ghost
+        if (this._dragGhost && this._dragGhost.parentNode) {
+          this._dragGhost.parentNode.removeChild(this._dragGhost);
+        }
+        this._dragGhost = null;
+
+        // Unhighlight last hovered slot
+        this._unhighlightSlot(this._hoverSlot);
+
+        const slot = this._hoverSlot;
+        const card = this._activeCard;
+        const id = card && card.getAttribute("data-event-id");
+
+        if (card) {
+          card.classList.remove("ring", "ring-primary");
+        }
+
+        if (slot && id) {
+          const idx = slot.getAttribute("data-slot-idx");
+          // Subtle placement animation
+          slot.classList.add("animate-pulse");
+          setTimeout(() => slot.classList.remove("animate-pulse"), 250);
+          this.pushEvent("place_selected", { id, slot: parseInt(idx, 10) });
+        }
+
+        this._hoverSlot = null;
+        this._activeCard = null;
+        this._pointerId = null;
+
+        window.removeEventListener("pointermove", this._boundPointerMove);
+        window.removeEventListener("pointerup", this._boundPointerUp);
+        window.removeEventListener("pointercancel", this._boundPointerUp);
+      };
+
+      this.el.addEventListener("pointerdown", this._onPointerDown, {
+        passive: false,
+      });
     },
     updated() {
       // No-op: using event delegation, nothing to rebind
@@ -68,6 +206,10 @@ const hooks = {
     destroyed() {
       this.el.removeEventListener("dragstart", this._onDragStart);
       this.el.removeEventListener("dragend", this._onDragEnd);
+      this.el.removeEventListener("pointerdown", this._onPointerDown);
+      window.removeEventListener("pointermove", this._boundPointerMove);
+      window.removeEventListener("pointerup", this._boundPointerUp);
+      window.removeEventListener("pointercancel", this._boundPointerUp);
     },
   },
   DnDSlots: {

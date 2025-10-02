@@ -18,6 +18,7 @@ defmodule TimelineWeb.GameLive do
      |> assign(:pool, pool)
      |> assign(:slots, slots)
      |> assign(:events_by_id, events_by_id)
+     |> assign(:selected_id, nil)
      |> assign(:score, nil)}
   end
 

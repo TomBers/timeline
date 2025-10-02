@@ -25,8 +25,38 @@
           setTheme(localStorage.getItem("phx:theme") || "system");
         }
         window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
-        
+
         window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+      })();
+    </script>
+    <style>
+      body.phx-drag-active, body.phx-drag-active * {
+        touch-action: none !important;
+      }
+      body.phx-drag-active {
+        overscroll-behavior: none;
+      }
+    </style>
+    <script>
+      // Prevent page scroll during pointer-based drag on touch/pen
+      (() => {
+        let dragging = false;
+        const onPointerDown = (e) => {
+          if (e.pointerType === "mouse") return;
+          const card = e.target.closest && e.target.closest("[data-event-id]");
+          if (!card) return;
+          dragging = true;
+          document.body.classList.add("phx-drag-active");
+        };
+        const onPointerUp = () => {
+          if (!dragging) return;
+          dragging = false;
+          document.body.classList.remove("phx-drag-active");
+        };
+        window.addEventListener("pointerdown", onPointerDown, { passive: false, capture: true });
+        window.addEventListener("pointerup", onPointerUp, { passive: true, capture: true });
+        window.addEventListener("pointercancel", onPointerUp, { passive: true, capture: true });
+        window.addEventListener("blur", onPointerUp);
       })();
     </script>
   </head>
