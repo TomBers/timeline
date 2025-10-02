@@ -60,6 +60,15 @@ defmodule TimelineWeb.GameComponents do
             referrerpolicy="no-referrer"
           />
         </figure>
+        <figure :if={!image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
+          <div class={[
+            "w-full rounded bg-base-300 flex items-center justify-center text-base-content/60",
+            @compact && "h-24",
+            !@compact && "h-40"
+          ]}>
+            <.icon name="hero-photo" class="w-6 h-6 opacity-50" />
+          </div>
+        </figure>
         <h3 class={["font-semibold", @compact && "text-sm"]}>
           {title(@event)}
         </h3>
@@ -121,16 +130,15 @@ defmodule TimelineWeb.GameComponents do
     if is_placeholder?(url), do: nil, else: url
   end
 
-  defp is_placeholder?(nil), do: false
   defp is_placeholder?(url) when is_binary(url), do: String.contains?(url, "via.placeholder.com")
   defp is_placeholder?(_), do: false
 
-  defp weblink(event) do
-    case normalize_str(get(event, :weblink)) do
-      nil -> nil
-      "http://" <> _ = url -> url
-      "https://" <> _ = url -> url
-      url -> url
-    end
-  end
+  # defp weblink(event) do
+  #   case normalize_str(get(event, :weblink)) do
+  #     nil -> nil
+  #     "http://" <> _ = url -> url
+  #     "https://" <> _ = url -> url
+  #     url -> url
+  #   end
+  # end
 end
