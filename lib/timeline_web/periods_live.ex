@@ -112,10 +112,6 @@ defmodule TimelineWeb.PeriodsLive do
                     <p :if={p.description} class="text-xs text-base-content/70 line-clamp-2">
                       {p.description}
                     </p>
-                    <div class="text-xs text-base-content/60 mt-1">
-                      True: {format_year(p.start_year)} → {format_year(p.end_year)} ({p.end_year -
-                        p.start_year} yrs)
-                    </div>
                   </div>
                 </div>
 
