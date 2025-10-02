@@ -83,7 +83,12 @@
               </div>
 
               <%= if event_id && @events_by_id[event_id] do %>
-                <.event_card event={@events_by_id[event_id]} compact show_link={false} />
+                <.event_card
+                  event={@events_by_id[event_id]}
+                  compact
+                  show_link={false}
+                  wrap_body={false}
+                />
               <% else %>
                 <div class="text-base-content/60 text-sm italic">Drag an event here</div>
               <% end %>
@@ -110,7 +115,7 @@
               id={"pool-#{event.id}"}
               data-event-id={event.id}
               draggable="true"
-              class="card border-2 border-base-300 hover:border-primary transition-colors cursor-move"
+              class="card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-move"
             >
               <.event_card event={event} />
             </div>

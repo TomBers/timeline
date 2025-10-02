@@ -3,6 +3,7 @@ defmodule TimelineWeb.GameLive do
 
   import TimelineWeb.GameComponents
   alias Timeline.Events
+  alias Timeline.WikiImages
   @min_round_size 3
   @max_round_size 20
   @default_round_size 6
@@ -10,6 +11,7 @@ defmodule TimelineWeb.GameLive do
   @impl true
   def mount(params, _session, socket) do
     {pool, slots, events_by_id} = new_game(params)
+    start_image_prefetch(events_by_id)
 
     {:ok,
      socket
@@ -24,6 +26,7 @@ defmodule TimelineWeb.GameLive do
     # keep the same round size as current slots
     round_size = length(socket.assigns.slots)
     {pool, slots, events_by_id} = new_game(%{"size" => round_size})
+    start_image_prefetch(events_by_id)
 
     {:noreply,
      socket
@@ -139,6 +142,56 @@ defmodule TimelineWeb.GameLive do
     {:noreply, assign(socket, :score, score)}
   end
 
+  @impl true
+  def handle_info({:wiki_image, id, url}, socket) do
+    updated_event =
+      socket.assigns.events_by_id
+      |> Map.get(id)
+      |> case do
+        nil -> nil
+        e -> Map.put(e, :image_src, url)
+      end
+
+    if is_nil(updated_event) do
+      {:noreply, socket}
+    else
+      events_by_id = Map.put(socket.assigns.events_by_id, id, updated_event)
+
+      pool =
+        Enum.map(socket.assigns.pool, fn e ->
+          if e.id == id, do: updated_event, else: e
+        end)
+
+      {:noreply, socket |> assign(:events_by_id, events_by_id) |> assign(:pool, pool)}
+    end
+  end
+
+  defp start_image_prefetch(events_by_id) when is_map(events_by_id) do
+    parent = self()
+
+    queries =
+      for {_id, e} <- events_by_id, placeholder_image?(Map.get(e, :image_src)) do
+        e.weblink || e.title
+      end
+
+    if queries != [] do
+      WikiImages.prefetch(queries)
+    end
+
+    Enum.each(events_by_id, fn {_id, e} ->
+      if placeholder_image?(Map.get(e, :image_src)) do
+        Task.start(fn ->
+          case WikiImages.get_image_url(e.weblink || e.title) do
+            {:ok, url} -> send(parent, {:wiki_image, e.id, url})
+            _ -> :noop
+          end
+        end)
+      end
+    end)
+
+    :ok
+  end
+
   # HELPERS
 
   defp new_game(params) do
@@ -194,7 +247,7 @@ defmodule TimelineWeb.GameLive do
         %{
           id: "ev-" <> Integer.to_string(System.unique_integer([:positive])),
           title: e.title,
-          image_src: e.image_src,
+          image_src: sanitize_image_src(e.image_src),
           description: e.description,
           weblink: e.weblink,
           correct_pos: correct_pos
@@ -245,5 +298,17 @@ defmodule TimelineWeb.GameLive do
 
   defp percent(num, den) when is_integer(num) and is_integer(den) and den > 0 do
     trunc(num * 100 / den)
+  end
+
+  defp placeholder_image?(nil), do: true
+
+  defp placeholder_image?(url) when is_binary(url) do
+    String.contains?(url, "via.placeholder.com")
+  end
+
+  defp placeholder_image?(_), do: false
+
+  defp sanitize_image_src(url) do
+    if placeholder_image?(url), do: nil, else: url
   end
 end

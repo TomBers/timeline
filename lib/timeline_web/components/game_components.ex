@@ -30,6 +30,7 @@ defmodule TimelineWeb.GameComponents do
   attr :id, :string, default: nil
   attr :show_link, :boolean, default: true
   attr :link_target, :string, default: "_blank"
+  attr :wrap_body, :boolean, default: true
   attr :show_description, :boolean, default: true
   attr :summary_text, :string, default: "Show description"
   attr :rest, :global
@@ -37,7 +38,7 @@ defmodule TimelineWeb.GameComponents do
   def event_card(assigns) do
     ~H"""
     <div id={@id} class={[@class]} {@rest}>
-      <div class={["card-body p-4", @compact && "py-3 px-3"]}>
+      <div class={[@wrap_body && "card-body p-4", @compact && "py-3 px-3"]}>
         <div :if={!@compact} class="flex items-center justify-between -mt-1 mb-2">
           <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
             <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
@@ -46,24 +47,44 @@ defmodule TimelineWeb.GameComponents do
             Card
           </span>
         </div>
+        <figure :if={image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
+          <img
+            src={image_src(@event)}
+            alt={title(@event)}
+            class={[
+              "w-full rounded",
+              @compact && "max-h-24 object-cover",
+              !@compact && "max-h-40 object-cover"
+            ]}
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          />
+        </figure>
         <h3 class={["font-semibold", @compact && "text-sm"]}>
           {title(@event)}
         </h3>
 
-        <details
+        <div
           :if={@show_description && description(@event)}
-          class={[@compact && "mt-1 text-xs", !@compact && "mt-2 text-sm"]}
+          class={[
+            "collapse collapse-arrow mt-2 border border-base-300 bg-base-100 rounded",
+            @compact && "text-xs",
+            !@compact && "text-sm"
+          ]}
           draggable="false"
           ondragstart="event.stopPropagation()"
           onmousedown="event.stopPropagation()"
         >
-          <summary class="cursor-pointer text-base-content/70 hover:text-base-content">
+          <input type="checkbox" />
+          <div class="collapse-title px-0">
             {@summary_text}
-          </summary>
-          <p class={[@compact && "mt-1", !@compact && "mt-2", "text-base-content/80"]}>
-            {description(@event)}
-          </p>
-        </details>
+          </div>
+          <div class="collapse-content px-0">
+            <p class={[@compact && "mt-1", !@compact && "mt-2", "text-base-content/80"]}>
+              {description(@event)}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     """
@@ -94,6 +115,15 @@ defmodule TimelineWeb.GameComponents do
   defp description(event) do
     normalize_str(get(event, :description))
   end
+
+  defp image_src(event) do
+    url = normalize_str(get(event, :image_src)) || normalize_str(get(event, :image))
+    if is_placeholder?(url), do: nil, else: url
+  end
+
+  defp is_placeholder?(nil), do: false
+  defp is_placeholder?(url) when is_binary(url), do: String.contains?(url, "via.placeholder.com")
+  defp is_placeholder?(_), do: false
 
   defp weblink(event) do
     case normalize_str(get(event, :weblink)) do
