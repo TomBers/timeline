@@ -30,14 +30,49 @@ defmodule TimelineWeb.GameComponents do
   attr :id, :string, default: nil
   attr :show_link, :boolean, default: true
   attr :link_target, :string, default: "_blank"
+  attr :show_description, :boolean, default: true
+  attr :summary_text, :string, default: "Show description"
   attr :rest, :global
 
   def event_card(assigns) do
     ~H"""
-    <div id={@id} class={["flex gap-3", @class]} {@rest}>
-      <h3 class="font-semibold">
-        {title(@event)}
-      </h3>
+    <div id={@id} class={[@class]} {@rest}>
+      <div class={["card-body p-4", @compact && "py-3 px-3"]}>
+        <div :if={!@compact} class="flex items-center justify-between -mt-1 mb-2">
+          <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
+            <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
+          </span>
+          <span class="text-[10px] text-base-content/50 uppercase tracking-wider">
+            Card
+          </span>
+        </div>
+        <h3 class={["font-semibold", @compact && "text-sm"]}>
+          {title(@event)}
+        </h3>
+
+        <details
+          :if={@show_description && description(@event)}
+          class={[@compact && "mt-1 text-xs", !@compact && "mt-2 text-sm"]}
+          draggable="false"
+          ondragstart="event.stopPropagation()"
+          onmousedown="event.stopPropagation()"
+        >
+          <summary class="cursor-pointer text-base-content/70 hover:text-base-content">
+            {@summary_text}
+          </summary>
+          <p class={[@compact && "mt-1", !@compact && "mt-2", "text-base-content/80"]}>
+            {description(@event)}
+          </p>
+          <a
+            :if={@show_link && weblink(@event)}
+            href={weblink(@event)}
+            target={@link_target}
+            class="link link-primary mt-2 inline-block"
+          >
+            Learn more
+          </a>
+        </details>
+      </div>
     </div>
     """
   end
@@ -62,5 +97,18 @@ defmodule TimelineWeb.GameComponents do
 
   defp title(event) do
     normalize_str(get(event, :title)) || "Untitled"
+  end
+
+  defp description(event) do
+    normalize_str(get(event, :description))
+  end
+
+  defp weblink(event) do
+    case normalize_str(get(event, :weblink)) do
+      nil -> nil
+      "http://" <> _ = url -> url
+      "https://" <> _ = url -> url
+      url -> url
+    end
   end
 end

@@ -1,9 +1,10 @@
 defmodule TimelineWeb.GameLive do
   use TimelineWeb, :live_view
 
+  import TimelineWeb.GameComponents
   alias Timeline.Events
   @min_round_size 3
-  @max_round_size 10
+  @max_round_size 20
   @default_round_size 6
 
   @impl true
