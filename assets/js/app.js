@@ -452,7 +452,7 @@ const hooks = {
       this._ctx = this.el.getContext("2d");
       // Config
       this._padding = { left: 40, right: 20, top: 32, bottom: 24 };
-      this._headerH = 28;
+      this._headerH = 36;
       this._laneH = 88;
       this._laneGap = 18;
       this._drag = null;
@@ -610,20 +610,29 @@ const hooks = {
         // Clear
         ctx.clearRect(0, 0, this.el.width, this.el.height);
 
-        // Axis header line
+        // Axis header line (emphasized and theme-aware)
         const axisY = this._padding.top + this._headerH / 2;
-        ctx.strokeStyle =
-          getComputedStyle(document.documentElement).getPropertyValue(
-            "--fallback-b3",
-          ) || "#ccc";
-        ctx.lineWidth = 2;
+        const __bcAxis = getComputedStyle(document.documentElement)
+          .getPropertyValue("--bc")
+          .trim();
+        ctx.strokeStyle = __bcAxis
+          ? `rgb(${__bcAxis})`
+          : getComputedStyle(document.body).color || "#666";
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.moveTo(this._padding.left, axisY);
         ctx.lineTo(this._padding.left + this._drawW(), axisY);
         ctx.stroke();
 
         // Grid vertical lines
-        ctx.strokeStyle = "rgba(0,0,0,0.15)";
+        {
+          const __bcGrid = getComputedStyle(document.documentElement)
+            .getPropertyValue("--bc")
+            .trim();
+          ctx.strokeStyle = __bcGrid
+            ? `rgba(${__bcGrid.replace(/\s+/g, ", ")}, 0.15)`
+            : "rgba(0,0,0,0.15)";
+        }
         ctx.lineWidth = 1.25;
         const yTop = this._padding.top + this._headerH;
         const yBottom =
@@ -641,7 +650,14 @@ const hooks = {
           ctx.stroke();
         }
         // Grid horizontal boundaries (single top and bottom lines)
-        ctx.strokeStyle = "rgba(0,0,0,0.15)";
+        {
+          const __bcGrid = getComputedStyle(document.documentElement)
+            .getPropertyValue("--bc")
+            .trim();
+          ctx.strokeStyle = __bcGrid
+            ? `rgba(${__bcGrid.replace(/\s+/g, ", ")}, 0.15)`
+            : "rgba(0,0,0,0.15)";
+        }
         ctx.lineWidth = 1.25;
         // Top boundary
         ctx.beginPath();
@@ -654,23 +670,44 @@ const hooks = {
         ctx.lineTo(this._padding.left + this._drawW(), yBottom);
         ctx.stroke();
 
-        // Ticks and labels
-        ctx.fillStyle = getComputedStyle(document.body).color || "#666";
+        // Ticks and labels (evenly spaced, theme-aware)
         ctx.textBaseline = "top";
-        ctx.font = "10px system-ui, sans-serif";
-        this._ticks.forEach((t) => {
-          const x = this._yearToX(t);
-          ctx.strokeStyle = "rgba(0,0,0,0.2)";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(x, axisY - 6);
-          ctx.lineTo(x, axisY + 6);
-          ctx.stroke();
+        ctx.font = "600 12px system-ui, sans-serif";
+        {
+          const nTicks = this._ticks.length;
+          if (nTicks > 0) {
+            const w = this._drawW();
+            const left = this._padding.left;
+            const step = nTicks > 1 ? w / (nTicks - 1) : 0;
+            const __bc = getComputedStyle(document.documentElement)
+              .getPropertyValue("--bc")
+              .trim();
+            const contentColor = __bc
+              ? `rgb(${__bc})`
+              : getComputedStyle(document.body).color || "#666";
 
-          const text = this._formatYear(t);
-          const tw = ctx.measureText(text).width;
-          ctx.fillText(text, x - tw / 2, axisY + 8);
-        });
+            this._ticks.forEach((t, i) => {
+              const x = left + step * i;
+
+              // tick mark
+              ctx.save();
+              ctx.strokeStyle = contentColor;
+              ctx.globalAlpha = 0.7;
+              ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              ctx.moveTo(x, axisY - 7);
+              ctx.lineTo(x, axisY + 7);
+              ctx.stroke();
+              ctx.restore();
+
+              // label
+              const text = this._formatYear(t);
+              ctx.fillStyle = contentColor;
+              const tw = ctx.measureText(text).width;
+              ctx.fillText(text, x - tw / 2, axisY + 10);
+            });
+          }
+        }
 
         // Draw lanes: truth and blocks
         this._rects.clear();
@@ -798,7 +835,12 @@ const hooks = {
           } else {
             const tx = gx + Math.max(6, gw) / 2;
             const ty = y - gh / 2 - 14;
-            ctx.fillStyle = getComputedStyle(document.body).color || "#333";
+            {
+              const __bc2b = getComputedStyle(document.documentElement)
+                .getPropertyValue("--bc")
+                .trim();
+              ctx.fillStyle = __bc2b ? `rgb(${__bc2b})` : "#333";
+            }
             const tw = ctx.measureText(label).width;
             // background bubble
             ctx.fillStyle = "rgba(255,255,255,0.85)";
@@ -807,7 +849,12 @@ const hooks = {
             ctx.roundRect(tx - tw / 2 - pad, ty - 10, tw + pad * 2, 16, 4);
             ctx.fill();
             // text
-            ctx.fillStyle = getComputedStyle(document.body).color || "#333";
+            {
+              const __bc2a = getComputedStyle(document.documentElement)
+                .getPropertyValue("--bc")
+                .trim();
+              ctx.fillStyle = __bc2a ? `rgb(${__bc2a})` : "#333";
+            }
             ctx.fillText(label, tx - tw / 2, ty);
           }
 
@@ -1118,6 +1165,15 @@ const hooks = {
       });
       this._ro.observe(this.el);
 
+      // Observe DaisyUI theme changes and redraw on theme switch
+      this._themeObserver = new MutationObserver(() => {
+        this._draw();
+      });
+      this._themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+
       // Initial size and draw
       this._resizeCanvas();
       this._draw();
@@ -1191,6 +1247,7 @@ const hooks = {
         window.removeEventListener("pointermove", this._boundMove);
       if (this._boundUp) window.removeEventListener("pointerup", this._boundUp);
       if (this._ro) this._ro.disconnect();
+      if (this._themeObserver) this._themeObserver.disconnect();
     },
   },
 };
