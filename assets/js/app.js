@@ -640,25 +640,19 @@ const hooks = {
           ctx.lineTo(x, yBottom);
           ctx.stroke();
         }
-        // Grid horizontal lane boundaries
+        // Grid horizontal boundaries (single top and bottom lines)
         ctx.strokeStyle = "rgba(0,0,0,0.15)";
         ctx.lineWidth = 1.25;
-        const lanesForGrid = Math.max(this._laneCount || 1, 1);
-        for (let r = 0; r < lanesForGrid; r++) {
-          const y = this._laneY(r);
-          const yTopLine = y - this._laneH / 2;
-          const yBottomLine = y + this._laneH / 2;
-          // Top boundary
-          ctx.beginPath();
-          ctx.moveTo(this._padding.left, yTopLine);
-          ctx.lineTo(this._padding.left + this._drawW(), yTopLine);
-          ctx.stroke();
-          // Bottom boundary
-          ctx.beginPath();
-          ctx.moveTo(this._padding.left, yBottomLine);
-          ctx.lineTo(this._padding.left + this._drawW(), yBottomLine);
-          ctx.stroke();
-        }
+        // Top boundary
+        ctx.beginPath();
+        ctx.moveTo(this._padding.left, yTop);
+        ctx.lineTo(this._padding.left + this._drawW(), yTop);
+        ctx.stroke();
+        // Bottom boundary
+        ctx.beginPath();
+        ctx.moveTo(this._padding.left, yBottom);
+        ctx.lineTo(this._padding.left + this._drawW(), yBottom);
+        ctx.stroke();
 
         // Ticks and labels
         ctx.fillStyle = getComputedStyle(document.body).color || "#666";
@@ -953,6 +947,14 @@ const hooks = {
         // Clamp within corridor
         startCol = Math.min(Math.max(startCol, leftBoundCol), rightBoundCol);
 
+        // Prevent overlap: abort update if any occupied interval intersects proposed cells
+        const overlaps = intervals.some(
+          (iv) => !(startCol + spanCols <= iv.s || startCol >= iv.e),
+        );
+        if (overlaps) {
+          return;
+        }
+
         // Convert back to years snapped to grid
         newStart = this._colToYear(startCol);
         newEnd = this._colToYear(startCol + spanCols);
@@ -999,81 +1001,106 @@ const hooks = {
         const id = e.dataTransfer && e.dataTransfer.getData("text/event-id");
         if (!id) return;
 
-        // Snap drop X to grid
-        const dropCol = this._yearToCol(this._xToYear(e.clientX));
-        const dropYear = this._colToYear(dropCol);
+        // Determine target lane and snap drop X to grid
+        const targetLane = this._laneFromY(e.clientY);
+        const dropColRaw = this._yearToCol(this._xToYear(e.clientX));
 
-        // Determine target lane from pointer Y
-        const lane = this._laneFromY(e.clientY);
+        // Compute span in columns based on the event duration
+        const meta = this._eventsById[id];
+        if (!meta) return;
+        const spanCols = Math.max(
+          1,
+          Math.round((meta.guessEnd - meta.guessStart) / this._gridSizeYears),
+        );
 
-        // Place server-side centered at snapped year
-        this.pushEvent("place_from_pool", { id, drop_year: dropYear });
+        // Axis bounds in columns
+        const minCol = this._yearToCol(this._axisMin);
+        const maxCol = this._yearToCol(this._axisMax) - spanCols;
 
-        // After LV updates, snap to grid corridor and set lane override
-        setTimeout(() => {
-          const meta = this._eventsById[id];
-          if (!meta) return;
+        // Build same-lane occupied intervals in columns
+        const intervals = this._placed
+          .map((pid) => {
+            if (pid === id) return null;
+            const r = this._rects.get(pid);
+            const m = this._eventsById[pid];
+            if (!r || !m) return null;
+            const ov =
+              this._laneOverrides &&
+              Object.prototype.hasOwnProperty.call(this._laneOverrides, pid)
+                ? this._laneOverrides[pid]
+                : undefined;
+            const laneVal = Number.isFinite(ov)
+              ? ov
+              : Number.isFinite(m.lane)
+                ? m.lane
+                : 0;
+            if (laneVal !== targetLane) return null;
+            const sCol = this._yearToCol(m.guessStart);
+            const wCol = Math.max(
+              1,
+              Math.round((m.guessEnd - m.guessStart) / this._gridSizeYears),
+            );
+            return { s: sCol, e: sCol + wCol };
+          })
+          .filter(Boolean)
+          .sort((a, b) => a.s - b.s);
 
-          // Compute span in columns based on current guess duration
-          const spanCols = Math.max(
-            1,
-            Math.round((meta.guessEnd - meta.guessStart) / this._gridSizeYears),
+        // Corridor limits around drop column
+        let leftBoundCol = minCol;
+        let rightBoundCol = maxCol;
+        intervals.forEach((iv) => {
+          if (iv.e <= dropColRaw) {
+            leftBoundCol = Math.max(leftBoundCol, iv.e);
+          }
+          if (iv.s >= dropColRaw + spanCols) {
+            rightBoundCol = Math.min(rightBoundCol, iv.s - spanCols);
+          }
+        });
+
+        // Initial start centered at drop, clamped to corridor
+        let startCol = dropColRaw - Math.floor(spanCols / 2);
+        startCol = Math.min(Math.max(startCol, leftBoundCol), rightBoundCol);
+
+        // If overlapping, search nearest free start within corridor
+        const isOccupied = (c) =>
+          intervals.some((iv) => !(c + spanCols <= iv.s || c >= iv.e));
+        if (isOccupied(startCol)) {
+          let found = null;
+          const maxDelta = Math.max(
+            startCol - leftBoundCol,
+            rightBoundCol - startCol,
           );
-
-          // Axis bounds in columns
-          const minCol = this._yearToCol(this._axisMin);
-          const maxCol = this._yearToCol(this._axisMax) - spanCols;
-
-          // Build same-lane occupied intervals in columns
-          const intervals = this._placed
-            .filter((pid) => pid !== id)
-            .map((pid) => {
-              const r = this._rects.get(pid);
-              const m = this._eventsById[pid];
-              if (!r || !m || r.lane !== lane) return null;
-              const sCol = this._yearToCol(m.guessStart);
-              const wCol = Math.max(
-                1,
-                Math.round((m.guessEnd - m.guessStart) / this._gridSizeYears),
-              );
-              return { s: sCol, e: sCol + wCol };
-            })
-            .filter(Boolean)
-            .sort((a, b) => a.s - b.s);
-
-          // Corridor limits around drop column
-          let leftBoundCol = minCol;
-          let rightBoundCol = maxCol;
-          intervals.forEach((iv) => {
-            if (iv.e <= dropCol) {
-              leftBoundCol = Math.max(leftBoundCol, iv.e);
+          for (let delta = 1; delta <= maxDelta; delta++) {
+            const cRight = startCol + delta;
+            const cLeft = startCol - delta;
+            if (cRight <= rightBoundCol && !isOccupied(cRight)) {
+              found = cRight;
+              break;
             }
-            if (iv.s >= dropCol + spanCols) {
-              rightBoundCol = Math.min(rightBoundCol, iv.s - spanCols);
+            if (cLeft >= leftBoundCol && !isOccupied(cLeft)) {
+              found = cLeft;
+              break;
             }
-          });
+          }
+          if (found != null) {
+            startCol = found;
+          } else {
+            // No free space available; abort placement
+            return;
+          }
+        }
 
-          // Center at dropCol and clamp within corridor
-          let startCol = dropCol - Math.floor(spanCols / 2);
-          startCol = Math.min(Math.max(startCol, leftBoundCol), rightBoundCol);
+        // Compute a drop_year that will center to startCol on the server
+        const centerCol = startCol + Math.floor(spanCols / 2);
+        const drop_year = this._colToYear(centerCol);
 
-          // Convert back to snapped years
-          const newStart = this._colToYear(startCol);
-          const newEnd = this._colToYear(startCol + spanCols);
+        // Persist lane override locally for immediate feedback
+        this._laneOverrides = this._laneOverrides || {};
+        this._laneOverrides[id] = targetLane;
+        this.el.dataset.laneOverrides = JSON.stringify(this._laneOverrides);
 
-          // Persist lane override locally
-          this._laneOverrides = this._laneOverrides || {};
-          this._laneOverrides[id] = lane;
-          this.el.dataset.laneOverrides = JSON.stringify(this._laneOverrides);
-
-          // Push snapped guess and lane to LV
-          this.pushEvent("set_guess", {
-            id,
-            guess_start: newStart,
-            guess_end: newEnd,
-            lane,
-          });
-        }, 0);
+        // Place with snapped center and desired lane
+        this.pushEvent("place_from_pool", { id, drop_year, lane: targetLane });
       };
 
       // Bind listeners
