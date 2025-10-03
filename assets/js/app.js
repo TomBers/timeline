@@ -470,16 +470,39 @@ const hooks = {
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean);
-      this._showTruth =
-        d.showTruth === "true" ||
-        d.showTruth === true ||
-        d.showTruth === "True";
+      this._laneCount = parseInt(d.laneCount || "1", 10);
+      this._laneOverrides = {};
+      try {
+        if (d.laneOverrides) {
+          this._laneOverrides = JSON.parse(d.laneOverrides);
+        }
+      } catch (_e) {}
+      // Show answers removed; no truth overlays rendered
 
       // Events meta from hidden DOM
       this._eventsById = {};
       this._imgCache = new Map();
-      this._animX = new Map();
-      this._rafScheduled = false;
+      // Grid setup: derive origin/step from earliest and latest event years (fallback to axis)
+      this._gridCols = 40;
+      let earliest = Number.POSITIVE_INFINITY;
+      let latest = Number.NEGATIVE_INFINITY;
+      Object.values(this._eventsById).forEach((m) => {
+        if (!m) return;
+        if (Number.isFinite(m.start)) earliest = Math.min(earliest, m.start);
+        if (Number.isFinite(m.end)) latest = Math.max(latest, m.end);
+      });
+      // Fallbacks if no events yet
+      if (!Number.isFinite(earliest)) earliest = this._axisMin;
+      if (!Number.isFinite(latest)) latest = this._axisMax;
+      this._gridOriginYear = Math.min(earliest, this._axisMin);
+      const gridSpanYears = Math.max(
+        1,
+        Math.max(latest, this._axisMax) - this._gridOriginYear,
+      );
+      this._gridSizeYears = Math.max(
+        1,
+        Math.round(gridSpanYears / this._gridCols),
+      );
       const dataRoot =
         document.getElementById("timeline-canvas-data") ||
         this.el.parentElement;
@@ -529,6 +552,15 @@ const hooks = {
         const span = this._axisMax - this._axisMin;
         return Math.round(this._axisMin + t * span);
       };
+      this._colToYear = (col) => {
+        return this._gridOriginYear + col * this._gridSizeYears;
+      };
+      this._yearToCol = (year) => {
+        return Math.round((year - this._gridOriginYear) / this._gridSizeYears);
+      };
+      this._snapYear = (year) => {
+        return this._colToYear(this._yearToCol(year));
+      };
 
       this._laneY = (idx) => {
         const y0 =
@@ -538,30 +570,25 @@ const hooks = {
         return y0 + this._laneH / 2;
       };
 
+      // Compute lane index from pointer Y position
+      this._laneFromY = (clientY) => {
+        const rect = this.el.getBoundingClientRect();
+        const y = clientY - rect.top;
+        const y0 = this._padding.top + this._headerH;
+        const laneSpan = this._laneH + this._laneGap;
+        let idx = Math.floor((y - y0 + this._laneGap / 2) / laneSpan);
+        idx = Math.max(0, Math.min((this._laneCount || 1) - 1, idx));
+        return idx;
+      };
+
       this._drawW = () =>
         this.el.width - (this._padding.left + this._padding.right);
 
       this._resizeCanvas = () => {
         const dpr = window.devicePixelRatio || 1;
         const rect = this.el.getBoundingClientRect();
-        // Dynamic height based on placed items
-        const intervalsForSize = this._placed
-          .map((pid) => {
-            const m = this._eventsById[pid];
-            return m ? { s: m.guessStart, e: m.guessEnd } : null;
-          })
-          .filter(Boolean)
-          .sort((a, b) => a.s - b.s || a.e - b.e);
-        let laneEndsCalc = [];
-        intervalsForSize.forEach((iv) => {
-          const idx = laneEndsCalc.findIndex((end) => iv.s >= end);
-          if (idx === -1) {
-            laneEndsCalc.push(iv.e);
-          } else {
-            laneEndsCalc[idx] = iv.e;
-          }
-        });
-        const lanes = Math.max(laneEndsCalc.length, 1);
+        // Dynamic height based on stable lane count from server
+        const lanes = Math.max(this._laneCount || 1, 1);
         const heightCss =
           this._padding.top +
           this._headerH +
@@ -595,6 +622,44 @@ const hooks = {
         ctx.lineTo(this._padding.left + this._drawW(), axisY);
         ctx.stroke();
 
+        // Grid vertical lines
+        ctx.strokeStyle = "rgba(0,0,0,0.15)";
+        ctx.lineWidth = 1.25;
+        const yTop = this._padding.top + this._headerH;
+        const yBottom =
+          this._padding.top +
+          this._headerH +
+          Math.max(this._laneCount || 1, 1) * (this._laneH + this._laneGap) -
+          this._laneGap;
+        const colStart = this._yearToCol(this._axisMin);
+        const colEnd = this._yearToCol(this._axisMax);
+        for (let c = colStart; c <= colEnd; c++) {
+          const x = this._yearToX(this._colToYear(c));
+          ctx.beginPath();
+          ctx.moveTo(x, yTop);
+          ctx.lineTo(x, yBottom);
+          ctx.stroke();
+        }
+        // Grid horizontal lane boundaries
+        ctx.strokeStyle = "rgba(0,0,0,0.15)";
+        ctx.lineWidth = 1.25;
+        const lanesForGrid = Math.max(this._laneCount || 1, 1);
+        for (let r = 0; r < lanesForGrid; r++) {
+          const y = this._laneY(r);
+          const yTopLine = y - this._laneH / 2;
+          const yBottomLine = y + this._laneH / 2;
+          // Top boundary
+          ctx.beginPath();
+          ctx.moveTo(this._padding.left, yTopLine);
+          ctx.lineTo(this._padding.left + this._drawW(), yTopLine);
+          ctx.stroke();
+          // Bottom boundary
+          ctx.beginPath();
+          ctx.moveTo(this._padding.left, yBottomLine);
+          ctx.lineTo(this._padding.left + this._drawW(), yBottomLine);
+          ctx.stroke();
+        }
+
         // Ticks and labels
         ctx.fillStyle = getComputedStyle(document.body).color || "#666";
         ctx.textBaseline = "top";
@@ -614,28 +679,32 @@ const hooks = {
         });
 
         // Draw lanes: truth and blocks
-        // Multi-lane packing based on current guess intervals (greedy non-overlap)
         this._rects.clear();
-        const intervals = this._placed
-          .map((pid) => {
-            const m = this._eventsById[pid];
-            return m ? { id: pid, s: m.guessStart, e: m.guessEnd } : null;
-          })
-          .filter(Boolean)
-          .sort((a, b) => a.s - b.s || a.e - b.e);
-        const laneEnds = [];
+
+        // Truth overlays removed
+
+        // Using server-provided stable lanes; no client-side packing
         const idToLane = {};
-        intervals.forEach((iv) => {
-          let laneIdx = laneEnds.findIndex((end) => iv.s >= end);
-          if (laneIdx === -1) {
-            laneIdx = laneEnds.length;
-            laneEnds.push(iv.e);
-          } else {
-            laneEnds[laneIdx] = iv.e;
-          }
-          idToLane[iv.id] = laneIdx;
+        this._placed.forEach((pid) => {
+          const m = this._eventsById[pid];
+          if (!m) return;
+          const override =
+            this._laneOverrides &&
+            Object.prototype.hasOwnProperty.call(this._laneOverrides, pid)
+              ? this._laneOverrides[pid]
+              : undefined;
+          const lane = Number.isFinite(override)
+            ? override
+            : Number.isFinite(m.lane)
+              ? m.lane
+              : 0;
+          idToLane[pid] = Math.max(
+            0,
+            Math.min((this._laneCount || 1) - 1, lane),
+          );
         });
-        this._laneCount = Math.max(laneEnds.length, 1);
+
+        // Draw placed blocks on their lanes
         this._placed.forEach((id, idx) => {
           const meta = this._eventsById[id];
           if (!meta) return;
@@ -657,18 +726,14 @@ const hooks = {
             ctx.stroke();
           }
 
-          // Guess block (fixed duration) with animated x-position
-          const targetX = this._yearToX(meta.guessStart);
-          let gx = this._animX.has(id) ? this._animX.get(id) : targetX;
-          const gw = this._yearToX(meta.guessEnd) - targetX;
-          if (Math.abs(targetX - gx) > 0.5) {
-            gx = gx + (targetX - gx) * 0.2;
-            this._animX.set(id, gx);
-            this._rafScheduled = this._rafScheduled || false;
-          } else {
-            gx = targetX;
-            this._animX.set(id, gx);
-          }
+          // Guess block (fixed duration) with solid positioning (snapped to grid columns)
+          const startColDraw = this._yearToCol(meta.guessStart);
+          const endColDraw = Math.max(
+            startColDraw + 1,
+            this._yearToCol(meta.guessEnd),
+          );
+          const gx = this._yearToX(this._colToYear(startColDraw));
+          const gw = this._yearToX(this._colToYear(endColDraw)) - gx;
           const gh = 56;
 
           // Bar
@@ -710,9 +775,32 @@ const hooks = {
           const small = gw < 100;
           ctx.fillStyle = "#fff";
           if (!small) {
-            const tx = gx + 8;
+            // Offset label to avoid overlapping the thumbnail image and clip to bar interior
+            let imgSize = 0;
+            if (meta.image) {
+              const _img = this._imgCache.get(meta.image);
+              if (_img && _img.complete && _img.naturalWidth > 0) {
+                imgSize = Math.min(gh - 6, 96);
+              }
+            }
+            const padX = 6;
+            const labelX = imgSize > 0 ? gx + 4 + imgSize + padX : gx + 8;
             const ty = y - 6;
-            ctx.fillText(label, tx, ty);
+            // Clip label within remaining bar area (to the right of the image)
+            const clipLeft = labelX;
+            const clipRight = gx + Math.max(6, gw) - 6;
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(
+              clipLeft,
+              y - gh / 2 + 2,
+              Math.max(0, clipRight - clipLeft),
+              gh - 4,
+            );
+            ctx.clip();
+            ctx.fillStyle = "#fff";
+            ctx.fillText(label, labelX, ty);
+            ctx.restore();
           } else {
             const tx = gx + Math.max(6, gw) / 2;
             const ty = y - gh / 2 - 14;
@@ -738,14 +826,7 @@ const hooks = {
             lane: lane,
           });
 
-          // Schedule animation frame if needed
-          if (Math.abs(targetX - gx) > 0.5 && !this._rafScheduled) {
-            this._rafScheduled = true;
-            requestAnimationFrame(() => {
-              this._rafScheduled = false;
-              this._draw();
-            });
-          }
+          // Animation removed for solid block positioning
         });
       };
 
@@ -815,36 +896,66 @@ const hooks = {
         }
 
         // Collision constraints (single lane): prevent overlaps with other placed blocks
-        const currentRect = this._rects.get(id);
-        const lane = currentRect ? currentRect.lane : 0;
-        const others = this._placed.filter((pid) => pid !== id);
-        const intervals = others
+        let lane = Number.isFinite(meta.lane) ? meta.lane : 0;
+        const targetLane = this._laneFromY(e.clientY);
+        if (Number.isFinite(targetLane) && targetLane !== lane) {
+          lane = Math.max(0, Math.min((this._laneCount || 1) - 1, targetLane));
+          meta.lane = lane;
+          this._laneOverrides = this._laneOverrides || {};
+          this._laneOverrides[id] = lane;
+          // Persist overrides on canvas dataset for future LV updates
+          this.el.dataset.laneOverrides = JSON.stringify(this._laneOverrides);
+        }
+
+        // Snap to grid and enforce non-overlap using discrete columns
+        let startCol = this._yearToCol(
+          Math.round(this._xToYear(e.clientX) - this._drag.offset),
+        );
+        const spanCols = Math.max(
+          1,
+          Math.round(this._drag.duration / this._gridSizeYears),
+        );
+
+        // Axis bounds in columns
+        const minCol = this._yearToCol(this._axisMin);
+        const maxCol = this._yearToCol(this._axisMax) - spanCols;
+
+        // Build same-lane occupied intervals in columns
+        const intervals = this._placed
+          .filter((pid) => pid !== id)
           .map((pid) => {
             const r = this._rects.get(pid);
             if (!r || r.lane !== lane) return null;
             const m = this._eventsById[pid];
-            return m ? { id: pid, s: m.guessStart, e: m.guessEnd } : null;
+            if (!m) return null;
+            const sCol = this._yearToCol(m.guessStart);
+            const wCol = Math.max(
+              1,
+              Math.round((m.guessEnd - m.guessStart) / this._gridSizeYears),
+            );
+            return { id: pid, s: sCol, e: sCol + wCol };
           })
           .filter(Boolean)
           .sort((a, b) => a.s - b.s);
 
-        let leftBound = this._axisMin;
-        let rightBound = this._axisMax - this._drag.duration;
-
+        // Compute corridor in columns
+        let leftBoundCol = minCol;
+        let rightBoundCol = maxCol;
         intervals.forEach((iv) => {
-          // If interval is completely to the left of proposed block
-          if (iv.e <= newStart) {
-            leftBound = Math.max(leftBound, iv.e);
+          if (iv.e <= startCol) {
+            leftBoundCol = Math.max(leftBoundCol, iv.e);
           }
-          // If interval is completely to the right of proposed block
-          if (iv.s >= newEnd) {
-            rightBound = Math.min(rightBound, iv.s - this._drag.duration);
+          if (iv.s >= startCol + spanCols) {
+            rightBoundCol = Math.min(rightBoundCol, iv.s - spanCols);
           }
         });
 
-        // Clamp start within non-overlapping corridor
-        newStart = Math.min(Math.max(newStart, leftBound), rightBound);
-        newEnd = newStart + this._drag.duration;
+        // Clamp within corridor
+        startCol = Math.min(Math.max(startCol, leftBoundCol), rightBoundCol);
+
+        // Convert back to years snapped to grid
+        newStart = this._colToYear(startCol);
+        newEnd = this._colToYear(startCol + spanCols);
 
         // Update local state
         meta.guessStart = newStart;
@@ -855,6 +966,7 @@ const hooks = {
           id,
           guess_start: newStart,
           guess_end: newEnd,
+          lane,
         });
 
         // Redraw
@@ -886,8 +998,82 @@ const hooks = {
         this.el.classList.remove("ring", "ring-primary");
         const id = e.dataTransfer && e.dataTransfer.getData("text/event-id");
         if (!id) return;
-        const dropYear = this._xToYear(e.clientX);
+
+        // Snap drop X to grid
+        const dropCol = this._yearToCol(this._xToYear(e.clientX));
+        const dropYear = this._colToYear(dropCol);
+
+        // Determine target lane from pointer Y
+        const lane = this._laneFromY(e.clientY);
+
+        // Place server-side centered at snapped year
         this.pushEvent("place_from_pool", { id, drop_year: dropYear });
+
+        // After LV updates, snap to grid corridor and set lane override
+        setTimeout(() => {
+          const meta = this._eventsById[id];
+          if (!meta) return;
+
+          // Compute span in columns based on current guess duration
+          const spanCols = Math.max(
+            1,
+            Math.round((meta.guessEnd - meta.guessStart) / this._gridSizeYears),
+          );
+
+          // Axis bounds in columns
+          const minCol = this._yearToCol(this._axisMin);
+          const maxCol = this._yearToCol(this._axisMax) - spanCols;
+
+          // Build same-lane occupied intervals in columns
+          const intervals = this._placed
+            .filter((pid) => pid !== id)
+            .map((pid) => {
+              const r = this._rects.get(pid);
+              const m = this._eventsById[pid];
+              if (!r || !m || r.lane !== lane) return null;
+              const sCol = this._yearToCol(m.guessStart);
+              const wCol = Math.max(
+                1,
+                Math.round((m.guessEnd - m.guessStart) / this._gridSizeYears),
+              );
+              return { s: sCol, e: sCol + wCol };
+            })
+            .filter(Boolean)
+            .sort((a, b) => a.s - b.s);
+
+          // Corridor limits around drop column
+          let leftBoundCol = minCol;
+          let rightBoundCol = maxCol;
+          intervals.forEach((iv) => {
+            if (iv.e <= dropCol) {
+              leftBoundCol = Math.max(leftBoundCol, iv.e);
+            }
+            if (iv.s >= dropCol + spanCols) {
+              rightBoundCol = Math.min(rightBoundCol, iv.s - spanCols);
+            }
+          });
+
+          // Center at dropCol and clamp within corridor
+          let startCol = dropCol - Math.floor(spanCols / 2);
+          startCol = Math.min(Math.max(startCol, leftBoundCol), rightBoundCol);
+
+          // Convert back to snapped years
+          const newStart = this._colToYear(startCol);
+          const newEnd = this._colToYear(startCol + spanCols);
+
+          // Persist lane override locally
+          this._laneOverrides = this._laneOverrides || {};
+          this._laneOverrides[id] = lane;
+          this.el.dataset.laneOverrides = JSON.stringify(this._laneOverrides);
+
+          // Push snapped guess and lane to LV
+          this.pushEvent("set_guess", {
+            id,
+            guess_start: newStart,
+            guess_end: newEnd,
+            lane,
+          });
+        }, 0);
       };
 
       // Bind listeners
@@ -922,10 +1108,13 @@ const hooks = {
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean);
-      this._showTruth =
-        d.showTruth === "true" ||
-        d.showTruth === true ||
-        d.showTruth === "True";
+      this._laneCount = parseInt(d.laneCount || `${this._laneCount || 1}`, 10);
+      try {
+        this._laneOverrides = d.laneOverrides
+          ? JSON.parse(d.laneOverrides)
+          : this._laneOverrides || {};
+      } catch (_e) {}
+      // Show answers removed; no truth overlays rendered
 
       // Re-read per-event guess values
       const dataRoot =
@@ -954,6 +1143,10 @@ const hooks = {
             10,
           );
           meta.image = el.getAttribute("data-image-src") || meta.image;
+          meta.lane = parseInt(
+            el.getAttribute("data-lane") || `${meta.lane || 0}`,
+            10,
+          );
           this._eventsById[id] = meta;
         });
       }

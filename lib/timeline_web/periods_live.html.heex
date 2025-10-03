@@ -10,17 +10,6 @@
     <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
       <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
       <button id="reset-btn" class="btn" phx-click="reset">New game</button>
-      <button
-        id="toggle-truth-btn"
-        class={["btn", @show_truth && "btn-warning", !@show_truth && "btn-ghost"]}
-        phx-click="toggle_truth"
-      >
-        <%= if @show_truth do %>
-          Hide answers
-        <% else %>
-          Show answers
-        <% end %>
-      </button>
 
       <div class="ml-auto text-sm text-base-content/70">
         Master axis: {format_year(@axis_min)} → {format_year(@axis_max)} ({@axis_max - @axis_min} years)
@@ -66,7 +55,8 @@
           data-axis-max={@axis_max}
           data-ticks={Enum.join(@ticks, ",")}
           data-placed={Enum.join(@placed, ",")}
-          data-show-truth={@show_truth}
+          data-lane-count={@lane_count}
+          data-lane-overrides=""
         >
         </canvas>
 
@@ -81,6 +71,7 @@
               data-guess-start={p.guess_start}
               data-guess-end={p.guess_end}
               data-image-src={p.image_src}
+              data-lane={@lane_by_id[id]}
             />
           <% end %>
         </div>

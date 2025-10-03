@@ -29,9 +29,10 @@ defmodule TimelineWeb.PeriodsLive do
      |> assign(:pool, pool)
      |> assign(:placed, placed)
      |> assign(:score, nil)
-     |> assign(:show_truth, false)
      |> assign(:lanes, lanes)
      |> assign(:id_to_lane, id_to_lane)
+     |> assign(:lane_overrides, %{})
+     |> assign(:lane_by_id, id_to_lane)
      |> assign(:lane_count, lane_count)
      |> assign(:ticks, ticks)}
   end
@@ -56,15 +57,12 @@ defmodule TimelineWeb.PeriodsLive do
      |> assign(:pool, pool)
      |> assign(:placed, placed)
      |> assign(:score, nil)
-     |> assign(:show_truth, false)
      |> assign(:lanes, lanes)
      |> assign(:id_to_lane, id_to_lane)
+     |> assign(:lane_overrides, %{})
+     |> assign(:lane_by_id, id_to_lane)
      |> assign(:lane_count, lane_count)
      |> assign(:ticks, ticks)}
-  end
-
-  def handle_event("toggle_truth", _params, socket) do
-    {:noreply, assign(socket, :show_truth, !socket.assigns.show_truth)}
   end
 
   # Pool -> timeline placement (drag-drop)
@@ -120,6 +118,10 @@ defmodule TimelineWeb.PeriodsLive do
          |> assign(:pool, new_pool)
          |> assign(:placed, new_placed)
          |> assign(:lanes, lanes)
+         |> assign(
+           :lane_by_id,
+           Map.merge(socket.assigns.id_to_lane, socket.assigns.lane_overrides)
+         )
          |> assign(:score, nil)}
     end
   end
@@ -145,6 +147,7 @@ defmodule TimelineWeb.PeriodsLive do
        |> assign(:placed, new_placed)
        |> assign(:pool, new_pool)
        |> assign(:lanes, lanes)
+       |> assign(:lane_by_id, Map.merge(socket.assigns.id_to_lane, socket.assigns.lane_overrides))
        |> assign(:score, nil)}
     else
       {:noreply, socket}
@@ -206,9 +209,29 @@ defmodule TimelineWeb.PeriodsLive do
         )
       end)
 
+    lane_overrides =
+      case Map.get(params, "lane") do
+        nil ->
+          socket.assigns.lane_overrides || %{}
+
+        lane_str ->
+          lc = max((socket.assigns.lane_count || 1) - 1, 0)
+
+          lane_val =
+            parse_int(lane_str, 0)
+            |> max(0)
+            |> min(lc)
+
+          Map.put(socket.assigns.lane_overrides || %{}, id, lane_val)
+      end
+
+    lane_by_id = Map.merge(socket.assigns.id_to_lane, lane_overrides)
+
     {:noreply,
      socket
      |> assign(:periods_by_id, updated)
+     |> assign(:lane_overrides, lane_overrides)
+     |> assign(:lane_by_id, lane_by_id)
      |> assign(:score, nil)}
   end
 
