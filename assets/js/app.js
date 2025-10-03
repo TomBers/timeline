@@ -453,8 +453,8 @@ const hooks = {
       // Config
       this._padding = { left: 40, right: 20, top: 32, bottom: 24 };
       this._headerH = 28;
-      this._laneH = 44;
-      this._laneGap = 12;
+      this._laneH = 88;
+      this._laneGap = 18;
       this._drag = null;
       this._rects = new Map(); // id -> {x,y,w,h,lane}
 
@@ -545,7 +545,23 @@ const hooks = {
         const dpr = window.devicePixelRatio || 1;
         const rect = this.el.getBoundingClientRect();
         // Dynamic height based on placed items
-        const lanes = this._laneCount || Math.max(this._placed.length, 1);
+        const intervalsForSize = this._placed
+          .map((pid) => {
+            const m = this._eventsById[pid];
+            return m ? { s: m.guessStart, e: m.guessEnd } : null;
+          })
+          .filter(Boolean)
+          .sort((a, b) => a.s - b.s || a.e - b.e);
+        let laneEndsCalc = [];
+        intervalsForSize.forEach((iv) => {
+          const idx = laneEndsCalc.findIndex((end) => iv.s >= end);
+          if (idx === -1) {
+            laneEndsCalc.push(iv.e);
+          } else {
+            laneEndsCalc[idx] = iv.e;
+          }
+        });
+        const lanes = Math.max(laneEndsCalc.length, 1);
         const heightCss =
           this._padding.top +
           this._headerH +
@@ -653,7 +669,7 @@ const hooks = {
             gx = targetX;
             this._animX.set(id, gx);
           }
-          const gh = 28;
+          const gh = 56;
 
           // Bar
           ctx.fillStyle = "rgba(37, 99, 235, 0.85)"; // primary/80ish
@@ -676,7 +692,7 @@ const hooks = {
               this._imgCache.set(meta.image, img);
             }
             if (img.complete && img.naturalWidth > 0) {
-              const size = gh - 8;
+              const size = Math.min(gh - 6, 96);
               const ix = gx + 4;
               const iy = y - size / 2;
               ctx.save();
