@@ -833,34 +833,35 @@ const hooks = {
             ctx.fillText(label, labelX, ty);
             ctx.restore();
           } else {
-            // Compute preferred position above the bar
+            // Small bar: draw an external bubble label with dynamic height and centered text
             let tx = gx + Math.max(6, gw) / 2;
-            const tyUp = y - gh / 2 - 14;
-            const bubbleH = 16;
-            const pad = 4;
 
-            // Theme-aware text color
-            {
-              const __bc2b = getComputedStyle(document.documentElement)
-                .getPropertyValue("--bc")
-                .trim();
-              ctx.fillStyle = __bc2b ? `rgb(${__bc2b})` : "#333";
+            // Measure text to compute bubble height
+            const metrics = ctx.measureText(label);
+            const ascent = metrics.actualBoundingBoxAscent || 9;
+            const descent = metrics.actualBoundingBoxDescent || 3;
+            const textH = Math.max(12, ascent + descent);
+            const padH = 6; // horizontal padding
+            const padV = 4; // vertical padding
+            const bubbleH = Math.ceil(textH + padV * 2);
+
+            // Preferred bubble position above the bar with small gap
+            const gap = 6;
+            let bubbleTop = Math.round(y - gh / 2 - gap - bubbleH);
+            const topLimit = this._padding.top + 2;
+
+            // If clipping at the top, flip the bubble below the bar
+            if (bubbleTop < topLimit) {
+              bubbleTop = Math.round(y + gh / 2 + gap);
             }
-
-            const tw = ctx.measureText(label).width;
-
-            // Decide whether to draw above or below to avoid clipping at the top
-            const topLimit = this._padding.top + 2; // keep a small margin from canvas top
-            const willClipTop = tyUp - 10 < topLimit;
-            const ty = willClipTop ? y + gh / 2 + 14 : tyUp;
 
             // Clamp horizontally to canvas content area
             const minX = this._padding.left + 2;
             const maxX = this._padding.left + this._drawW() - 2;
+            const tw = metrics.width;
 
-            // Desired bubble box
-            let boxLeft = tx - tw / 2 - pad;
-            let boxRight = tx + tw / 2 + pad;
+            let boxLeft = Math.round(tx - tw / 2 - padH);
+            let boxRight = Math.round(tx + tw / 2 + padH);
 
             if (boxLeft < minX) {
               const shift = minX - boxLeft;
@@ -877,17 +878,19 @@ const hooks = {
             // background bubble
             ctx.fillStyle = "rgba(255,255,255,0.85)";
             ctx.beginPath();
-            ctx.roundRect(boxLeft, ty - 10, tw + pad * 2, bubbleH, 4);
+            ctx.roundRect(boxLeft, bubbleTop, tw + padH * 2, bubbleH, 4);
             ctx.fill();
 
-            // text
-            {
-              const __bc2a = getComputedStyle(document.documentElement)
-                .getPropertyValue("--bc")
-                .trim();
-              ctx.fillStyle = __bc2a ? `rgb(${__bc2a})` : "#333";
-            }
-            ctx.fillText(label, tx - tw / 2, ty);
+            // text (theme-aware color, vertically centered)
+            const __bc2a = getComputedStyle(document.documentElement)
+              .getPropertyValue("--bc")
+              .trim();
+            ctx.fillStyle = __bc2a ? `rgb(${__bc2a})` : "#333";
+            const textCy = bubbleTop + bubbleH / 2;
+            const oldBaseline = ctx.textBaseline;
+            ctx.textBaseline = "middle";
+            ctx.fillText(label, Math.round(tx - tw / 2), Math.round(textCy));
+            ctx.textBaseline = oldBaseline;
           }
 
           // Save rect for hit-testing
