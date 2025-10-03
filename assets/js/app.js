@@ -777,7 +777,7 @@ const hooks = {
           ctx.stroke();
 
           // Thumbnail (if available)
-          if (meta.image) {
+          if (meta.image && gw >= 140) {
             let img = this._imgCache.get(meta.image);
             if (!img) {
               img = new Image();
@@ -801,9 +801,9 @@ const hooks = {
           }
 
           // Label
-          const label = `${meta.title} (${this._formatYear(meta.start)} → ${this._formatYear(meta.end)})`;
+          const label = `${meta.title}`;
           ctx.font = "12px system-ui, sans-serif";
-          const small = gw < 100;
+          const small = gw < 140;
           ctx.fillStyle = "#fff";
           if (!small) {
             // Offset label to avoid overlapping the thumbnail image and clip to bar interior
@@ -833,21 +833,53 @@ const hooks = {
             ctx.fillText(label, labelX, ty);
             ctx.restore();
           } else {
-            const tx = gx + Math.max(6, gw) / 2;
-            const ty = y - gh / 2 - 14;
+            // Compute preferred position above the bar
+            let tx = gx + Math.max(6, gw) / 2;
+            const tyUp = y - gh / 2 - 14;
+            const bubbleH = 16;
+            const pad = 4;
+
+            // Theme-aware text color
             {
               const __bc2b = getComputedStyle(document.documentElement)
                 .getPropertyValue("--bc")
                 .trim();
               ctx.fillStyle = __bc2b ? `rgb(${__bc2b})` : "#333";
             }
+
             const tw = ctx.measureText(label).width;
+
+            // Decide whether to draw above or below to avoid clipping at the top
+            const topLimit = this._padding.top + 2; // keep a small margin from canvas top
+            const willClipTop = tyUp - 10 < topLimit;
+            const ty = willClipTop ? y + gh / 2 + 14 : tyUp;
+
+            // Clamp horizontally to canvas content area
+            const minX = this._padding.left + 2;
+            const maxX = this._padding.left + this._drawW() - 2;
+
+            // Desired bubble box
+            let boxLeft = tx - tw / 2 - pad;
+            let boxRight = tx + tw / 2 + pad;
+
+            if (boxLeft < minX) {
+              const shift = minX - boxLeft;
+              boxLeft += shift;
+              boxRight += shift;
+              tx += shift;
+            } else if (boxRight > maxX) {
+              const shift = maxX - boxRight;
+              boxLeft += shift;
+              boxRight += shift;
+              tx += shift;
+            }
+
             // background bubble
             ctx.fillStyle = "rgba(255,255,255,0.85)";
-            const pad = 4;
             ctx.beginPath();
-            ctx.roundRect(tx - tw / 2 - pad, ty - 10, tw + pad * 2, 16, 4);
+            ctx.roundRect(boxLeft, ty - 10, tw + pad * 2, bubbleH, 4);
             ctx.fill();
+
             // text
             {
               const __bc2a = getComputedStyle(document.documentElement)
