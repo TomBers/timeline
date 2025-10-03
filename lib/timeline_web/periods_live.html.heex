@@ -1,0 +1,122 @@
+<Layouts.app flash={@flash}>
+  <div id="periods-root" class="space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-bold">Timeline — Periods Mode</h1>
+      <p class="text-base text-base-content/70">
+        For each row, position and scale the bar so it matches the real historic period on the master axis. Then click Score.
+      </p>
+    </header>
+
+    <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
+      <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
+      <button id="reset-btn" class="btn" phx-click="reset">New game</button>
+      <button
+        id="toggle-truth-btn"
+        class={["btn", @show_truth && "btn-warning", !@show_truth && "btn-ghost"]}
+        phx-click="toggle_truth"
+      >
+        <%= if @show_truth do %>
+          Hide answers
+        <% else %>
+          Show answers
+        <% end %>
+      </button>
+
+      <div class="ml-auto text-sm text-base-content/70">
+        Master axis: {format_year(@axis_min)} → {format_year(@axis_max)} ({@axis_max - @axis_min} years)
+      </div>
+    </section>
+
+    <%= if @score do %>
+      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-4">
+        <div class="flex flex-wrap gap-6 items-center">
+          <div>
+            <div class="text-3xl font-extrabold">{@score.avg_iou_pct}%</div>
+            <div class="text-sm text-base-content/70">Average overlap accuracy</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">{@score.mean_abs_start_err} yrs</div>
+            <div class="text-sm text-base-content/70">Avg start error</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">{@score.mean_abs_end_err} yrs</div>
+            <div class="text-sm text-base-content/70">Avg end error</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">{@score.perfect_count} / {@score.total}</div>
+            <div class="text-sm text-base-content/70">Perfect matches</div>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
+    <section
+      id="timeline-lanes"
+      aria-label="timeline-lanes"
+      class="space-y-4"
+    >
+      <div class="rounded-box bg-base-200 p-3">
+        <canvas
+          id="timeline-canvas"
+          width="1600"
+          height="400"
+          class="w-full h-auto block"
+          phx-hook="TimelineCanvas"
+          data-axis-min={@axis_min}
+          data-axis-max={@axis_max}
+          data-ticks={Enum.join(@ticks, ",")}
+          data-placed={Enum.join(@placed, ",")}
+          data-show-truth={@show_truth}
+        >
+        </canvas>
+
+        <div id="timeline-canvas-data" class="hidden">
+          <%= for id <- @order do %>
+            <% p = @periods_by_id[id] %>
+            <div
+              data-id={id}
+              data-title={p.title}
+              data-start={p.start_year}
+              data-end={p.end_year}
+              data-guess-start={p.guess_start}
+              data-guess-end={p.guess_end}
+              data-image-src={p.image_src}
+            />
+          <% end %>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="pool" id="pool" phx-hook="DnDPool" class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Event Pool</h2>
+        <button id="shuffle-btn" class="btn btn-ghost btn-sm" phx-click="shuffle_pool">
+          Shuffle pool
+        </button>
+      </div>
+
+      <%= if @pool == [] do %>
+        <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
+          No remaining events in the pool. Drag more back from the timeline to adjust.
+        </div>
+      <% else %>
+        <div
+          class="grid gap-3"
+          style="grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));"
+        >
+          <%= for id <- @pool do %>
+            <% p = @periods_by_id[id] %>
+            <div
+              id={"pool-#{id}"}
+              data-event-id={id}
+              draggable="true"
+              class="card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-move"
+            >
+              <.event_card event={p} show_link={false} summary_text="Details" />
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</Layouts.app>

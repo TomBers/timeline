@@ -3,6 +3,7 @@ defmodule TimelineWeb.PeriodsLive do
 
   alias Timeline.Periods
   alias Timeline.WikiImages
+  import TimelineWeb.GameComponents
 
   @min_round_size 3
   @max_round_size 20
@@ -11,8 +12,13 @@ defmodule TimelineWeb.PeriodsLive do
 
   @impl true
   def mount(params, _session, socket) do
-    {periods_by_id, order, axis_min, axis_max} = new_game(params)
+    {periods_by_id, order, axis_min, axis_max, pool, placed} = new_game(params)
     start_image_prefetch(periods_by_id)
+
+    {id_to_lane, lane_count} = compute_stable_lanes(periods_by_id, order)
+
+    ticks = build_ticks(axis_min, axis_max)
+    lanes = build_lanes_from_placed(id_to_lane, lane_count, placed)
 
     {:ok,
      socket
@@ -20,265 +26,26 @@ defmodule TimelineWeb.PeriodsLive do
      |> assign(:axis_max, axis_max)
      |> assign(:periods_by_id, periods_by_id)
      |> assign(:order, order)
+     |> assign(:pool, pool)
+     |> assign(:placed, placed)
      |> assign(:score, nil)
-     |> assign(:show_truth, false)}
-  end
-
-  @impl true
-  def render(assigns) do
-    ~H"""
-    <Layouts.app flash={@flash}>
-      <div id="periods-root" class="space-y-6">
-        <header class="space-y-2">
-          <h1 class="text-2xl font-bold">Timeline — Periods Mode</h1>
-          <p class="text-base text-base-content/70">
-            For each row, position and scale the bar so it matches the real historic period on the master axis. Then click Score.
-          </p>
-        </header>
-
-        <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
-          <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
-          <button id="reset-btn" class="btn" phx-click="reset">New game</button>
-          <button
-            id="toggle-truth-btn"
-            class={["btn", @show_truth && "btn-warning", !@show_truth && "btn-ghost"]}
-            phx-click="toggle_truth"
-          >
-            <%= if @show_truth do %>
-              Hide answers
-            <% else %>
-              Show answers
-            <% end %>
-          </button>
-
-          <div class="ml-auto text-sm text-base-content/70">
-            Master axis: {format_year(@axis_min)} → {format_year(@axis_max)} ({@axis_max - @axis_min} years)
-          </div>
-        </section>
-
-        <%= if @score do %>
-          <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-4">
-            <div class="flex flex-wrap gap-6 items-center">
-              <div>
-                <div class="text-3xl font-extrabold">{@score.avg_iou_pct}%</div>
-                <div class="text-sm text-base-content/70">Average overlap accuracy</div>
-              </div>
-              <div>
-                <div class="text-xl font-semibold">{@score.mean_abs_start_err} yrs</div>
-                <div class="text-sm text-base-content/70">Avg start error</div>
-              </div>
-              <div>
-                <div class="text-xl font-semibold">{@score.mean_abs_end_err} yrs</div>
-                <div class="text-sm text-base-content/70">Avg end error</div>
-              </div>
-              <div>
-                <div class="text-xl font-semibold">{@score.perfect_count} / {@score.total}</div>
-                <div class="text-sm text-base-content/70">Perfect matches</div>
-              </div>
-            </div>
-          </section>
-        <% end %>
-
-        <section aria-label="rows" class="space-y-4">
-          <div class="rounded-box bg-base-200 p-3">
-            <div class="relative h-6">
-              <div class="absolute inset-x-0 top-2 h-1 bg-base-300 rounded" />
-              <div class="absolute left-0 -top-1 text-xs">{format_year(@axis_min)}</div>
-              <div class="absolute right-0 -top-1 text-xs">{format_year(@axis_max)}</div>
-            </div>
-          </div>
-
-          <%= for id <- @order do %>
-            <% p = @periods_by_id[id] %>
-
-            <% left_pct = pos_pct(@axis_min, @axis_max, p.guess_start) %>
-            <% width_pct = len_pct(@axis_min, @axis_max, p.guess_start, p.guess_end) %>
-            <% truth_left_pct = pos_pct(@axis_min, @axis_max, p.start_year) %>
-            <% truth_width_pct = len_pct(@axis_min, @axis_max, p.start_year, p.end_year) %>
-            <div id={"row-#{id}"} class="card bg-base-100 border-2 border-base-300">
-              <div class="card-body p-4 space-y-3">
-                <div class="flex items-start gap-3">
-                  <figure :if={p.image_src} class="w-24 shrink-0">
-                    <img
-                      src={p.image_src}
-                      alt={p.title}
-                      class="rounded w-24 h-16 object-cover"
-                      loading="lazy"
-                      referrerpolicy="no-referrer"
-                    />
-                  </figure>
-                  <div class="min-w-0">
-                    <div class="font-semibold">{p.title}</div>
-                    <p :if={p.description} class="text-xs text-base-content/70 line-clamp-2">
-                      {p.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  id={"track-#{id}"}
-                  class="relative rounded bg-base-200 border border-base-300 h-12 overflow-hidden"
-                  phx-hook="PeriodRange"
-                  data-axis-min={@axis_min}
-                  data-axis-max={@axis_max}
-                  data-id={id}
-                  data-guess-start={p.guess_start}
-                  data-guess-end={p.guess_end}
-                >
-                  <div class="absolute inset-x-0 top-5 h-px bg-base-300" />
-
-                  <div
-                    :if={@show_truth}
-                    class="absolute top-1/2 -translate-y-1/2 h-6 border-2 border-warning/80 bg-warning/10 rounded flex items-center"
-                    style={"left: #{truth_left_pct}%; width: #{truth_width_pct}%; min-width: 2px"}
-                    title="Correct range"
-                  >
-                    <div class="w-2 h-full bg-warning/80 rounded-l" />
-                    <div class="w-2 h-full bg-warning/80 rounded-r ml-auto" />
-                  </div>
-
-                  <div
-                    class="absolute top-1/2 -translate-y-1/2 h-8 bg-primary/80 rounded text-primary-content flex items-center shadow"
-                    style={"left: #{left_pct}%; width: #{width_pct}%; min-width: 6px"}
-                    data-role="guess"
-                    data-id={id}
-                    title="Drag to move, drag handles to resize"
-                  >
-                    <div
-                      class="w-3 h-full bg-primary/90 rounded-l cursor-ew-resize"
-                      data-role="handle"
-                      data-edge="start"
-                      title="Drag to adjust start"
-                    />
-                    <div class="px-2 text-xs whitespace-nowrap overflow-hidden text-ellipsis">
-                      Guess: {format_year(p.guess_start)} → {format_year(p.guess_end)}
-                    </div>
-                    <div
-                      class="w-3 h-full bg-primary/90 rounded-r ml-auto cursor-ew-resize"
-                      data-role="handle"
-                      data-edge="end"
-                      title="Drag to adjust end"
-                    />
-                  </div>
-                </div>
-
-                <div class="flex flex-wrap gap-2 items-center justify-between">
-                  <div class="flex gap-2 items-center">
-                    <button
-                      class="btn btn-xs"
-                      phx-click="nudge"
-                      phx-value-id={id}
-                      phx-value-delta="-10"
-                    >
-                      ← 10y
-                    </button>
-                    <button
-                      class="btn btn-xs"
-                      phx-click="nudge"
-                      phx-value-id={id}
-                      phx-value-delta="-1"
-                    >
-                      ← 1y
-                    </button>
-                    <button class="btn btn-xs" phx-click="nudge" phx-value-id={id} phx-value-delta="1">
-                      1y →
-                    </button>
-                    <button
-                      class="btn btn-xs"
-                      phx-click="nudge"
-                      phx-value-id={id}
-                      phx-value-delta="10"
-                    >
-                      10y →
-                    </button>
-                  </div>
-
-                  <div class="flex gap-2 items-center">
-                    <button
-                      class="btn btn-xs btn-ghost"
-                      phx-click="resize"
-                      phx-value-id={id}
-                      phx-value-edge="start"
-                      phx-value-delta="-1"
-                      title="Extend start earlier"
-                    >
-                      start -
-                    </button>
-                    <button
-                      class="btn btn-xs btn-ghost"
-                      phx-click="resize"
-                      phx-value-id={id}
-                      phx-value-edge="start"
-                      phx-value-delta="1"
-                      title="Move start later"
-                    >
-                      start +
-                    </button>
-                    <button
-                      class="btn btn-xs btn-ghost"
-                      phx-click="resize"
-                      phx-value-id={id}
-                      phx-value-edge="end"
-                      phx-value-delta="-1"
-                      title="Move end earlier"
-                    >
-                      end -
-                    </button>
-                    <button
-                      class="btn btn-xs btn-ghost"
-                      phx-click="resize"
-                      phx-value-id={id}
-                      phx-value-edge="end"
-                      phx-value-delta="1"
-                      title="Extend end later"
-                    >
-                      end +
-                    </button>
-                  </div>
-
-                  <div class="flex gap-2 items-center text-xs text-base-content/70">
-                    <span>Fallback sliders:</span>
-                    <form
-                      phx-change="set_guess"
-                      phx-debounce="150"
-                      phx-value-id={id}
-                      class="flex gap-2 items-center"
-                    >
-                      <input
-                        type="range"
-                        id={"range-start-#{id}"}
-                        name="guess_start"
-                        value={p.guess_start}
-                        min={@axis_min}
-                        max={p.guess_end - 1}
-                        step="1"
-                      />
-                      <input
-                        type="range"
-                        id={"range-end-#{id}"}
-                        name="guess_end"
-                        value={p.guess_end}
-                        min={p.guess_start + 1}
-                        max={@axis_max}
-                        step="1"
-                      />
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </section>
-      </div>
-    </Layouts.app>
-    """
+     |> assign(:show_truth, false)
+     |> assign(:lanes, lanes)
+     |> assign(:id_to_lane, id_to_lane)
+     |> assign(:lane_count, lane_count)
+     |> assign(:ticks, ticks)}
   end
 
   @impl true
   def handle_event("reset", _params, socket) do
     size = socket.assigns.order |> length()
-    {periods_by_id, order, axis_min, axis_max} = new_game(%{"size" => size})
+    {periods_by_id, order, axis_min, axis_max, pool, placed} = new_game(%{"size" => size})
     start_image_prefetch(periods_by_id)
+
+    {id_to_lane, lane_count} = compute_stable_lanes(periods_by_id, order)
+
+    ticks = build_ticks(axis_min, axis_max)
+    lanes = build_lanes_from_placed(id_to_lane, lane_count, placed)
 
     {:noreply,
      socket
@@ -286,12 +53,107 @@ defmodule TimelineWeb.PeriodsLive do
      |> assign(:axis_max, axis_max)
      |> assign(:periods_by_id, periods_by_id)
      |> assign(:order, order)
+     |> assign(:pool, pool)
+     |> assign(:placed, placed)
      |> assign(:score, nil)
-     |> assign(:show_truth, false)}
+     |> assign(:show_truth, false)
+     |> assign(:lanes, lanes)
+     |> assign(:id_to_lane, id_to_lane)
+     |> assign(:lane_count, lane_count)
+     |> assign(:ticks, ticks)}
   end
 
   def handle_event("toggle_truth", _params, socket) do
     {:noreply, assign(socket, :show_truth, !socket.assigns.show_truth)}
+  end
+
+  # Pool -> timeline placement (drag-drop)
+  def handle_event("place_from_pool", %{"id" => id} = params, socket) do
+    pool = socket.assigns.pool
+    placed = socket.assigns.placed
+
+    # Ignore if already placed or not in pool
+    cond do
+      id in placed ->
+        {:noreply, socket}
+
+      is_nil(Enum.find(pool, &(&1 == id))) ->
+        {:noreply, socket}
+
+      true ->
+        # Optionally set initial guess centered under the drop year if provided
+        {periods_by_id, new_placed} =
+          case Map.get(params, "drop_year") do
+            nil ->
+              {socket.assigns.periods_by_id, placed ++ [id]}
+
+            drop_year_str ->
+              axis_min = socket.assigns.axis_min
+              axis_max = socket.assigns.axis_max
+              drop_year = parse_int(drop_year_str, axis_min)
+
+              p = Map.fetch!(socket.assigns.periods_by_id, id)
+              dur = max(p.guess_end - p.guess_start, @min_duration_years)
+
+              start =
+                drop_year
+                |> Kernel.-(div(dur, 2))
+                |> max(axis_min)
+                |> min(axis_max - dur)
+
+              updated_p = %{p | guess_start: start, guess_end: start + dur}
+              {Map.put(socket.assigns.periods_by_id, id, updated_p), placed ++ [id]}
+          end
+
+        new_pool = Enum.reject(pool, &(&1 == id))
+
+        lanes =
+          build_lanes_from_placed(
+            socket.assigns.id_to_lane,
+            socket.assigns.lane_count,
+            new_placed
+          )
+
+        {:noreply,
+         socket
+         |> assign(:periods_by_id, periods_by_id)
+         |> assign(:pool, new_pool)
+         |> assign(:placed, new_placed)
+         |> assign(:lanes, lanes)
+         |> assign(:score, nil)}
+    end
+  end
+
+  # Remove from timeline lane back to pool
+  def handle_event("remove_from_lane", %{"id" => id}, socket) do
+    placed = socket.assigns.placed
+    pool = socket.assigns.pool
+
+    if id in placed do
+      new_placed = Enum.reject(placed, &(&1 == id))
+      new_pool = [id | pool]
+
+      lanes =
+        build_lanes_from_placed(
+          socket.assigns.id_to_lane,
+          socket.assigns.lane_count,
+          new_placed
+        )
+
+      {:noreply,
+       socket
+       |> assign(:placed, new_placed)
+       |> assign(:pool, new_pool)
+       |> assign(:lanes, lanes)
+       |> assign(:score, nil)}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  # Optional: re-order pool for UX
+  def handle_event("shuffle_pool", _params, socket) do
+    {:noreply, assign(socket, :pool, Enum.shuffle(socket.assigns.pool))}
   end
 
   def handle_event("nudge", %{"id" => id, "delta" => delta_str}, socket) do
@@ -302,7 +164,10 @@ defmodule TimelineWeb.PeriodsLive do
         move_guess(p, delta, socket.assigns.axis_min, socket.assigns.axis_max)
       end)
 
-    {:noreply, socket |> assign(:periods_by_id, updated) |> assign(:score, nil)}
+    {:noreply,
+     socket
+     |> assign(:periods_by_id, updated)
+     |> assign(:score, nil)}
   end
 
   def handle_event("resize", %{"id" => id, "edge" => edge, "delta" => delta_str}, socket) do
@@ -313,7 +178,10 @@ defmodule TimelineWeb.PeriodsLive do
         resize_guess(p, edge, delta, socket.assigns.axis_min, socket.assigns.axis_max)
       end)
 
-    {:noreply, socket |> assign(:periods_by_id, updated) |> assign(:score, nil)}
+    {:noreply,
+     socket
+     |> assign(:periods_by_id, updated)
+     |> assign(:score, nil)}
   end
 
   def handle_event("set_guess", %{"id" => id} = params, socket) do
@@ -338,7 +206,10 @@ defmodule TimelineWeb.PeriodsLive do
         )
       end)
 
-    {:noreply, socket |> assign(:periods_by_id, updated) |> assign(:score, nil)}
+    {:noreply,
+     socket
+     |> assign(:periods_by_id, updated)
+     |> assign(:score, nil)}
   end
 
   def handle_event("score", _params, socket) do
@@ -376,8 +247,10 @@ defmodule TimelineWeb.PeriodsLive do
         {:noreply, socket}
 
       period ->
-        updated = Map.put(socket.assigns.periods_by_id, id, Map.put(period, :image_src, url))
-        {:noreply, assign(socket, :periods_by_id, updated)}
+        updated_by_id =
+          Map.put(socket.assigns.periods_by_id, id, Map.put(period, :image_src, url))
+
+        {:noreply, assign(socket, :periods_by_id, updated_by_id)}
     end
   end
 
@@ -420,20 +293,115 @@ defmodule TimelineWeb.PeriodsLive do
       |> min(total)
       |> max(0)
 
-    sample =
-      base_periods
-      |> Enum.take_random(size)
-      |> Enum.sort_by(fn p -> {p.start_year, p.end_year, p.title} end)
+    # Optional scoping: explicit axis_min/axis_max or a limited window (in years)
+    {base_scoped, forced_axis} =
+      case params do
+        %{} ->
+          ax_min_s = Map.get(params, "axis_min")
+          ax_max_s = Map.get(params, "axis_max")
+          window_s = Map.get(params, "window_years") || Map.get(params, "window")
 
-    axis_min =
-      sample
-      |> Enum.map(& &1.start_year)
-      |> Enum.min(fn -> 0 end)
+          cond do
+            is_binary(ax_min_s) and is_binary(ax_max_s) ->
+              case {Integer.parse(ax_min_s), Integer.parse(ax_max_s)} do
+                {{min_i, _}, {max_i, _}} ->
+                  min_v = min(min_i, max_i)
+                  max_v = max(min_i, max_i)
 
-    axis_max =
-      sample
-      |> Enum.map(& &1.end_year)
-      |> Enum.max(fn -> 1 end)
+                  filtered =
+                    Enum.filter(base_periods, fn p ->
+                      p.end_year >= min_v and p.start_year <= max_v
+                    end)
+
+                  {filtered, {min_v, max_v}}
+
+                _ ->
+                  {base_periods, nil}
+              end
+
+            is_binary(window_s) ->
+              case Integer.parse(window_s) do
+                {win, _} when win > 0 ->
+                  # Use the median midpoint as the window center for a denser round
+                  mids =
+                    base_periods
+                    |> Enum.map(fn p -> div(p.start_year + p.end_year, 2) end)
+                    |> Enum.sort()
+
+                  center =
+                    case mids do
+                      [] -> 0
+                      _ -> Enum.at(mids, div(length(mids), 2)) || 0
+                    end
+
+                  min_v = center - div(win, 2)
+                  max_v = min_v + win
+
+                  filtered =
+                    Enum.filter(base_periods, fn p ->
+                      p.end_year >= min_v and p.start_year <= max_v
+                    end)
+
+                  {filtered, {min_v, max_v}}
+
+                _ ->
+                  {base_periods, nil}
+              end
+
+            true ->
+              {base_periods, nil}
+          end
+
+        _ ->
+          {base_periods, nil}
+      end
+
+    # Anchor-based windowing: pick a random anchor, then pick nearest (by midpoint) events to fill the round
+    {sample, _anchor} =
+      if size > 0 and base_scoped != [] do
+        anchor =
+          case base_scoped do
+            [] -> nil
+            bs -> Enum.random(bs)
+          end
+
+        others = Enum.reject(base_scoped, &(&1 == anchor))
+
+        anchor_mid =
+          case anchor do
+            nil -> 0
+            a -> div(a.start_year + a.end_year, 2)
+          end
+
+        others_sorted =
+          Enum.sort_by(others, fn p -> abs(div(p.start_year + p.end_year, 2) - anchor_mid) end)
+
+        take_n = max(size - 1, 0) |> min(length(others_sorted))
+
+        selected =
+          case anchor do
+            nil -> Enum.take(base_scoped, size)
+            a -> [a | Enum.take(others_sorted, take_n)]
+          end
+
+        {Enum.sort_by(selected, fn p -> {p.start_year, p.end_year, p.title} end), anchor}
+      else
+        {[], nil}
+      end
+
+    # When no axis is forced, set axis to the extremes of the selected sample
+    # so at least one event touches the leftmost (min start) and one the rightmost (max end).
+    {axis_min, axis_max} =
+      case forced_axis do
+        {amin, amax} ->
+          {amin, amax}
+
+        _ ->
+          {
+            sample |> Enum.map(& &1.start_year) |> Enum.min(fn -> 0 end),
+            sample |> Enum.map(& &1.end_year) |> Enum.max(fn -> 1 end)
+          }
+      end
 
     span = max(axis_max - axis_min, 1)
 
@@ -471,8 +439,10 @@ defmodule TimelineWeb.PeriodsLive do
 
     periods_by_id = Map.new(with_meta, &{&1.id, &1})
     order = Enum.map(with_meta, & &1.id)
+    pool = order
+    placed = []
 
-    {periods_by_id, order, axis_min, axis_max}
+    {periods_by_id, order, axis_min, axis_max, pool, placed}
   end
 
   defp update_guess(periods_by_id, id, fun) when is_function(fun, 1) do
@@ -625,5 +595,64 @@ defmodule TimelineWeb.PeriodsLive do
 
   defp sanitize_image_src(url) do
     if placeholder_image?(url), do: nil, else: url
+  end
+
+  # Stable lane assignment computed once from truth ranges (prevents lane flipping during drags)
+  defp compute_stable_lanes(periods_by_id, order) when is_map(periods_by_id) and is_list(order) do
+    periods =
+      order
+      |> Enum.map(&Map.fetch!(periods_by_id, &1))
+      |> Enum.sort_by(fn p -> {p.start_year, p.end_year, p.id} end)
+
+    {_lanes_acc, id_to_lane, ends_acc} =
+      Enum.reduce(periods, {[], %{}, []}, fn p, {lanes_acc, id_to_lane_acc, ends} ->
+        case Enum.find_index(ends, fn last_end -> p.start_year >= last_end end) do
+          nil ->
+            idx = length(ends)
+            {lanes_acc ++ [[p.id]], Map.put(id_to_lane_acc, p.id, idx), ends ++ [p.end_year]}
+
+          idx ->
+            new_ends = List.replace_at(ends, idx, p.end_year)
+            new_lanes = List.update_at(lanes_acc, idx, fn ids -> ids ++ [p.id] end)
+            {new_lanes, Map.put(id_to_lane_acc, p.id, idx), new_ends}
+        end
+      end)
+
+    lane_count = length(ends_acc)
+    {id_to_lane, lane_count}
+  end
+
+  defp build_lanes_from_placed(id_to_lane, lane_count, placed_ids) do
+    lanes = for _ <- 1..lane_count, do: []
+
+    Enum.reduce(placed_ids, lanes, fn id, acc ->
+      lane = Map.get(id_to_lane, id, 0)
+      List.update_at(acc, lane, fn ids -> ids ++ [id] end)
+    end)
+  end
+
+  defp build_ticks(axis_min, axis_max) when is_integer(axis_min) and is_integer(axis_max) do
+    span = max(axis_max - axis_min, 1)
+    target = 8.0
+    raw_step = span / target
+    mag = :math.pow(10.0, :math.floor(:math.log10(raw_step)))
+    norm = raw_step / mag
+
+    base =
+      cond do
+        norm <= 1.0 -> 1.0
+        norm <= 2.0 -> 2.0
+        norm <= 5.0 -> 5.0
+        true -> 10.0
+      end
+
+    step = trunc(base * mag)
+    step = if step <= 0, do: 1, else: step
+
+    start_tick = trunc(:math.floor(axis_min / step)) * step
+    end_tick = trunc(:math.ceil(axis_max / step)) * step
+
+    Stream.iterate(start_tick, &(&1 + step))
+    |> Enum.take_while(&(&1 <= end_tick))
   end
 end
