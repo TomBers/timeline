@@ -31,13 +31,45 @@ defmodule TimelineWeb.Layouts do
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
 
+  attr :active_mode, :atom,
+    values: [:main, :periods, nil],
+    default: nil,
+    doc: "active mode for header highlighting"
+
   slot :inner_block, required: true
 
   def app(assigns) do
     ~H"""
     <header class="navbar px-4 sm:px-6 lg:px-8">
       <div class="flex-1"></div>
-      <div class="flex-none">
+      <div class="flex-none flex items-center gap-3">
+        <nav class="flex items-center gap-2 text-sm">
+          <span class="opacity-70 hidden sm:inline">Mode:</span>
+          <.link
+            navigate={~p"/"}
+            class={[
+              "btn btn-xs",
+              @active_mode == :main && "btn-primary",
+              @active_mode != :main && "btn-ghost btn-soft"
+            ]}
+            data-mode="main"
+            aria-current={@active_mode == :main && "page"}
+          >
+            Main
+          </.link>
+          <.link
+            navigate={~p"/periods"}
+            class={[
+              "btn btn-xs",
+              @active_mode == :periods && "btn-primary",
+              @active_mode != :periods && "btn-ghost btn-soft"
+            ]}
+            data-mode="periods"
+            aria-current={@active_mode == :periods && "page"}
+          >
+            Periods
+          </.link>
+        </nav>
         <ul class="flex flex-column px-1 space-x-4 items-center">
           <li>
             <.theme_toggle />

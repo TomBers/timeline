@@ -1,0 +1,794 @@
+[
+  {
+    "title": "Bronze Age",
+    "image_src": "https://via.placeholder.com/640x360?text=Bronze+Age",
+    "description": "A period characterized by the use of bronze tools and weapons, the rise of early civilizations, and the development of writing systems.",
+    "weblink": "https://en.wikipedia.org/wiki/Bronze_Age",
+    "start_year": -3300,
+    "end_year": -1200
+  },
+  {
+    "title": "Iron Age",
+    "image_src": "https://via.placeholder.com/640x360?text=Iron+Age",
+    "description": "The period when iron replaced bronze as the primary metal for tools and weapons, enabling stronger implements and military equipment.",
+    "weblink": "https://en.wikipedia.org/wiki/Iron_Age",
+    "start_year": -1200,
+    "end_year": -600
+  },
+  {
+    "title": "Classical Antiquity",
+    "image_src": "https://via.placeholder.com/640x360?text=Classical+Antiquity",
+    "description": "The era of ancient Greek and Roman civilizations, marked by remarkable achievements in philosophy, art, literature, and government.",
+    "weblink": "https://en.wikipedia.org/wiki/Classical_antiquity",
+    "start_year": -800,
+    "end_year": 476
+  },
+  {
+    "title": "Roman Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Roman+Empire",
+    "description": "One of history's most influential empires, stretching across Europe, North Africa, and the Middle East, establishing law, engineering, and governance systems still influential today.",
+    "weblink": "https://en.wikipedia.org/wiki/Roman_Empire",
+    "start_year": -27,
+    "end_year": 476
+  },
+  {
+    "title": "Byzantine Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Byzantine+Empire",
+    "description": "The continuation of the Roman Empire in the East, preserving classical knowledge and serving as a bridge between ancient and modern civilizations.",
+    "weblink": "https://en.wikipedia.org/wiki/Byzantine_Empire",
+    "start_year": 330,
+    "end_year": 1453
+  },
+  {
+    "title": "Middle Ages (Medieval Period)",
+    "image_src": "https://via.placeholder.com/640x360?text=Middle+Ages",
+    "description": "The period between the fall of Rome and the Renaissance, characterized by feudalism, the power of the Catholic Church, and the development of European nations.",
+    "weblink": "https://en.wikipedia.org/wiki/Middle_Ages",
+    "start_year": 476,
+    "end_year": 1453
+  },
+  {
+    "title": "Viking Age",
+    "image_src": "https://via.placeholder.com/640x360?text=Viking+Age",
+    "description": "The period of Scandinavian expansion through exploration, trade, and raids across Europe, reaching as far as North America and the Middle East.",
+    "weblink": "https://en.wikipedia.org/wiki/Viking_Age",
+    "start_year": 793,
+    "end_year": 1066
+  },
+  {
+    "title": "Islamic Golden Age",
+    "image_src": "https://via.placeholder.com/640x360?text=Islamic+Golden+Age",
+    "description": "A period of remarkable scientific, cultural, and economic flourishing in the Islamic world, with advances in mathematics, astronomy, medicine, and philosophy.",
+    "weblink": "https://en.wikipedia.org/wiki/Islamic_Golden_Age",
+    "start_year": 786,
+    "end_year": 1258
+  },
+  {
+    "title": "The Crusades",
+    "image_src": "https://via.placeholder.com/640x360?text=Crusades",
+    "description": "A series of religious wars between Christians and Muslims, primarily focused on control of the Holy Land, that shaped relations between East and West.",
+    "weblink": "https://en.wikipedia.org/wiki/Crusades",
+    "start_year": 1095,
+    "end_year": 1291
+  },
+  {
+    "title": "Mongol Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Mongol+Empire",
+    "description": "The largest contiguous land empire in history, stretching from Eastern Europe to East Asia, facilitating trade and cultural exchange along the Silk Road.",
+    "weblink": "https://en.wikipedia.org/wiki/Mongol_Empire",
+    "start_year": 1206,
+    "end_year": 1368
+  },
+  {
+    "title": "Hundred Years' War",
+    "image_src": "https://via.placeholder.com/640x360?text=Hundred+Years+War",
+    "description": "A series of conflicts between England and France over succession to the French throne, featuring notable figures like Joan of Arc.",
+    "weblink": "https://en.wikipedia.org/wiki/Hundred_Years%27_War",
+    "start_year": 1337,
+    "end_year": 1453
+  },
+  {
+    "title": "Renaissance",
+    "image_src": "https://via.placeholder.com/640x360?text=Renaissance",
+    "description": "A cultural rebirth in Europe marked by renewed interest in classical learning, groundbreaking art, and scientific advancement.",
+    "weblink": "https://en.wikipedia.org/wiki/Renaissance",
+    "start_year": 1300,
+    "end_year": 1600
+  },
+  {
+    "title": "Age of Discovery",
+    "image_src": "https://via.placeholder.com/640x360?text=Age+of+Discovery",
+    "description": "European exploration and colonization of the Americas, Africa, and Asia, fundamentally altering global trade, culture, and power dynamics.",
+    "weblink": "https://en.wikipedia.org/wiki/Age_of_Discovery",
+    "start_year": 1418,
+    "end_year": 1620
+  },
+  {
+    "title": "Ottoman Empire",
+    "image_src": "https://via.placeholder.com/640x360?text=Ottoman+Empire",
+    "description": "A powerful Islamic empire controlling much of Southeast Europe, Western Asia, and North Africa, bridging East and West for over 600 years.",
+    "weblink": "https://en.wikipedia.org/wiki/Ottoman_Empire",
+    "start_year": 1299,
+    "end_year": 1922
+  },
+  {
+    "title": "Protestant Reformation",
+    "image_src": "https://via.placeholder.com/640x360?text=Protestant+Reformation",
+    "description": "A major movement that challenged Catholic Church authority and split Western Christianity into Catholic and Protestant branches.",
+    "weblink": "https://en.wikipedia.org/wiki/Protestant_Reformation",
+    "start_year": 1517,
+    "end_year": 1648
+  },
+  {
+    "title": "Thirty Years' War",
+    "image_src": "https://via.placeholder.com/640x360?text=Thirty+Years+War",
+    "description": "One of Europe's most destructive conflicts, beginning as a religious war and evolving into a broader political struggle that devastated Central Europe.",
+    "weblink": "https://en.wikipedia.org/wiki/Thirty_Years%27_War",
+    "start_year": 1618,
+    "end_year": 1648
+  },
+  {
+    "title": "The Enlightenment",
+    "image_src": "https://via.placeholder.com/640x360?text=Enlightenment",
+    "description": "An intellectual movement emphasizing reason, science, and individual rights that shaped modern democratic thought and scientific method.",
+    "weblink": "https://en.wikipedia.org/wiki/Age_of_Enlightenment",
+    "start_year": 1685,
+    "end_year": 1815
+  },
+  {
+    "title": "Qing Dynasty",
+    "image_src": "https://via.placeholder.com/640x360?text=Qing+Dynasty",
+    "description": "China's last imperial dynasty, which expanded Chinese territory to its greatest extent before declining due to internal rebellion and foreign intervention.",
+    "weblink": "https://en.wikipedia.org/wiki/Qing_dynasty",
+    "start_year": 1644,
+    "end_year": 1912
+  },
+  {
+    "title": "Seven Years' War",
+    "image_src": "https://via.placeholder.com/640x360?text=Seven+Years+War",
+    "description": "A global conflict involving all major European powers, fought across five continents, often considered the first 'world war.'",
+    "weblink": "https://en.wikipedia.org/wiki/Seven_Years%27_War",
+    "start_year": 1756,
+    "end_year": 1763
+  },
+  {
+    "title": "American Revolutionary War",
+    "image_src": "https://via.placeholder.com/640x360?text=American+Revolution",
+    "description": "The Thirteen Colonies fought for independence from Britain, establishing the United States and inspiring democratic movements worldwide.",
+    "weblink": "https://en.wikipedia.org/wiki/American_Revolutionary_War",
+    "start_year": 1775,
+    "end_year": 1783
+  },
+  {
+    "title": "French Revolutionary Wars",
+    "image_src": "https://via.placeholder.com/640x360?text=French+Revolutionary+Wars",
+    "description": "A series of conflicts between revolutionary France and various European coalitions that reshaped European politics and borders.",
+    "weblink": "https://en.wikipedia.org/wiki/French_Revolutionary_Wars",
+    "start_year": 1792,
+    "end_year": 1802
+  },
+  {
+    "title": "Napoleonic Wars",
+    "image_src": "https://via.placeholder.com/640x360?text=Napoleonic+Wars",
+    "description": "Napoleon's campaigns to dominate Europe, ending with his defeat and exile, but permanently altering European political boundaries and institutions.",
+    "weblink": "https://en.wikipedia.org/wiki/Napoleonic_Wars",
+    "start_year": 1803,
+    "end_year": 1815
+  },
+  {
+    "title": "Industrial Revolution",
+    "image_src": "https://via.placeholder.com/640x360?text=Industrial+Revolution",
+    "description": "The transition to machine manufacturing, urbanization, and mass production that transformed economies and societies worldwide.",
+    "weblink": "https://en.wikipedia.org/wiki/Industrial_Revolution",
+    "start_year": 1760,
+    "end_year": 1840
+  },
+  {
+    "title": "Victorian Era",
+    "image_src": "https://via.placeholder.com/640x360?text=Victorian+Era",
+    "description": "The period of Queen Victoria's reign saw Britain become the world's foremost power, with massive industrial, cultural, and imperial expansion.",
+    "weblink": "https://en.wikipedia.org/wiki/Victorian_era",
+    "start_year": 1837,
+    "end_year": 1901
+  },
+  {
+    "title": "American Civil War",
+    "image_src": "https://via.placeholder.com/640x360?text=Civil+War",
+    "description": "The deadliest conflict in American history, fought between Union and Confederate states over slavery and states' rights.",
+    "weblink": "https://en.wikipedia.org/wiki/American_Civil_War",
+    "start_year": 1861,
+    "end_year": 1865
+  },
+  {
+    "title": "Reconstruction Era",
+    "image_src": "https://via.placeholder.com/640x360?text=Reconstruction",
+    "description": "The period after the Civil War when the US attempted to rebuild the South and integrate formerly enslaved people into society.",
+    "weblink": "https://en.wikipedia.org/wiki/Reconstruction_era",
+    "start_year": 1865,
+    "end_year": 1877
+  },
+  {
+    "title": "Gilded Age",
+    "image_src": "https://via.placeholder.com/640x360?text=Gilded+Age",
+    "description": "An era of rapid American economic growth and industrialization, marked by both great wealth and stark inequality.",
+    "weblink": "https://en.wikipedia.org/wiki/Gilded_Age",
+    "start_year": 1870,
+    "end_year": 1900
+  },
+  {
+    "title": "Scramble for Africa",
+    "image_src": "https://via.placeholder.com/640x360?text=Scramble+for+Africa",
+    "description": "European powers rapidly colonized and partitioned nearly the entire African continent, with lasting impacts on African nations.",
+    "weblink": "https://en.wikipedia.org/wiki/Scramble_for_Africa",
+    "start_year": 1881,
+    "end_year": 1914
+  },
+  {
+    "title": "Belle Époque",
+    "image_src": "https://via.placeholder.com/640x360?text=Belle+Epoque",
+    "description": "A period of optimism, peace, and cultural flourishing in Europe, particularly France, before World War I shattered this golden age.",
+    "weblink": "https://en.wikipedia.org/wiki/Belle_%C3%89poque",
+    "start_year": 1871,
+    "end_year": 1914
+  },
+  {
+    "title": "Progressive Era",
+    "image_src": "https://via.placeholder.com/640x360?text=Progressive+Era",
+    "description": "A period of American social activism and political reform aimed at addressing problems caused by industrialization and urbanization.",
+    "weblink": "https://en.wikipedia.org/wiki/Progressive_Era",
+    "start_year": 1890,
+    "end_year": 1920
+  },
+  {
+    "title": "World War I",
+    "image_src": "https://via.placeholder.com/640x360?text=World+War+I",
+    "description": "The Great War devastated Europe, killed millions, and ended several empires, fundamentally reshaping the modern world.",
+    "weblink": "https://en.wikipedia.org/wiki/World_War_I",
+    "start_year": 1914,
+    "end_year": 1918
+  },
+  {
+    "title": "Russian Civil War",
+    "image_src": "https://via.placeholder.com/640x360?text=Russian+Civil+War",
+    "description": "A multi-party conflict following the Russian Revolution that resulted in Bolshevik victory and the establishment of the Soviet Union.",
+    "weblink": "https://en.wikipedia.org/wiki/Russian_Civil_War",
+    "start_year": 1917,
+    "end_year": 1922
+  },
+  {
+    "title": "Roaring Twenties",
+    "image_src": "https://via.placeholder.com/640x360?text=Roaring+Twenties",
+    "description": "A decade of economic prosperity, cultural dynamism, and social change, particularly in the United States, before the Great Depression.",
+    "weblink": "https://en.wikipedia.org/wiki/Roaring_Twenties",
+    "start_year": 1920,
+    "end_year": 1929
+  },
+  {
+    "title": "Great Depression",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Depression",
+    "description": "The worst economic downturn in modern history, causing widespread unemployment, poverty, and political instability worldwide.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Depression",
+    "start_year": 1929,
+    "end_year": 1939
+  },
+  {
+    "title": "Spanish Civil War",
+    "image_src": "https://via.placeholder.com/640x360?text=Spanish+Civil+War",
+    "description": "A devastating conflict between Republicans and Nationalists that became a proxy war for fascist and communist powers, foreshadowing World War II.",
+    "weblink": "https://en.wikipedia.org/wiki/Spanish_Civil_War",
+    "start_year": 1936,
+    "end_year": 1939
+  },
+  {
+    "title": "World War II",
+    "image_src": "https://via.placeholder.com/640x360?text=World+War+II",
+    "description": "The deadliest and most widespread war in history, involving most of the world's nations and resulting in over 70 million deaths.",
+    "weblink": "https://en.wikipedia.org/wiki/World_War_II",
+    "start_year": 1939,
+    "end_year": 1945
+  },
+  {
+    "title": "The Holocaust",
+    "image_src": "https://via.placeholder.com/640x360?text=Holocaust",
+    "description": "Nazi Germany's systematic genocide of six million Jews and millions of others, representing one of history's greatest atrocities.",
+    "weblink": "https://en.wikipedia.org/wiki/The_Holocaust",
+    "start_year": 1941,
+    "end_year": 1945
+  },
+  {
+    "title": "Cold War",
+    "image_src": "https://via.placeholder.com/640x360?text=Cold+War",
+    "description": "Decades of geopolitical tension between the United States and Soviet Union, characterized by proxy wars, nuclear arms race, and ideological conflict.",
+    "weblink": "https://en.wikipedia.org/wiki/Cold_War",
+    "start_year": 1947,
+    "end_year": 1991
+  },
+  {
+    "title": "Decolonization of Africa and Asia",
+    "image_src": "https://via.placeholder.com/640x360?text=Decolonization",
+    "description": "The process by which former colonies gained independence from European powers, reshaping the global political landscape.",
+    "weblink": "https://en.wikipedia.org/wiki/Decolonization",
+    "start_year": 1945,
+    "end_year": 1975
+  },
+  {
+    "title": "Chinese Civil War",
+    "image_src": "https://via.placeholder.com/640x360?text=Chinese+Civil+War",
+    "description": "The conflict between Nationalists and Communists that resulted in the establishment of the People's Republic of China.",
+    "weblink": "https://en.wikipedia.org/wiki/Chinese_Civil_War",
+    "start_year": 1927,
+    "end_year": 1949
+  },
+  {
+    "title": "Korean War",
+    "image_src": "https://via.placeholder.com/640x360?text=Korean+War",
+    "description": "A proxy war between communist and capitalist powers that left Korea divided and tensions that persist to this day.",
+    "weblink": "https://en.wikipedia.org/wiki/Korean_War",
+    "start_year": 1950,
+    "end_year": 1953
+  },
+  {
+    "title": "Space Race",
+    "image_src": "https://via.placeholder.com/640x360?text=Space+Race",
+    "description": "The competition between the US and USSR for supremacy in spaceflight capability, driving technological advancement and culminating in the Moon landing.",
+    "weblink": "https://en.wikipedia.org/wiki/Space_Race",
+    "start_year": 1955,
+    "end_year": 1975
+  },
+  {
+    "title": "Civil Rights Movement",
+    "image_src": "https://via.placeholder.com/640x360?text=Civil+Rights",
+    "description": "The struggle by African Americans to end racial discrimination and gain equal rights under the law in the United States.",
+    "weblink": "https://en.wikipedia.org/wiki/Civil_rights_movement",
+    "start_year": 1954,
+    "end_year": 1968
+  },
+  {
+    "title": "Vietnam War",
+    "image_src": "https://via.placeholder.com/640x360?text=Vietnam+War",
+    "description": "A prolonged conflict in Southeast Asia that divided American society and ended with communist victory in Vietnam.",
+    "weblink": "https://en.wikipedia.org/wiki/Vietnam_War",
+    "start_year": 1955,
+    "end_year": 1975
+  },
+  {
+    "title": "Cultural Revolution in China",
+    "image_src": "https://via.placeholder.com/640x360?text=Cultural+Revolution",
+    "description": "Mao Zedong's sociopolitical movement that caused widespread chaos, violence, and cultural destruction throughout China.",
+    "weblink": "https://en.wikipedia.org/wiki/Cultural_Revolution",
+    "start_year": 1966,
+    "end_year": 1976
+  },
+  {
+    "title": "The Troubles",
+    "image_src": "https://via.placeholder.com/640x360?text=The+Troubles",
+    "description": "A violent ethno-nationalist conflict in Northern Ireland between unionists and nationalists that claimed over 3,500 lives.",
+    "weblink": "https://en.wikipedia.org/wiki/The_Troubles",
+    "start_year": 1968,
+    "end_year": 1998
+  },
+  {
+    "title": "Détente",
+    "image_src": "https://via.placeholder.com/640x360?text=Detente",
+    "description": "A period of eased tensions between the United States and Soviet Union, marked by arms control treaties and increased diplomacy.",
+    "weblink": "https://en.wikipedia.org/wiki/D%C3%A9tente",
+    "start_year": 1969,
+    "end_year": 1979
+  },
+  {
+    "title": "Iranian Revolution and Hostage Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Iran+Hostage",
+    "description": "The overthrow of the Shah and the subsequent hostage crisis strained US-Iran relations and reshaped Middle Eastern politics.",
+    "weblink": "https://en.wikipedia.org/wiki/Iran_hostage_crisis",
+    "start_year": 1979,
+    "end_year": 1981
+  },
+  {
+    "title": "Soviet-Afghan War",
+    "image_src": "https://via.placeholder.com/640x360?text=Soviet+Afghan+War",
+    "description": "The Soviet Union's costly invasion of Afghanistan weakened the USSR and contributed to its eventual collapse.",
+    "weblink": "https://en.wikipedia.org/wiki/Soviet%E2%80%93Afghan_War",
+    "start_year": 1979,
+    "end_year": 1989
+  },
+  {
+    "title": "Personal Computer Revolution",
+    "image_src": "https://via.placeholder.com/640x360?text=PC+Revolution",
+    "description": "The transformation of computers from room-sized machines to household devices, fundamentally changing work, communication, and entertainment.",
+    "weblink": "https://en.wikipedia.org/wiki/Personal_computer",
+    "start_year": 1975,
+    "end_year": 1985
+  },
+  {
+    "title": "Fall of Communism in Eastern Europe",
+    "image_src": "https://via.placeholder.com/640x360?text=Fall+of+Communism",
+    "description": "A wave of revolutions peacefully overthrew communist governments across Eastern Europe, culminating in the fall of the Berlin Wall.",
+    "weblink": "https://en.wikipedia.org/wiki/Revolutions_of_1989",
+    "start_year": 1989,
+    "end_year": 1991
+  },
+  {
+    "title": "Gulf War",
+    "image_src": "https://via.placeholder.com/640x360?text=Gulf+War",
+    "description": "A US-led coalition expelled Iraqi forces from Kuwait in a conflict that showcased modern military technology.",
+    "weblink": "https://en.wikipedia.org/wiki/Gulf_War",
+    "start_year": 1990,
+    "end_year": 1991
+  },
+  {
+    "title": "Yugoslav Wars",
+    "image_src": "https://via.placeholder.com/640x360?text=Yugoslav+Wars",
+    "description": "The violent breakup of Yugoslavia into independent nations, marked by ethnic cleansing and the worst atrocities in Europe since World War II.",
+    "weblink": "https://en.wikipedia.org/wiki/Yugoslav_Wars",
+    "start_year": 1991,
+    "end_year": 2001
+  },
+  {
+    "title": "Dot-com Boom and Bust",
+    "image_src": "https://via.placeholder.com/640x360?text=Dotcom+Bubble",
+    "description": "Massive speculation in internet companies created a stock market bubble that burst in 2000, wiping out trillions in market value.",
+    "weblink": "https://en.wikipedia.org/wiki/Dot-com_bubble",
+    "start_year": 1995,
+    "end_year": 2001
+  },
+  {
+    "title": "War on Terror",
+    "image_src": "https://via.placeholder.com/640x360?text=War+on+Terror",
+    "description": "The international military campaign launched after 9/11, including wars in Afghanistan and Iraq that reshaped global security.",
+    "weblink": "https://en.wikipedia.org/wiki/War_on_terror",
+    "start_year": 2001,
+    "end_year": 2021
+  },
+  {
+    "title": "Arab Spring",
+    "image_src": "https://via.placeholder.com/640x360?text=Arab+Spring",
+    "description": "A wave of pro-democracy protests and uprisings across the Middle East and North Africa, toppling several longtime rulers.",
+    "weblink": "https://en.wikipedia.org/wiki/Arab_Spring",
+    "start_year": 2010,
+    "end_year": 2012
+  },
+  {
+    "title": "Syrian Civil War",
+    "image_src": "https://via.placeholder.com/640x360?text=Syrian+Civil+War",
+    "description": "An ongoing multi-sided conflict that has caused hundreds of thousands of deaths and the worst refugee crisis since World War II.",
+    "weblink": "https://en.wikipedia.org/wiki/Syrian_civil_war",
+    "start_year": 2011,
+    "end_year": 2024
+  },
+  {
+    "title": "COVID-19 Pandemic",
+    "image_src": "https://via.placeholder.com/640x360?text=COVID+Pandemic",
+    "description": "A global pandemic that caused millions of deaths, overwhelmed healthcare systems, and dramatically altered daily life worldwide.",
+    "weblink": "https://en.wikipedia.org/wiki/COVID-19_pandemic",
+    "start_year": 2019,
+    "end_year": 2023
+  },
+  {
+    "title": "The Year of the Four Emperors",
+    "image_src": "https://via.placeholder.com/640x360?text=Four+Emperors",
+    "description": "A chaotic year in Roman history when four different men claimed the throne, with civil wars erupting across the empire after Nero's suicide.",
+    "weblink": "https://en.wikipedia.org/wiki/Year_of_the_Four_Emperors",
+    "start_year": 69,
+    "end_year": 69
+  },
+  {
+    "title": "The Anarchy",
+    "image_src": "https://via.placeholder.com/640x360?text=The+Anarchy",
+    "description": "A brutal civil war in England between Empress Matilda and King Stephen, resulting in nearly 20 years of lawlessness and devastation.",
+    "weblink": "https://en.wikipedia.org/wiki/The_Anarchy",
+    "start_year": 1135,
+    "end_year": 1153
+  },
+  {
+    "title": "The Babylonian Captivity of the Papacy",
+    "image_src": "https://via.placeholder.com/640x360?text=Avignon+Papacy",
+    "description": "Seven consecutive popes resided in Avignon, France instead of Rome, dramatically shifting the power dynamics of the Catholic Church.",
+    "weblink": "https://en.wikipedia.org/wiki/Avignon_Papacy",
+    "start_year": 1309,
+    "end_year": 1376
+  },
+  {
+    "title": "The Western Schism",
+    "image_src": "https://via.placeholder.com/640x360?text=Western+Schism",
+    "description": "The Catholic Church split with rival popes simultaneously claiming authority in Rome, Avignon, and later Pisa, confusing all of Christendom.",
+    "weblink": "https://en.wikipedia.org/wiki/Western_Schism",
+    "start_year": 1378,
+    "end_year": 1417
+  },
+  {
+    "title": "Tulip Mania",
+    "image_src": "https://via.placeholder.com/640x360?text=Tulip+Mania",
+    "description": "A period when tulip bulb prices in the Netherlands reached absurdly high levels, with some bulbs costing more than houses, before collapsing spectacularly.",
+    "weblink": "https://en.wikipedia.org/wiki/Tulip_mania",
+    "start_year": 1634,
+    "end_year": 1637
+  },
+  {
+    "title": "The Time of Troubles (Russia)",
+    "image_src": "https://via.placeholder.com/640x360?text=Time+of+Troubles",
+    "description": "Russia endured dynastic crisis, foreign invasion, and multiple false pretenders claiming to be the dead Tsarevich Dmitry.",
+    "weblink": "https://en.wikipedia.org/wiki/Time_of_Troubles",
+    "start_year": 1598,
+    "end_year": 1613
+  },
+  {
+    "title": "The Commonwealth (English Interregnum)",
+    "image_src": "https://via.placeholder.com/640x360?text=English+Commonwealth",
+    "description": "England briefly became a republic after executing King Charles I, with Oliver Cromwell ruling as Lord Protector before the monarchy was restored.",
+    "weblink": "https://en.wikipedia.org/wiki/Commonwealth_of_England",
+    "start_year": 1649,
+    "end_year": 1660
+  },
+  {
+    "title": "The South Sea Bubble",
+    "image_src": "https://via.placeholder.com/640x360?text=South+Sea+Bubble",
+    "description": "British investors went wild over South Sea Company stock based on exaggerated promises of South American riches, creating one of history's first stock market crashes.",
+    "weblink": "https://en.wikipedia.org/wiki/South_Sea_Company",
+    "start_year": 1719,
+    "end_year": 1720
+  },
+  {
+    "title": "The Year Without a King (Sweden)",
+    "image_src": "https://via.placeholder.com/640x360?text=Swedish+Interregnum",
+    "description": "After King Charles XII died, Sweden went an entire year without a monarch as nobles argued over succession and reforms.",
+    "weblink": "https://en.wikipedia.org/wiki/Swedish_Age_of_Liberty",
+    "start_year": 1718,
+    "end_year": 1719
+  },
+  {
+    "title": "The Republic of Pirates",
+    "image_src": "https://via.placeholder.com/640x360?text=Republic+of+Pirates",
+    "description": "Pirates established a functioning democratic colony in Nassau, Bahamas, creating their own pirate republic before being shut down by authorities.",
+    "weblink": "https://en.wikipedia.org/wiki/Republic_of_Pirates",
+    "start_year": 1706,
+    "end_year": 1718
+  },
+  {
+    "title": "Reign of Terror",
+    "image_src": "https://via.placeholder.com/640x360?text=Reign+of+Terror",
+    "description": "During the French Revolution, tens of thousands were executed by guillotine as revolutionary tribunals purged supposed enemies of the state.",
+    "weblink": "https://en.wikipedia.org/wiki/Reign_of_Terror",
+    "start_year": 1793,
+    "end_year": 1794
+  },
+  {
+    "title": "The Hundred Days",
+    "image_src": "https://via.placeholder.com/640x360?text=Hundred+Days",
+    "description": "Napoleon escaped from exile on Elba, returned to France, reclaimed power, and ruled for exactly 100 days before his final defeat at Waterloo.",
+    "weblink": "https://en.wikipedia.org/wiki/Hundred_Days",
+    "start_year": 1815,
+    "end_year": 1815
+  },
+  {
+    "title": "The Year Without a Summer",
+    "image_src": "https://via.placeholder.com/640x360?text=Year+Without+Summer",
+    "description": "Volcanic eruptions caused global cooling, resulting in snow in summer, crop failures, and widespread famine across the Northern Hemisphere.",
+    "weblink": "https://en.wikipedia.org/wiki/Year_Without_a_Summer",
+    "start_year": 1816,
+    "end_year": 1816
+  },
+  {
+    "title": "The War of Jenkins' Ear",
+    "image_src": "https://via.placeholder.com/640x360?text=Jenkins+Ear",
+    "description": "Britain and Spain went to war partly because a Spanish officer allegedly cut off a British sea captain's ear, which he preserved and displayed to Parliament.",
+    "weblink": "https://en.wikipedia.org/wiki/War_of_Jenkins%27_Ear",
+    "start_year": 1739,
+    "end_year": 1748
+  },
+  {
+    "title": "Bleeding Kansas",
+    "image_src": "https://via.placeholder.com/640x360?text=Bleeding+Kansas",
+    "description": "Pro-slavery and anti-slavery settlers violently clashed in Kansas Territory, foreshadowing the larger American Civil War to come.",
+    "weblink": "https://en.wikipedia.org/wiki/Bleeding_Kansas",
+    "start_year": 1854,
+    "end_year": 1859
+  },
+  {
+    "title": "The Age of the Guano Islands",
+    "image_src": "https://via.placeholder.com/640x360?text=Guano+Islands",
+    "description": "Bird droppings became incredibly valuable as fertilizer, leading to the US claiming dozens of remote islands and sparking conflicts over guano deposits.",
+    "weblink": "https://en.wikipedia.org/wiki/Guano_Islands_Act",
+    "start_year": 1856,
+    "end_year": 1903
+  },
+  {
+    "title": "The Era of Fragmentation (China)",
+    "image_src": "https://via.placeholder.com/640x360?text=Warlord+Era",
+    "description": "After the fall of the Qing Dynasty, China split into territories controlled by competing military warlords with their own armies.",
+    "weblink": "https://en.wikipedia.org/wiki/Warlord_Era",
+    "start_year": 1916,
+    "end_year": 1928
+  },
+  {
+    "title": "Prohibition Era",
+    "image_src": "https://via.placeholder.com/640x360?text=Prohibition",
+    "description": "The United States banned alcohol nationwide, leading to widespread illegal speakeasies, bootlegging, and the rise of organized crime.",
+    "weblink": "https://en.wikipedia.org/wiki/Prohibition_in_the_United_States",
+    "start_year": 1920,
+    "end_year": 1933
+  },
+  {
+    "title": "Hyperinflation in the Weimar Republic",
+    "image_src": "https://via.placeholder.com/640x360?text=Weimar+Hyperinflation",
+    "description": "German currency became so worthless that people used wheelbarrows full of cash to buy bread and burned money for heat.",
+    "weblink": "https://en.wikipedia.org/wiki/Hyperinflation_in_the_Weimar_Republic",
+    "start_year": 1921,
+    "end_year": 1923
+  },
+  {
+    "title": "The Phoney War",
+    "image_src": "https://via.placeholder.com/640x360?text=Phoney+War",
+    "description": "For eight months after declaring war, Britain, France, and Germany barely fought, leading to an eerie period of inaction before real fighting began.",
+    "weblink": "https://en.wikipedia.org/wiki/Phoney_War",
+    "start_year": 1939,
+    "end_year": 1940
+  },
+  {
+    "title": "The Whiskey Rebellion",
+    "image_src": "https://via.placeholder.com/640x360?text=Whiskey+Rebellion",
+    "description": "American farmers violently protested a federal whiskey tax, forcing President Washington to personally lead troops to suppress the uprising.",
+    "weblink": "https://en.wikipedia.org/wiki/Whiskey_Rebellion",
+    "start_year": 1791,
+    "end_year": 1794
+  },
+  {
+    "title": "The Great Stink Summer",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Stink",
+    "description": "London's Thames River smelled so terrible during a heatwave that Parliament had to soak curtains in chloride of lime just to meet.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Stink",
+    "start_year": 1858,
+    "end_year": 1858
+  },
+  {
+    "title": "The Flagellant Movement",
+    "image_src": "https://via.placeholder.com/640x360?text=Flagellants",
+    "description": "During the Black Death, thousands roamed Europe whipping themselves in public, believing self-punishment would save them from plague.",
+    "weblink": "https://en.wikipedia.org/wiki/Flagellant",
+    "start_year": 1348,
+    "end_year": 1350
+  },
+  {
+    "title": "The Children's Crusade",
+    "image_src": "https://via.placeholder.com/640x360?text=Childrens+Crusade",
+    "description": "Thousands of children and young people supposedly marched to the Holy Land believing their innocence would succeed where armies failed; most never returned.",
+    "weblink": "https://en.wikipedia.org/wiki/Children%27s_Crusade",
+    "start_year": 1212,
+    "end_year": 1212
+  },
+  {
+    "title": "The Great Disappointment",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Disappointment",
+    "description": "Thousands of Americans believed Jesus would return on October 22, 1844. When nothing happened, it became known as the Great Disappointment.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Disappointment",
+    "start_year": 1844,
+    "end_year": 1844
+  },
+  {
+    "title": "The Republic of Formosa",
+    "image_src": "https://via.placeholder.com/640x360?text=Formosa+Republic",
+    "description": "Taiwan briefly declared independence as the Republic of Formosa, lasting only 151 days before Japanese forces conquered the island.",
+    "weblink": "https://en.wikipedia.org/wiki/Republic_of_Formosa",
+    "start_year": 1895,
+    "end_year": 1895
+  },
+  {
+    "title": "The Pig War",
+    "image_src": "https://via.placeholder.com/640x360?text=Pig+War",
+    "description": "The US and Britain nearly went to war over disputed territory after an American farmer shot a British pig, leading to a military standoff with no human casualties.",
+    "weblink": "https://en.wikipedia.org/wiki/Pig_War_(1859)",
+    "start_year": 1859,
+    "end_year": 1872
+  },
+  {
+    "title": "The Mad Parliament",
+    "image_src": "https://via.placeholder.com/640x360?text=Mad+Parliament",
+    "description": "An English Parliament session so chaotic and unruly that it earned the nickname 'Mad Parliament' for its wild disputes and disorder.",
+    "weblink": "https://en.wikipedia.org/wiki/Mad_Parliament",
+    "start_year": 1258,
+    "end_year": 1258
+  },
+  {
+    "title": "The Third Rome Period",
+    "image_src": "https://via.placeholder.com/640x360?text=Third+Rome",
+    "description": "Moscow declared itself the 'Third Rome' after Constantinople fell, claiming to be the true heir of the Roman Empire and defender of Christianity.",
+    "weblink": "https://en.wikipedia.org/wiki/Third_Rome",
+    "start_year": 1453,
+    "end_year": 1547
+  },
+  {
+    "title": "The Cargo Cult Era",
+    "image_src": "https://via.placeholder.com/640x360?text=Cargo+Cult",
+    "description": "Pacific Islanders built mock airstrips and planes from wood and straw, hoping to summon cargo-bearing aircraft like those that came during WWII.",
+    "weblink": "https://en.wikipedia.org/wiki/Cargo_cult",
+    "start_year": 1940,
+    "end_year": 1970
+  },
+  {
+    "title": "The Cod Wars",
+    "image_src": "https://via.placeholder.com/640x360?text=Cod+Wars",
+    "description": "Iceland and Britain fought a series of confrontations over fishing rights, with Iceland repeatedly expanding its territorial waters and cutting British fishing nets.",
+    "weblink": "https://en.wikipedia.org/wiki/Cod_Wars",
+    "start_year": 1958,
+    "end_year": 1976
+  },
+  {
+    "title": "The Turbot War",
+    "image_src": "https://via.placeholder.com/640x360?text=Turbot+War",
+    "description": "Canada and Spain nearly came to blows over turbot fishing rights, with Canadian patrol boats actually firing shots across Spanish trawlers.",
+    "weblink": "https://en.wikipedia.org/wiki/Turbot_War",
+    "start_year": 1995,
+    "end_year": 1995
+  },
+  {
+    "title": "The Monkey Trial Summer",
+    "image_src": "https://via.placeholder.com/640x360?text=Scopes+Trial",
+    "description": "A Tennessee teacher was prosecuted for teaching evolution in the famous Scopes 'Monkey' Trial that captivated the nation.",
+    "weblink": "https://en.wikipedia.org/wiki/Scopes_Trial",
+    "start_year": 1925,
+    "end_year": 1925
+  },
+  {
+    "title": "The Year of Three Popes",
+    "image_src": "https://via.placeholder.com/640x360?text=Three+Popes",
+    "description": "Three different popes held office: Paul VI died, John Paul I served 33 days and died, and John Paul II was elected.",
+    "weblink": "https://en.wikipedia.org/wiki/1978_papal_conclave",
+    "start_year": 1978,
+    "end_year": 1978
+  },
+  {
+    "title": "The Satanic Panic",
+    "image_src": "https://via.placeholder.com/640x360?text=Satanic+Panic",
+    "description": "Widespread fear swept America about supposed satanic ritual abuse, heavy metal music, and role-playing games corrupting youth, leading to numerous false accusations.",
+    "weblink": "https://en.wikipedia.org/wiki/Satanic_panic",
+    "start_year": 1980,
+    "end_year": 1995
+  },
+  {
+    "title": "The Great Smog of London",
+    "image_src": "https://via.placeholder.com/640x360?text=Great+Smog",
+    "description": "Thick toxic fog blanketed London for five days, reducing visibility to near zero, causing thousands of deaths and prompting clean air legislation.",
+    "weblink": "https://en.wikipedia.org/wiki/Great_Smog_of_London",
+    "start_year": 1952,
+    "end_year": 1952
+  },
+  {
+    "title": "The Summer of Love",
+    "image_src": "https://via.placeholder.com/640x360?text=Summer+of+Love",
+    "description": "Over 100,000 young people converged on San Francisco's Haight-Ashbury for a summer of peace, music, and counterculture that defined a generation.",
+    "weblink": "https://en.wikipedia.org/wiki/Summer_of_Love",
+    "start_year": 1967,
+    "end_year": 1967
+  },
+  {
+    "title": "The Bowling Alone Era",
+    "image_src": "https://via.placeholder.com/640x360?text=Bowling+Alone",
+    "description": "A period of declining American civic engagement and social capital, as people increasingly participated in activities alone rather than in groups.",
+    "weblink": "https://en.wikipedia.org/wiki/Bowling_Alone",
+    "start_year": 1950,
+    "end_year": 2000
+  },
+  {
+    "title": "Y2K Panic",
+    "image_src": "https://via.placeholder.com/640x360?text=Y2K",
+    "description": "Widespread fear that computer systems would fail when clocks struck midnight on January 1, 2000, potentially causing global chaos. Nothing significant happened.",
+    "weblink": "https://en.wikipedia.org/wiki/Year_2000_problem",
+    "start_year": 1998,
+    "end_year": 2000
+  },
+  {
+    "title": "The Bitcoin Pizza Years",
+    "image_src": "https://via.placeholder.com/640x360?text=Bitcoin+Pizza",
+    "description": "The early days of Bitcoin when 10,000 bitcoins bought two pizzas, before cryptocurrency's explosive growth made those coins worth hundreds of millions.",
+    "weblink": "https://en.wikipedia.org/wiki/Bitcoin",
+    "start_year": 2009,
+    "end_year": 2013
+  },
+  {
+    "title": "The Great Toilet Paper Crisis",
+    "image_src": "https://via.placeholder.com/640x360?text=Toilet+Paper+Crisis",
+    "description": "During the start of COVID-19 lockdowns, panic buying caused toilet paper shortages worldwide, leading to empty store shelves and occasional fights.",
+    "weblink": "https://en.wikipedia.org/wiki/Panic_buying",
+    "start_year": 2020,
+    "end_year": 2020
+  }
+]
