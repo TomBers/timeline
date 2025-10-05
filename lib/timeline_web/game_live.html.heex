@@ -1,4 +1,4 @@
-<Layouts.app flash={@flash}>
+<Layouts.app flash={@flash} active_mode={:main}>
   <div class="space-y-6" id="game-root">
     <header class="space-y-2">
       <h1 class="text-2xl font-bold">Timeline — Prototype</h1>
@@ -13,11 +13,6 @@
       <button id="shuffle-btn" class="btn btn-ghost" phx-click="shuffle_pool">
         Shuffle pool
       </button>
-      <div class="ml-auto flex items-center gap-2 text-sm">
-        <span class="opacity-70">Mode:</span>
-        <.link navigate={~p"/"} class="btn btn-ghost btn-xs">Main</.link>
-        <.link navigate={~p"/periods"} class="btn btn-ghost btn-xs">Periods</.link>
-      </div>
     </section>
 
     <%= if @score do %>

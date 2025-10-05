@@ -1,15 +1,10 @@
-<Layouts.app flash={@flash}>
+<Layouts.app flash={@flash} active_mode={:periods}>
   <div id="periods-root" class="space-y-6">
     <header class="space-y-2">
       <h1 class="text-2xl font-bold">Timeline — Periods Mode</h1>
       <p class="text-base text-base-content/70">
         For each row, position and scale the bar so it matches the real historic period on the master axis. Then click Score.
       </p>
-      <div class="flex items-center gap-2 text-sm">
-        <span class="opacity-70">Mode:</span>
-        <.link navigate={~p"/"} class="btn btn-ghost btn-xs">Main</.link>
-        <.link navigate={~p"/periods"} class="btn btn-ghost btn-xs">Periods</.link>
-      </div>
     </header>
 
     <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
