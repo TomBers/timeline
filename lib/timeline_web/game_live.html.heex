@@ -13,6 +13,11 @@
       <button id="shuffle-btn" class="btn btn-ghost" phx-click="shuffle_pool">
         Shuffle pool
       </button>
+      <div class="ml-auto flex items-center gap-2 text-sm">
+        <span class="opacity-70">Mode:</span>
+        <.link navigate={~p"/"} class="btn btn-ghost btn-xs">Main</.link>
+        <.link navigate={~p"/periods"} class="btn btn-ghost btn-xs">Periods</.link>
+      </div>
     </section>
 
     <%= if @score do %>
@@ -48,6 +53,15 @@
 
     <section aria-label="timeline" id="timeline" phx-hook="DnDSlots" class="space-y-3">
       <h2 class="text-lg font-semibold">Timeline</h2>
+      <div class="flex items-center justify-between text-xs text-base-content/70">
+        <span class="inline-flex items-center gap-1">
+          <.icon name="hero-arrow-left" class="w-4 h-4" /> Earlier
+        </span>
+        <span class="italic">Slot 1 is earliest</span>
+        <span class="inline-flex items-center gap-1">
+          Later <.icon name="hero-arrow-right" class="w-4 h-4" />
+        </span>
+      </div>
       <div
         class="grid gap-3 overflow-x-auto pb-2"
         style={"grid-template-columns: repeat(#{length(@slots)}, minmax(clamp(11rem, 85vw, 16rem), 1fr)); -webkit-overflow-scrolling: touch;"}
