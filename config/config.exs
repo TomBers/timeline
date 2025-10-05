@@ -11,6 +11,15 @@ config :timeline,
   ecto_repos: [Timeline.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+# Optional: allow disabling DB usage at runtime via SKIP_DB while keeping ecto_repos configured
+skip_db =
+  case System.get_env("SKIP_DB") do
+    v when is_binary(v) -> String.downcase(v) in ["1", "true", "yes"]
+    _ -> false
+  end
+
+config :timeline, skip_db: skip_db
+
 # Configures the endpoint
 config :timeline, TimelineWeb.Endpoint,
   url: [host: "localhost"],
