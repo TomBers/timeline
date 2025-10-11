@@ -31,13 +31,18 @@ defmodule TimelineWeb.GameComponents do
   attr :show_link, :boolean, default: true
   attr :link_target, :string, default: "_blank"
   attr :wrap_body, :boolean, default: true
-  attr :show_description, :boolean, default: true
+  attr :show_description, :boolean, default: false
   attr :summary_text, :string, default: "Show description"
   attr :rest, :global
 
   def event_card(assigns) do
     ~H"""
-    <div id={@id} class={[@class]} {@rest}>
+    <div
+      id={@id}
+      class={[@class]}
+      {@rest}
+      title={if not @show_description, do: description(@event), else: nil}
+    >
       <div class={[
         @wrap_body && "card-body",
         @wrap_body && ((@compact && "p-3") || "p-4"),
