@@ -1,66 +1,57 @@
 <Layouts.app flash={@flash} active_mode={:geo}>
-  <div class="space-y-6" id="geo-root">
-    <header class="space-y-2">
-      <div class="flex items-center gap-3">
-        <h1 class="text-2xl font-bold">Geo — 3×3 Grid</h1>
-        <div class="ml-auto">
-          <.geo_compass />
+  <div class="space-y-3" id="geo-root">
+    <header class="flex items-center gap-2">
+      <h1 class="text-lg font-semibold">Geo 3×3</h1>
+      <div class="ml-auto flex items-center gap-2">
+        <.geo_compass class="w-10 h-10" />
+        <div class="flex gap-2">
+          <button id="score-btn" class="btn btn-sm btn-primary" phx-click="score">Score</button>
+          <button id="reset-btn" class="btn btn-sm" phx-click="reset">New game</button>
+          <button id="shuffle-btn" class="btn btn-sm btn-ghost" phx-click="shuffle_pool">
+            Shuffle
+          </button>
         </div>
       </div>
-      <p class="text-base text-base-content/70">
-        Place each location into the correct 3×3 cell based on its latitude (N↑/S↓)
-        and longitude (W←/E→). Click Score when done.
-      </p>
     </header>
 
-    <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
-      <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
-      <button id="reset-btn" class="btn" phx-click="reset">New game</button>
-      <button id="shuffle-btn" class="btn btn-ghost" phx-click="shuffle_pool">
-        Shuffle pool
-      </button>
-    </section>
-
     <%= if @score do %>
-      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-4">
-        <div class="flex flex-wrap gap-6 items-center">
+      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-2">
+        <div class="flex flex-wrap gap-3 items-center">
           <div>
-            <div class="text-3xl font-extrabold">{@score.percent_correct}%</div>
-            <div class="text-sm text-base-content/70">Correct positions</div>
+            <div class="text-2xl font-extrabold">{@score.percent_correct}%</div>
+            <div class="text-xs text-base-content/70">Correct positions</div>
           </div>
           <div>
-            <div class="text-xl font-semibold">
+            <div class="text-lg font-semibold">
               {@score.correct_positions} / {@score.total_slots}
             </div>
-            <div class="text-sm text-base-content/70">Exactly right</div>
+            <div class="text-xs text-base-content/70">Exactly right</div>
           </div>
           <div>
-            <div class="text-xl font-semibold">{@score.total_manhattan_displacement}</div>
-            <div class="text-sm text-base-content/70">Total Manhattan displacement</div>
+            <div class="text-lg font-semibold">{@score.total_manhattan_displacement}</div>
+            <div class="text-xs text-base-content/70">Total Manhattan displacement</div>
           </div>
           <div class="ml-auto">
             <%= cond do %>
               <% @score.filled_slots < @score.total_slots -> %>
-                <span class="text-sm text-warning">
+                <span class="text-xs text-warning">
                   Score based on {@score.filled_slots} of {@score.total_slots} placed.
                 </span>
               <% true -> %>
-                <span class="text-sm text-success">All cells filled. Nice!</span>
+                <span class="text-xs text-success">All cells filled. Nice!</span>
             <% end %>
           </div>
         </div>
       </section>
     <% end %>
 
-    <section aria-label="play" class="grid gap-6 lg:grid-cols-12 items-start">
+    <section aria-label="play" class="grid gap-4 lg:grid-cols-12 items-start">
       <aside
         aria-label="pool"
         id="geo-pool"
         phx-hook="DnDPool"
         class="space-y-3 lg:col-span-4 lg:sticky lg:top-4 self-start"
       >
-        <h2 class="text-lg font-semibold">Place Pool</h2>
-
         <%= if @pool == [] do %>
           <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
             No remaining places in the pool.
@@ -90,19 +81,16 @@
         <% end %>
       </aside>
 
-      <section aria-label="grid" id="geo-grid" phx-hook="DnDSlots" class="space-y-3 lg:col-span-8">
-        <div class="flex items-center justify-between text-xs text-base-content/70">
-          <span class="inline-flex items-center gap-1">W (left)</span>
-          <div class="text-center">
-            <div class="font-semibold">N</div>
-            <div class="opacity-70">Top row is most northern</div>
-          </div>
-          <span class="inline-flex items-center gap-1">E (right)</span>
+      <section aria-label="grid" id="geo-grid" phx-hook="DnDSlots" class="space-y-2 lg:col-span-8">
+        <div class="flex items-center justify-between text-[10px] text-base-content/60 -mt-1">
+          <span>W</span>
+          <span>N</span>
+          <span>E</span>
         </div>
 
         <div
-          class="grid gap-3 max-w-5xl"
-          style="grid-template-columns: repeat(3, minmax(12rem, 1fr));"
+          class="grid gap-2 max-w-5xl"
+          style="grid-template-columns: repeat(3, minmax(11rem, 1fr));"
         >
           <%= for {id, idx} <- Enum.with_index(@grid) do %>
             <div
@@ -156,11 +144,8 @@
           <% end %>
         </div>
 
-        <div class="flex items-center justify-center text-xs text-base-content/70">
-          <div class="text-center">
-            <div class="font-semibold">S</div>
-            <div class="opacity-70">Bottom row is most southern</div>
-          </div>
+        <div class="flex items-center justify-center text-[10px] text-base-content/60 -mt-2">
+          <span>S</span>
         </div>
       </section>
     </section>
