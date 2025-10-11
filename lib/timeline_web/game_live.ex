@@ -81,7 +81,13 @@ defmodule TimelineWeb.GameLive do
            socket
            |> assign(:pool, new_pool)
            |> assign(:slots, new_slots)
-           |> assign(:score, nil)}
+           |> assign(
+             :score,
+             if(new_pool == [],
+               do: compute_score(new_slots, socket.assigns.events_by_id),
+               else: nil
+             )
+           )}
         end
     end
   end
@@ -112,34 +118,7 @@ defmodule TimelineWeb.GameLive do
   end
 
   def handle_event("score", _params, socket) do
-    slots = socket.assigns.slots
-    events_by_id = socket.assigns.events_by_id
-
-    {filled, displacement, correct} =
-      slots
-      |> Enum.with_index()
-      |> Enum.reduce({0, 0, 0}, fn
-        {nil, _idx}, acc ->
-          acc
-
-        {event_id, idx}, {filled_acc, disp_acc, corr_acc} ->
-          event = Map.fetch!(events_by_id, event_id)
-          correct_pos = event.correct_pos
-          disp = abs(correct_pos - idx)
-          is_correct = if correct_pos == idx, do: 1, else: 0
-          {filled_acc + 1, disp_acc + disp, corr_acc + is_correct}
-      end)
-
-    total = length(slots)
-
-    score = %{
-      total_slots: total,
-      filled_slots: filled,
-      correct_positions: correct,
-      total_displacement: displacement,
-      percent_correct: percent(correct, total)
-    }
-
+    score = compute_score(socket.assigns.slots, socket.assigns.events_by_id)
     {:noreply, assign(socket, :score, score)}
   end
 
@@ -293,6 +272,33 @@ defmodule TimelineWeb.GameLive do
 
   defp valid_index?(list, idx) do
     idx >= 0 and idx < length(list)
+  end
+
+  defp compute_score(slots, events_by_id) do
+    {filled, displacement, correct} =
+      slots
+      |> Enum.with_index()
+      |> Enum.reduce({0, 0, 0}, fn
+        {nil, _idx}, acc ->
+          acc
+
+        {event_id, idx}, {filled_acc, disp_acc, corr_acc} ->
+          event = Map.fetch!(events_by_id, event_id)
+          correct_pos = event.correct_pos
+          disp = abs(correct_pos - idx)
+          is_correct = if correct_pos == idx, do: 1, else: 0
+          {filled_acc + 1, disp_acc + disp, corr_acc + is_correct}
+      end)
+
+    total = length(slots)
+
+    %{
+      total_slots: total,
+      filled_slots: filled,
+      correct_positions: correct,
+      total_displacement: displacement,
+      percent_correct: percent(correct, total)
+    }
   end
 
   defp percent(_num, 0), do: 0

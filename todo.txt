@@ -1,1 +1,7 @@
-Timeline is a game that challenges you to order historical events on a timeline, at the start of the game the player is allocated a series of random events, these are blocks and the user has to drag and drop them onto a timeline.  It is scored on how close they are to the correct order.  So for example if the timeline has 10 events it has 10 slots.  The events should be stored as a json file with a title, an image source description and a weblink.
+Geo mode is a alternative mode of this game based on location.
+
+Step1 - create a list of places, cities countries following the format setout in events.json, but also fidn the latitude and longitude of the place.
+
+Step2 - create a game very similar to the main timeline mode, but in a 3 * 3 two dimensional grid, based on the lat, long values, so the place the furthest north west goes in the top right corner and the place most south east goes in the bottom right corner
+
+Bonus points if you can add a lttle compass on screen.

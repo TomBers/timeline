@@ -1,0 +1,155 @@
+<Layouts.app flash={@flash} active_mode={:geo}>
+  <div class="space-y-3" id="geo-root">
+    <header class="flex items-center gap-2">
+      <h1 class="text-lg font-semibold">Geo 3×3</h1>
+      <div class="ml-auto flex items-center gap-2">
+        <.geo_compass class="w-10 h-10" />
+        <div class="flex gap-2">
+          <button id="score-btn" class="btn btn-sm btn-primary" phx-click="score">Score</button>
+          <button id="reset-btn" class="btn btn-sm" phx-click="reset">New game</button>
+          <button id="shuffle-btn" class="btn btn-sm btn-ghost" phx-click="shuffle_pool">
+            Shuffle
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <%= if @score do %>
+      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-2">
+        <div class="flex flex-wrap gap-3 items-center">
+          <div>
+            <div class="text-2xl font-extrabold">{@score.percent_correct}%</div>
+            <div class="text-xs text-base-content/70">Correct positions</div>
+          </div>
+          <div>
+            <div class="text-lg font-semibold">
+              {@score.correct_positions} / {@score.total_slots}
+            </div>
+            <div class="text-xs text-base-content/70">Exactly right</div>
+          </div>
+          <div>
+            <div class="text-lg font-semibold">{@score.total_manhattan_displacement}</div>
+            <div class="text-xs text-base-content/70">Total Manhattan displacement</div>
+          </div>
+          <div class="ml-auto">
+            <%= cond do %>
+              <% @score.filled_slots < @score.total_slots -> %>
+                <span class="text-xs text-warning">
+                  Score based on {@score.filled_slots} of {@score.total_slots} placed.
+                </span>
+              <% true -> %>
+                <span class="text-xs text-success">All cells filled. Nice!</span>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
+    <section aria-label="play" class="grid gap-4 lg:grid-cols-12 items-start">
+      <aside
+        aria-label="pool"
+        id="geo-pool"
+        phx-hook="DnDPool"
+        class="space-y-3 lg:col-span-4 lg:sticky lg:top-4 self-start"
+      >
+        <%= if @pool == [] do %>
+          <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
+            No remaining places in the pool.
+          </div>
+        <% else %>
+          <div
+            class="grid gap-3 justify-items-center mx-auto"
+            style="grid-template-columns: repeat(auto-fill, minmax(11rem, 11rem));"
+          >
+            <%= for place <- @pool do %>
+              <div
+                id={"pool-#{place.id}"}
+                data-event-id={place.id}
+                draggable="true"
+                phx-click="select_place"
+                phx-value-id={place.id}
+                aria-selected={@selected_id == place.id}
+                title={place.description}
+                class={[
+                  "card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-pointer",
+                  @selected_id == place.id && "ring ring-primary"
+                ]}
+              >
+                <.event_card
+                  event={place}
+                  show_link={false}
+                  summary_text="Details"
+                  compact
+                  show_description={false}
+                />
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </aside>
+
+      <section aria-label="grid" id="geo-grid" phx-hook="DnDSlots" class="space-y-2 lg:col-span-8">
+        <div
+          class="grid gap-2 max-w-5xl mx-auto justify-center"
+          style="grid-template-columns: repeat(3, 12rem);"
+        >
+          <%= for {id, idx} <- Enum.with_index(@grid) do %>
+            <div
+              id={"cell-#{idx}"}
+              data-slot-idx={idx}
+              data-filled={not is_nil(id)}
+              class={[
+                "card aspect-square bg-base-200 border-2 transition-colors relative overflow-hidden",
+                is_nil(id) && "border-dashed border-base-300 hover:border-primary",
+                !is_nil(id) && "border-base-200"
+              ]}
+            >
+              <div class="card-body p-2 h-full flex items-center justify-center">
+                <div class="absolute top-1 right-1">
+                  <%= if id do %>
+                    <button
+                      class="btn btn-ghost btn-xs"
+                      phx-click="remove_from_slot"
+                      phx-value-slot={idx}
+                      id={"remove-cell-#{idx}"}
+                    >
+                      <.icon name="hero-x-mark" class="w-4 h-4" />
+                    </button>
+                  <% end %>
+                </div>
+
+                <%= if id && @places_by_id[id] do %>
+                  <div
+                    class="flex items-center justify-center w-full h-full"
+                    title={@places_by_id[id].description}
+                  >
+                    <.event_card
+                      event={@places_by_id[id]}
+                      compact
+                      show_link={false}
+                      wrap_body={false}
+                      summary_text="Details"
+                    />
+                  </div>
+                <% else %>
+                  <div class="flex flex-col items-center justify-center h-full w-full text-base-content/60 text-sm text-center">
+                    <button
+                      class="btn btn-sm btn-ghost"
+                      phx-click="place_selected"
+                      phx-value-slot={idx}
+                      phx-value-id={@selected_id}
+                      id={"place-cell-#{idx}"}
+                    >
+                      Tap to place here
+                    </button>
+                    <div class="mt-1 italic text-center">or select from pool</div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    </section>
+  </div>
+</Layouts.app>

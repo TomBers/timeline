@@ -1,0 +1,322 @@
+[
+  {
+    "title": "Reykjavík, Iceland",
+    "image_src": "https://via.placeholder.com/640x360?text=Reykjavik",
+    "description": "Capital and largest city of Iceland, known for its geothermal energy and vibrant culture.",
+    "weblink": "https://en.wikipedia.org/wiki/Reykjav%C3%ADk",
+    "latitude": 64.1466,
+    "longitude": -21.9426
+  },
+  {
+    "title": "Oslo, Norway",
+    "image_src": "https://via.placeholder.com/640x360?text=Oslo",
+    "description": "Norway's capital, surrounded by forested hills and the Oslofjord.",
+    "weblink": "https://en.wikipedia.org/wiki/Oslo",
+    "latitude": 59.9139,
+    "longitude": 10.7522
+  },
+  {
+    "title": "Stockholm, Sweden",
+    "image_src": "https://via.placeholder.com/640x360?text=Stockholm",
+    "description": "Sweden's capital, spanning 14 islands on the Baltic Sea.",
+    "weblink": "https://en.wikipedia.org/wiki/Stockholm",
+    "latitude": 59.3293,
+    "longitude": 18.0686
+  },
+  {
+    "title": "Helsinki, Finland",
+    "image_src": "https://via.placeholder.com/640x360?text=Helsinki",
+    "description": "Finland's southern capital on the shores of the Gulf of Finland.",
+    "weblink": "https://en.wikipedia.org/wiki/Helsinki",
+    "latitude": 60.1699,
+    "longitude": 24.9384
+  },
+  {
+    "title": "Berlin, Germany",
+    "image_src": "https://via.placeholder.com/640x360?text=Berlin",
+    "description": "Germany's capital, with rich history and modern culture.",
+    "weblink": "https://en.wikipedia.org/wiki/Berlin",
+    "latitude": 52.52,
+    "longitude": 13.405
+  },
+  {
+    "title": "London, United Kingdom",
+    "image_src": "https://via.placeholder.com/640x360?text=London",
+    "description": "Capital of the United Kingdom, an influential global city.",
+    "weblink": "https://en.wikipedia.org/wiki/London",
+    "latitude": 51.5074,
+    "longitude": -0.1278
+  },
+  {
+    "title": "Paris, France",
+    "image_src": "https://via.placeholder.com/640x360?text=Paris",
+    "description": "France's capital, famed for art, fashion, and the Eiffel Tower.",
+    "weblink": "https://en.wikipedia.org/wiki/Paris",
+    "latitude": 48.8566,
+    "longitude": 2.3522
+  },
+  {
+    "title": "Lisbon, Portugal",
+    "image_src": "https://via.placeholder.com/640x360?text=Lisbon",
+    "description": "Portugal’s coastal capital known for pastel-colored buildings and Fado music.",
+    "weblink": "https://en.wikipedia.org/wiki/Lisbon",
+    "latitude": 38.7223,
+    "longitude": -9.1393
+  },
+  {
+    "title": "Madrid, Spain",
+    "image_src": "https://via.placeholder.com/640x360?text=Madrid",
+    "description": "Spain's central capital, home to the Prado Museum and lively plazas.",
+    "weblink": "https://en.wikipedia.org/wiki/Madrid",
+    "latitude": 40.4168,
+    "longitude": -3.7038
+  },
+  {
+    "title": "Rome, Italy",
+    "image_src": "https://via.placeholder.com/640x360?text=Rome",
+    "description": "Italy's capital, home to ancient landmarks like the Colosseum and the Vatican.",
+    "weblink": "https://en.wikipedia.org/wiki/Rome",
+    "latitude": 41.9028,
+    "longitude": 12.4964
+  },
+  {
+    "title": "Athens, Greece",
+    "image_src": "https://via.placeholder.com/640x360?text=Athens",
+    "description": "Historical city often called the cradle of Western civilization.",
+    "weblink": "https://en.wikipedia.org/wiki/Athens",
+    "latitude": 37.9838,
+    "longitude": 23.7275
+  },
+  {
+    "title": "Istanbul, Türkiye",
+    "image_src": "https://via.placeholder.com/640x360?text=Istanbul",
+    "description": "Transcontinental city straddling Europe and Asia across the Bosporus Strait.",
+    "weblink": "https://en.wikipedia.org/wiki/Istanbul",
+    "latitude": 41.0082,
+    "longitude": 28.9784
+  },
+  {
+    "title": "Cairo, Egypt",
+    "image_src": "https://via.placeholder.com/640x360?text=Cairo",
+    "description": "Egypt's sprawling capital near the Great Pyramids of Giza.",
+    "weblink": "https://en.wikipedia.org/wiki/Cairo",
+    "latitude": 30.0444,
+    "longitude": 31.2357
+  },
+  {
+    "title": "Nairobi, Kenya",
+    "image_src": "https://via.placeholder.com/640x360?text=Nairobi",
+    "description": "Kenya’s capital and a gateway to safari destinations.",
+    "weblink": "https://en.wikipedia.org/wiki/Nairobi",
+    "latitude": -1.2921,
+    "longitude": 36.8219
+  },
+  {
+    "title": "Johannesburg, South Africa",
+    "image_src": "https://via.placeholder.com/640x360?text=Johannesburg",
+    "description": "South Africa’s largest city and economic hub.",
+    "weblink": "https://en.wikipedia.org/wiki/Johannesburg",
+    "latitude": -26.2041,
+    "longitude": 28.0473
+  },
+  {
+    "title": "Cape Town, South Africa",
+    "image_src": "https://via.placeholder.com/640x360?text=Cape+Town",
+    "description": "Coastal city beneath Table Mountain, known for its harbor and biodiversity.",
+    "weblink": "https://en.wikipedia.org/wiki/Cape_Town",
+    "latitude": -33.9249,
+    "longitude": 18.4241
+  },
+  {
+    "title": "Moscow, Russia",
+    "image_src": "https://via.placeholder.com/640x360?text=Moscow",
+    "description": "Russia’s capital, home to the Kremlin and Red Square.",
+    "weblink": "https://en.wikipedia.org/wiki/Moscow",
+    "latitude": 55.7558,
+    "longitude": 37.6173
+  },
+  {
+    "title": "Dubai, United Arab Emirates",
+    "image_src": "https://via.placeholder.com/640x360?text=Dubai",
+    "description": "Global city known for modern architecture, shopping, and the Burj Khalifa.",
+    "weblink": "https://en.wikipedia.org/wiki/Dubai",
+    "latitude": 25.2048,
+    "longitude": 55.2708
+  },
+  {
+    "title": "Doha, Qatar",
+    "image_src": "https://via.placeholder.com/640x360?text=Doha",
+    "description": "Qatar’s capital on the Persian Gulf, known for futuristic skyscrapers.",
+    "weblink": "https://en.wikipedia.org/wiki/Doha",
+    "latitude": 25.2854,
+    "longitude": 51.531
+  },
+  {
+    "title": "Riyadh, Saudi Arabia",
+    "image_src": "https://via.placeholder.com/640x360?text=Riyadh",
+    "description": "Saudi Arabia’s capital and largest city on the Arabian Peninsula.",
+    "weblink": "https://en.wikipedia.org/wiki/Riyadh",
+    "latitude": 24.7136,
+    "longitude": 46.6753
+  },
+  {
+    "title": "New Delhi, India",
+    "image_src": "https://via.placeholder.com/640x360?text=New+Delhi",
+    "description": "India’s capital, part of the larger Delhi metropolitan area.",
+    "weblink": "https://en.wikipedia.org/wiki/New_Delhi",
+    "latitude": 28.6139,
+    "longitude": 77.209
+  },
+  {
+    "title": "Bangkok, Thailand",
+    "image_src": "https://via.placeholder.com/640x360?text=Bangkok",
+    "description": "Thailand’s buzzing capital, famed for ornate shrines and vibrant street life.",
+    "weblink": "https://en.wikipedia.org/wiki/Bangkok",
+    "latitude": 13.7563,
+    "longitude": 100.5018
+  },
+  {
+    "title": "Beijing, China",
+    "image_src": "https://via.placeholder.com/640x360?text=Beijing",
+    "description": "China’s capital with millennia of history, including the Forbidden City.",
+    "weblink": "https://en.wikipedia.org/wiki/Beijing",
+    "latitude": 39.9042,
+    "longitude": 116.4074
+  },
+  {
+    "title": "Tokyo, Japan",
+    "image_src": "https://via.placeholder.com/640x360?text=Tokyo",
+    "description": "Japan’s vibrant capital blending ultramodern and traditional culture.",
+    "weblink": "https://en.wikipedia.org/wiki/Tokyo",
+    "latitude": 35.6762,
+    "longitude": 139.6503
+  },
+  {
+    "title": "Singapore",
+    "image_src": "https://via.placeholder.com/640x360?text=Singapore",
+    "description": "City-state at the tip of the Malay Peninsula, a global financial hub.",
+    "weblink": "https://en.wikipedia.org/wiki/Singapore",
+    "latitude": 1.3521,
+    "longitude": 103.8198
+  },
+  {
+    "title": "Sydney, Australia",
+    "image_src": "https://via.placeholder.com/640x360?text=Sydney",
+    "description": "Harbor city known for the Opera House and Harbour Bridge.",
+    "weblink": "https://en.wikipedia.org/wiki/Sydney",
+    "latitude": -33.8688,
+    "longitude": 151.2093
+  },
+  {
+    "title": "Auckland, New Zealand",
+    "image_src": "https://via.placeholder.com/640x360?text=Auckland",
+    "description": "New Zealand’s largest city, set between two harbors on the North Island.",
+    "weblink": "https://en.wikipedia.org/wiki/Auckland",
+    "latitude": -36.8485,
+    "longitude": 174.7633
+  },
+  {
+    "title": "San Francisco, United States",
+    "image_src": "https://via.placeholder.com/640x360?text=San+Francisco",
+    "description": "California city famed for the Golden Gate Bridge and hilly landscape.",
+    "weblink": "https://en.wikipedia.org/wiki/San_Francisco",
+    "latitude": 37.7749,
+    "longitude": -122.4194
+  },
+  {
+    "title": "New York City, United States",
+    "image_src": "https://via.placeholder.com/640x360?text=New+York+City",
+    "description": "The most populous city in the U.S., a global center of culture and finance.",
+    "weblink": "https://en.wikipedia.org/wiki/New_York_City",
+    "latitude": 40.7128,
+    "longitude": -74.006
+  },
+  {
+    "title": "Toronto, Canada",
+    "image_src": "https://via.placeholder.com/640x360?text=Toronto",
+    "description": "Canada’s largest city, known for the CN Tower and multicultural neighborhoods.",
+    "weblink": "https://en.wikipedia.org/wiki/Toronto",
+    "latitude": 43.6532,
+    "longitude": -79.3832
+  },
+  {
+    "title": "Vancouver, Canada",
+    "image_src": "https://via.placeholder.com/640x360?text=Vancouver",
+    "description": "Coastal seaport city in western Canada surrounded by mountains and water.",
+    "weblink": "https://en.wikipedia.org/wiki/Vancouver",
+    "latitude": 49.2827,
+    "longitude": -123.1207
+  },
+  {
+    "title": "Mexico City, Mexico",
+    "image_src": "https://via.placeholder.com/640x360?text=Mexico+City",
+    "description": "Mexico’s high-altitude capital founded by the Aztecs as Tenochtitlan.",
+    "weblink": "https://en.wikipedia.org/wiki/Mexico_City",
+    "latitude": 19.4326,
+    "longitude": -99.1332
+  },
+  {
+    "title": "Lima, Peru",
+    "image_src": "https://via.placeholder.com/640x360?text=Lima",
+    "description": "Peru’s capital on the Pacific coast, known for colonial architecture and cuisine.",
+    "weblink": "https://en.wikipedia.org/wiki/Lima",
+    "latitude": -12.0464,
+    "longitude": -77.0428
+  },
+  {
+    "title": "Bogotá, Colombia",
+    "image_src": "https://via.placeholder.com/640x360?text=Bogota",
+    "description": "Colombia’s high-altitude capital with a historic center and vibrant arts scene.",
+    "weblink": "https://en.wikipedia.org/wiki/Bogot%C3%A1",
+    "latitude": 4.711,
+    "longitude": -74.0721
+  },
+  {
+    "title": "São Paulo, Brazil",
+    "image_src": "https://via.placeholder.com/640x360?text=Sao+Paulo",
+    "description": "Brazil’s largest city and a major financial center in the Southern Hemisphere.",
+    "weblink": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+    "latitude": -23.5505,
+    "longitude": -46.6333
+  },
+  {
+    "title": "Rio de Janeiro, Brazil",
+    "image_src": "https://via.placeholder.com/640x360?text=Rio+de+Janeiro",
+    "description": "Coastal city known for Christ the Redeemer and Copacabana Beach.",
+    "weblink": "https://en.wikipedia.org/wiki/Rio_de_Janeiro",
+    "latitude": -22.9068,
+    "longitude": -43.1729
+  },
+  {
+    "title": "Buenos Aires, Argentina",
+    "image_src": "https://via.placeholder.com/640x360?text=Buenos+Aires",
+    "description": "Argentina’s capital, famed for European-style architecture and tango.",
+    "weblink": "https://en.wikipedia.org/wiki/Buenos_Aires",
+    "latitude": -34.6037,
+    "longitude": -58.3816
+  },
+  {
+    "title": "Santiago, Chile",
+    "image_src": "https://via.placeholder.com/640x360?text=Santiago",
+    "description": "Chile’s capital nestled in a valley encircled by the Andes and the Chilean Coast Range.",
+    "weblink": "https://en.wikipedia.org/wiki/Santiago",
+    "latitude": -33.4489,
+    "longitude": -70.6693
+  },
+  {
+    "title": "Honolulu, United States",
+    "image_src": "https://via.placeholder.com/640x360?text=Honolulu",
+    "description": "Hawaii’s capital on Oʻahu, known for Waikiki Beach and volcanic landscapes.",
+    "weblink": "https://en.wikipedia.org/wiki/Honolulu",
+    "latitude": 21.3069,
+    "longitude": -157.8583
+  },
+  {
+    "title": "Anchorage, United States",
+    "image_src": "https://via.placeholder.com/640x360?text=Anchorage",
+    "description": "Alaska’s largest city, a gateway to wilderness and the Chugach Mountains.",
+    "weblink": "https://en.wikipedia.org/wiki/Anchorage,_Alaska",
+    "latitude": 61.2181,
+    "longitude": -149.9003
+  }
+]

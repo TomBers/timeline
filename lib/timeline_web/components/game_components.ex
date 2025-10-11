@@ -31,20 +31,29 @@ defmodule TimelineWeb.GameComponents do
   attr :show_link, :boolean, default: true
   attr :link_target, :string, default: "_blank"
   attr :wrap_body, :boolean, default: true
-  attr :show_description, :boolean, default: true
+  attr :show_description, :boolean, default: false
   attr :summary_text, :string, default: "Show description"
   attr :rest, :global
 
   def event_card(assigns) do
     ~H"""
-    <div id={@id} class={[@class]} {@rest}>
-      <div class={[@wrap_body && "card-body p-4", @compact && "py-3 px-3"]}>
+    <div
+      id={@id}
+      class={[@class]}
+      {@rest}
+      title={if not @show_description, do: description(@event), else: nil}
+    >
+      <div class={[
+        @wrap_body && "card-body",
+        @wrap_body && ((@compact && "p-3") || "p-4"),
+        !@wrap_body && ((@compact && "p-2") || "p-2")
+      ]}>
         <div :if={!@compact} class="flex items-center justify-between -mt-1 mb-2">
           <span class="inline-flex items-center gap-1 text-xs text-base-content/70">
             <.icon name="hero-bars-3-micro" class="w-4 h-4 opacity-60" /> Drag
           </span>
         </div>
-        <h3 class={["font-semibold", @compact && "text-sm"]}>
+        <h3 class={["font-semibold", @compact && ((@wrap_body && "text-sm") || "text-xs")]}>
           {title(@event)}
         </h3>
         <figure :if={image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
@@ -53,7 +62,8 @@ defmodule TimelineWeb.GameComponents do
             alt={title(@event)}
             class={[
               "w-full rounded",
-              @compact && "max-h-24 object-cover",
+              @compact && !@wrap_body && "max-h-20 object-cover",
+              @compact && @wrap_body && "max-h-24 object-cover",
               !@compact && "max-h-40 object-cover"
             ]}
             loading="lazy"
@@ -63,7 +73,8 @@ defmodule TimelineWeb.GameComponents do
         <figure :if={!image_src(@event)} class={[@compact && "mb-1", !@compact && "mb-2"]}>
           <div class={[
             "w-full rounded bg-base-300 flex items-center justify-center text-base-content/60",
-            @compact && "h-24",
+            @compact && !@wrap_body && "h-20",
+            @compact && @wrap_body && "h-24",
             !@compact && "h-40"
           ]}>
             <.icon name="hero-photo" class="w-6 h-6 opacity-50" />
@@ -71,7 +82,7 @@ defmodule TimelineWeb.GameComponents do
         </figure>
 
         <p
-          :if={@show_description && description(@event)}
+          :if={@wrap_body && @show_description && description(@event)}
           class="mt-1 text-xs text-base-content/80"
         >
           {description(@event)}

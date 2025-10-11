@@ -32,7 +32,7 @@ defmodule TimelineWeb.Layouts do
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
 
   attr :active_mode, :atom,
-    values: [:main, :periods, nil],
+    values: [:main, :periods, :geo, nil],
     default: nil,
     doc: "active mode for header highlighting"
 
@@ -68,6 +68,18 @@ defmodule TimelineWeb.Layouts do
             aria-current={@active_mode == :periods && "page"}
           >
             Periods
+          </.link>
+          <.link
+            navigate={~p"/geo"}
+            class={[
+              "btn btn-xs",
+              @active_mode == :geo && "btn-primary",
+              @active_mode != :geo && "btn-ghost btn-soft"
+            ]}
+            data-mode="geo"
+            aria-current={@active_mode == :geo && "page"}
+          >
+            Geo
           </.link>
         </nav>
         <ul class="flex flex-column px-1 space-x-4 items-center">
