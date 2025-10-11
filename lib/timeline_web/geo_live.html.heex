@@ -52,113 +52,117 @@
       </section>
     <% end %>
 
-    <section aria-label="grid" id="geo-grid" phx-hook="DnDSlots" class="space-y-3">
-      <div class="flex items-center justify-between text-xs text-base-content/70">
-        <span class="inline-flex items-center gap-1">W (left)</span>
-        <div class="text-center">
-          <div class="font-semibold">N</div>
-          <div class="opacity-70">Top row is most northern</div>
-        </div>
-        <span class="inline-flex items-center gap-1">E (right)</span>
-      </div>
-
-      <div
-        class="grid gap-3 max-w-5xl mx-auto"
-        style="grid-template-columns: repeat(3, minmax(12rem, 1fr));"
+    <section aria-label="play" class="grid gap-6 lg:grid-cols-12 items-start">
+      <aside
+        aria-label="pool"
+        id="geo-pool"
+        phx-hook="DnDPool"
+        class="space-y-3 lg:col-span-4 lg:sticky lg:top-4 self-start"
       >
-        <%= for {id, idx} <- Enum.with_index(@grid) do %>
-          <div
-            id={"cell-#{idx}"}
-            data-slot-idx={idx}
-            data-filled={not is_nil(id)}
-            class={[
-              "card h-48 bg-base-200 border-2 transition-colors relative overflow-hidden",
-              is_nil(id) && "border-dashed border-base-300 hover:border-primary",
-              !is_nil(id) && "border-base-200"
-            ]}
-          >
-            <div class="absolute top-1 left-2 text-[10px] opacity-70">
-              Cell {idx + 1}
-            </div>
-            <div class="card-body p-2">
-              <div class="flex justify-between items-center mb-2">
-                <div class="text-xs font-semibold">Place here</div>
-                <%= if id do %>
-                  <button
-                    class="btn btn-xs btn-outline"
-                    phx-click="remove_from_slot"
-                    phx-value-slot={idx}
-                    id={"remove-cell-#{idx}"}
-                  >
-                    Remove
-                  </button>
-                <% end %>
-              </div>
+        <h2 class="text-lg font-semibold">Place Pool</h2>
 
-              <%= if id && @places_by_id[id] do %>
-                <.event_card
-                  event={@places_by_id[id]}
-                  compact
-                  show_link={false}
-                  wrap_body={false}
-                  summary_text="Details"
-                />
-              <% else %>
-                <div class="text-base-content/60 text-sm w-full justify-center">
-                  <button
-                    class="btn btn-sm btn-ghost"
-                    phx-click="place_selected"
-                    phx-value-slot={idx}
-                    id={"place-cell-#{idx}"}
-                  >
-                    Tap to place here
-                  </button>
-                  <div class="mt-1 italic text-center">or select from pool below</div>
-                </div>
-              <% end %>
-            </div>
+        <%= if @pool == [] do %>
+          <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
+            No remaining places in the pool.
+          </div>
+        <% else %>
+          <div
+            class="grid gap-3"
+            style="grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));"
+          >
+            <%= for place <- @pool do %>
+              <div
+                id={"pool-#{place.id}"}
+                data-event-id={place.id}
+                draggable="true"
+                phx-click="select_place"
+                phx-value-id={place.id}
+                aria-selected={@selected_id == place.id}
+                class={[
+                  "card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-pointer",
+                  @selected_id == place.id && "ring ring-primary"
+                ]}
+              >
+                <.event_card event={place} show_link={false} summary_text="Details" compact />
+              </div>
+            <% end %>
           </div>
         <% end %>
-      </div>
+      </aside>
 
-      <div class="flex items-center justify-center text-xs text-base-content/70">
-        <div class="text-center">
-          <div class="font-semibold">S</div>
-          <div class="opacity-70">Bottom row is most southern</div>
+      <section aria-label="grid" id="geo-grid" phx-hook="DnDSlots" class="space-y-3 lg:col-span-8">
+        <div class="flex items-center justify-between text-xs text-base-content/70">
+          <span class="inline-flex items-center gap-1">W (left)</span>
+          <div class="text-center">
+            <div class="font-semibold">N</div>
+            <div class="opacity-70">Top row is most northern</div>
+          </div>
+          <span class="inline-flex items-center gap-1">E (right)</span>
         </div>
-      </div>
-    </section>
 
-    <section aria-label="pool" id="geo-pool" phx-hook="DnDPool" class="space-y-3">
-      <h2 class="text-lg font-semibold">Place Pool</h2>
-
-      <%= if @pool == [] do %>
-        <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
-          No remaining places in the pool.
-        </div>
-      <% else %>
         <div
-          class="grid gap-3"
-          style="grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));"
+          class="grid gap-3 max-w-5xl"
+          style="grid-template-columns: repeat(3, minmax(12rem, 1fr));"
         >
-          <%= for place <- @pool do %>
+          <%= for {id, idx} <- Enum.with_index(@grid) do %>
             <div
-              id={"pool-#{place.id}"}
-              data-event-id={place.id}
-              draggable="true"
-              phx-click="select_place"
-              phx-value-id={place.id}
-              aria-selected={@selected_id == place.id}
+              id={"cell-#{idx}"}
+              data-slot-idx={idx}
+              data-filled={not is_nil(id)}
               class={[
-                "card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-pointer",
-                @selected_id == place.id && "ring ring-primary"
+                "card h-48 bg-base-200 border-2 transition-colors relative overflow-hidden",
+                is_nil(id) && "border-dashed border-base-300 hover:border-primary",
+                !is_nil(id) && "border-base-200"
               ]}
             >
-              <.event_card event={place} show_link={false} summary_text="Details" compact />
+              <div class="card-body p-2">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="text-xs font-semibold">Place here</div>
+                  <%= if id do %>
+                    <button
+                      class="btn btn-xs btn-outline"
+                      phx-click="remove_from_slot"
+                      phx-value-slot={idx}
+                      id={"remove-cell-#{idx}"}
+                    >
+                      Remove
+                    </button>
+                  <% end %>
+                </div>
+
+                <%= if id && @places_by_id[id] do %>
+                  <.event_card
+                    event={@places_by_id[id]}
+                    compact
+                    show_link={false}
+                    wrap_body={false}
+                    summary_text="Details"
+                  />
+                <% else %>
+                  <div class="text-base-content/60 text-sm w-full justify-center">
+                    <button
+                      class="btn btn-sm btn-ghost"
+                      phx-click="place_selected"
+                      phx-value-slot={idx}
+                      id={"place-cell-#{idx}"}
+                    >
+                      Tap to place here
+                    </button>
+                    <div class="mt-1 italic text-center">or select from pool</div>
+                  </div>
+                <% end %>
+              </div>
             </div>
           <% end %>
         </div>
-      <% end %>
+
+        <div class="flex items-center justify-center text-xs text-base-content/70">
+          <div class="text-center">
+            <div class="font-semibold">S</div>
+            <div class="opacity-70">Bottom row is most southern</div>
+          </div>
+        </div>
+      </section>
     </section>
   </div>
 </Layouts.app>
