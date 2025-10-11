@@ -20,6 +20,7 @@ defmodule TimelineWeb.Router do
     # get "/", PageController, :home
     live "/", GameLive
     live "/periods", PeriodsLive
+    live "/geo", GeoLive
   end
 
   # Other scopes may use custom stacks.
