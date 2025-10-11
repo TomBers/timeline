@@ -87,7 +87,13 @@ defmodule TimelineWeb.GeoLive do
            socket
            |> assign(:pool, new_pool)
            |> assign(:grid, new_grid)
-           |> assign(:score, nil)}
+           |> assign(
+             :score,
+             if(new_pool == [],
+               do: compute_score(new_grid, socket.assigns.places_by_id),
+               else: nil
+             )
+           )}
         end
     end
   end
@@ -118,38 +124,7 @@ defmodule TimelineWeb.GeoLive do
   end
 
   def handle_event("score", _params, socket) do
-    grid = socket.assigns.grid
-    places_by_id = socket.assigns.places_by_id
-
-    {filled, displacement, correct} =
-      grid
-      |> Enum.with_index()
-      |> Enum.reduce({0, 0, 0}, fn
-        {nil, _idx}, acc ->
-          acc
-
-        {id, idx}, {filled_acc, disp_acc, corr_acc} ->
-          place = Map.fetch!(places_by_id, id)
-
-          {r1, c1} = to_rc(idx)
-          {r2, c2} = to_rc(place.correct_pos)
-
-          manhattan = abs(r1 - r2) + abs(c1 - c2)
-          is_correct = if idx == place.correct_pos, do: 1, else: 0
-
-          {filled_acc + 1, disp_acc + manhattan, corr_acc + is_correct}
-      end)
-
-    total = length(grid)
-
-    score = %{
-      total_slots: total,
-      filled_slots: filled,
-      correct_positions: correct,
-      total_manhattan_displacement: displacement,
-      percent_correct: percent(correct, total)
-    }
-
+    score = compute_score(socket.assigns.grid, socket.assigns.places_by_id)
     {:noreply, assign(socket, :score, score)}
   end
 
@@ -311,6 +286,37 @@ defmodule TimelineWeb.GeoLive do
 
   defp valid_index?(list, idx) do
     idx >= 0 and idx < length(list)
+  end
+
+  defp compute_score(grid, places_by_id) do
+    {filled, displacement, correct} =
+      grid
+      |> Enum.with_index()
+      |> Enum.reduce({0, 0, 0}, fn
+        {nil, _idx}, acc ->
+          acc
+
+        {id, idx}, {filled_acc, disp_acc, corr_acc} ->
+          place = Map.fetch!(places_by_id, id)
+
+          {r1, c1} = to_rc(idx)
+          {r2, c2} = to_rc(place.correct_pos)
+
+          manhattan = abs(r1 - r2) + abs(c1 - c2)
+          is_correct = if idx == place.correct_pos, do: 1, else: 0
+
+          {filled_acc + 1, disp_acc + manhattan, corr_acc + is_correct}
+      end)
+
+    total = length(grid)
+
+    %{
+      total_slots: total,
+      filled_slots: filled,
+      correct_positions: correct,
+      total_manhattan_displacement: displacement,
+      percent_correct: percent(correct, total)
+    }
   end
 
   defp percent(_num, 0), do: 0
