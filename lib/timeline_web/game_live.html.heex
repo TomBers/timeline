@@ -149,9 +149,8 @@
         </span>
       </div>
       <div
-        class="grid gap-3 overflow-x-auto pb-2"
+        class="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6"
         data-dnd-scroll-container="true"
-        style={"grid-template-columns: repeat(#{length(@slots)}, minmax(clamp(11rem, 85vw, 16rem), 1fr)); -webkit-overflow-scrolling: touch;"}
       >
         <%= for {event_id, idx} <- Enum.with_index(@slots) do %>
           <div
@@ -219,10 +218,7 @@
           No remaining events in the pool.
         </div>
       <% else %>
-        <div
-          class="grid gap-3"
-          style="grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));"
-        >
+        <div class="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           <%= for event <- @pool do %>
             <button
               id={"pool-#{event.id}"}

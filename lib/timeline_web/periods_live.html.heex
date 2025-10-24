@@ -3,7 +3,7 @@
     <header class="space-y-2">
       <h1 class="text-2xl font-bold">Timeline — Periods Mode</h1>
       <p class="text-base text-base-content/70">
-        For each row, position and scale the bar so it matches the real historic period on the master axis. Then click Score.
+        All events start on the board. Adjust each row's bar to match the real historic period on the master axis, then click Score.
       </p>
     </header>
 
@@ -134,8 +134,6 @@
       <div class="rounded-box bg-base-200 p-3">
         <canvas
           id="timeline-canvas"
-          width="1600"
-          height="400"
           class="w-full h-auto block"
           phx-hook="TimelineCanvas"
           data-axis-min={@axis_min}
@@ -163,38 +161,6 @@
           <% end %>
         </div>
       </div>
-    </section>
-
-    <section aria-label="pool" id="pool" phx-hook="DnDPool" class="space-y-3">
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold">Event Pool</h2>
-        <button id="shuffle-btn" class="btn btn-ghost btn-sm" phx-click="shuffle_pool">
-          Shuffle pool
-        </button>
-      </div>
-
-      <%= if @pool == [] do %>
-        <div class="rounded-box bg-base-200 p-4 text-sm text-base-content/70">
-          No remaining events in the pool. Drag more back from the timeline to adjust.
-        </div>
-      <% else %>
-        <div
-          class="grid gap-3"
-          style="grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));"
-        >
-          <%= for id <- @pool do %>
-            <% p = @periods_by_id[id] %>
-            <div
-              id={"pool-#{id}"}
-              data-event-id={id}
-              draggable="true"
-              class="card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-move"
-            >
-              <.event_card event={p} show_link={false} summary_text="Details" />
-            </div>
-          <% end %>
-        </div>
-      <% end %>
     </section>
   </div>
 </Layouts.app>

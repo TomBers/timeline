@@ -462,8 +462,8 @@ defmodule TimelineWeb.PeriodsLive do
 
     periods_by_id = Map.new(with_meta, &{&1.id, &1})
     order = Enum.map(with_meta, & &1.id)
-    pool = order
-    placed = []
+    pool = []
+    placed = order
 
     {periods_by_id, order, axis_min, axis_max, pool, placed}
   end

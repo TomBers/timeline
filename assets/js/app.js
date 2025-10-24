@@ -728,7 +728,9 @@ const hooks = {
       this._eventsById = {};
       this._imgCache = new Map();
       // Grid setup: derive origin/step from earliest and latest event years (fallback to axis)
-      this._gridCols = 40;
+      const rect0 = this.el.getBoundingClientRect();
+      const cssW0 = Math.max(1, Math.floor((rect0 && rect0.width) || 800));
+      this._gridCols = Math.max(24, Math.round(cssW0 / 32));
       let earliest = Number.POSITIVE_INFINITY;
       let latest = Number.NEGATIVE_INFINITY;
       Object.values(this._eventsById).forEach((m) => {
@@ -827,12 +829,43 @@ const hooks = {
       };
 
       this._drawW = () =>
-        this.el.width - (this._padding.left + this._padding.right);
+        this._cssWidth - (this._padding.left + this._padding.right);
 
       this._resizeCanvas = () => {
         const dpr = window.devicePixelRatio || 1;
         const rect = this.el.getBoundingClientRect();
         // Dynamic height based on stable lane count from server
+        // Compute CSS pixel width first
+        this._cssWidth = Math.max(1, Math.floor(rect.width));
+
+        // Responsive layout adjustments for small screens
+        if (this._cssWidth < 480) {
+          this._padding = { left: 24, right: 16, top: 20, bottom: 18 };
+          this._headerH = 28;
+          this._laneH = 64;
+          this._laneGap = 10;
+        } else if (this._cssWidth < 768) {
+          this._padding = { left: 32, right: 20, top: 28, bottom: 20 };
+          this._headerH = 32;
+          this._laneH = 76;
+          this._laneGap = 14;
+        } else {
+          this._padding = { left: 40, right: 20, top: 32, bottom: 24 };
+          this._headerH = 36;
+          this._laneH = 88;
+          this._laneGap = 18;
+        }
+
+        // Adapt grid density to available width and axis span
+        this._gridCols = Math.max(24, Math.round(this._cssWidth / 32));
+        this._gridOriginYear = this._axisMin;
+        const gridSpanYears = Math.max(1, this._axisMax - this._axisMin);
+        this._gridSizeYears = Math.max(
+          1,
+          Math.round(gridSpanYears / this._gridCols),
+        );
+
+        // Dynamic height based on responsive metrics and lane count
         const lanes = Math.max(this._laneCount || 1, 1);
         const heightCss =
           this._padding.top +
@@ -841,19 +874,21 @@ const hooks = {
           this._laneGap +
           this._padding.bottom;
 
-        // Set intrinsic size for crisp drawing
-        this.el.width = Math.max(1, Math.floor(rect.width * dpr));
-        this.el.height = Math.max(1, Math.floor(heightCss * dpr));
-        // Scale context
+        // Compute CSS pixel size and set intrinsic size for crisp drawing
+        this._cssHeight = Math.max(1, Math.floor(heightCss));
+        this.el.width = Math.max(1, Math.floor(this._cssWidth * dpr));
+        this.el.height = Math.max(1, Math.floor(this._cssHeight * dpr));
+        // Scale context so drawing uses CSS pixels
         this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        // Also set CSS height to match
-        this.el.style.height = `${heightCss}px`;
+        // Ensure CSS size reflects CSS pixels
+        this.el.style.width = "100%";
+        this.el.style.height = `${this._cssHeight}px`;
       };
 
       this._draw = () => {
         const ctx = this._ctx;
         // Clear
-        ctx.clearRect(0, 0, this.el.width, this.el.height);
+        ctx.clearRect(0, 0, this._cssWidth, this._cssHeight);
 
         // Axis header line (emphasized and theme-aware)
         const axisY = this._padding.top + this._headerH / 2;
@@ -917,7 +952,9 @@ const hooks = {
 
         // Ticks and labels (evenly spaced, theme-aware)
         ctx.textBaseline = "top";
-        ctx.font = "600 12px system-ui, sans-serif";
+        const tickFontSize =
+          this._cssWidth < 480 ? 10 : this._cssWidth < 768 ? 11 : 12;
+        ctx.font = `600 ${tickFontSize}px system-ui, sans-serif`;
         {
           const nTicks = this._ticks.length;
           if (nTicks > 0) {
@@ -1047,7 +1084,9 @@ const hooks = {
 
           // Label
           const label = `${meta.title}`;
-          ctx.font = "12px system-ui, sans-serif";
+          const labelFontSize =
+            this._cssWidth < 480 ? 10 : this._cssWidth < 768 ? 11 : 12;
+          ctx.font = `${labelFontSize}px system-ui, sans-serif`;
           const small = gw < 140;
           ctx.fillStyle = "#fff";
           if (!small) {
