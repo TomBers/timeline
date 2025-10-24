@@ -8,7 +8,13 @@
     </header>
 
     <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
-      <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
+      <button
+        id="score-btn"
+        class="btn btn-primary"
+        phx-click={JS.push("score") |> show("#score-modal")}
+      >
+        Score
+      </button>
       <button id="reset-btn" class="btn" phx-click="reset">New game</button>
 
       <div class="ml-auto text-sm text-base-content/70">
@@ -16,28 +22,109 @@
       </div>
     </section>
 
-    <%= if @score do %>
-      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-4">
-        <div class="flex flex-wrap gap-6 items-center">
-          <div>
-            <div class="text-3xl font-extrabold">{@score.avg_iou_pct}%</div>
-            <div class="text-sm text-base-content/70">Average overlap accuracy</div>
-          </div>
-          <div>
-            <div class="text-xl font-semibold">{@score.mean_abs_start_err} yrs</div>
-            <div class="text-sm text-base-content/70">Avg start error</div>
-          </div>
-          <div>
-            <div class="text-xl font-semibold">{@score.mean_abs_end_err} yrs</div>
-            <div class="text-sm text-base-content/70">Avg end error</div>
-          </div>
-          <div>
-            <div class="text-xl font-semibold">{@score.perfect_count} / {@score.total}</div>
-            <div class="text-sm text-base-content/70">Perfect matches</div>
+    <div
+      id="score-modal"
+      class="fixed inset-0 z-50 hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="score-modal-title"
+    >
+      <div class="absolute inset-0 bg-black/50" phx-click={hide("#score-modal")}></div>
+
+      <div class="relative max-w-lg w-[92vw] sm:w-full mx-auto mt-16">
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body gap-4">
+            <div class="flex items-start">
+              <h3 id="score-modal-title" class="text-xl font-bold">Your Results</h3>
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm ml-auto"
+                aria-label="Close"
+                phx-click={hide("#score-modal")}
+              >
+                <.icon name="hero-x-mark" class="w-5 h-5" />
+              </button>
+            </div>
+
+            <%= if @score do %>
+              <div class="grid sm:grid-cols-2 gap-4 items-center">
+                <div>
+                  <div class="text-4xl font-extrabold">{@score.avg_iou_pct}%</div>
+                  <div class="text-sm text-base-content/70">Average overlap accuracy</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">{@score.mean_abs_start_err} yrs</div>
+                  <div class="text-sm text-base-content/70">Avg start error</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">{@score.mean_abs_end_err} yrs</div>
+                  <div class="text-sm text-base-content/70">Avg end error</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">{@score.perfect_count} / {@score.total}</div>
+                  <div class="text-sm text-base-content/70">Perfect matches</div>
+                </div>
+              </div>
+
+              <div class="divider">Share</div>
+              <div class="flex flex-wrap gap-2">
+                <% share_url = TimelineWeb.Endpoint.url() <> ~p"/" %>
+                <% tweet_text = "I scored #{@score.avg_iou_pct}% on Timeline — Periods!" %>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://twitter.com/intent/tweet?text=" <> URI.encode_www_form(tweet_text) <> "&url=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-arrow-up-right" class="w-4 h-4" />
+                  <span class="ml-1">Post on X</span>
+                </a>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://www.facebook.com/sharer/sharer.php?u=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-share" class="w-4 h-4" />
+                  <span class="ml-1">Share on Facebook</span>
+                </a>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://www.linkedin.com/sharing/share-offsite/?url=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-briefcase" class="w-4 h-4" />
+                  <span class="ml-1">Share on LinkedIn</span>
+                </a>
+              </div>
+            <% else %>
+              <div class="flex items-center gap-2 text-base-content/70">
+                <.icon name="hero-arrow-path" class="w-4 h-4 motion-safe:animate-spin" />
+                Calculating score...
+              </div>
+            <% end %>
+
+            <div class="flex flex-wrap gap-2 justify-end pt-2">
+              <button
+                type="button"
+                class="btn"
+                phx-click={hide("#score-modal")}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                phx-click={JS.push("reset") |> hide("#score-modal")}
+              >
+                Play again
+              </button>
+            </div>
           </div>
         </div>
-      </section>
-    <% end %>
+      </div>
+    </div>
 
     <section
       id="timeline-lanes"

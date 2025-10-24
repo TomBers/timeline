@@ -28,6 +28,81 @@ import topbar from "../vendor/topbar";
 const csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
+
+// Lightweight analytics helper (gtag preferred; falls back to dataLayer or console)
+const track = (event, params = {}) => {
+  try {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", event, params);
+    } else if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event, ...params });
+    } else if (window.console && typeof console.debug === "function") {
+      console.debug("[track]", event, params);
+    }
+  } catch (_e) {
+    // no-op
+  }
+};
+
+// Attach analytics handlers for score modal + share links
+const bindScoreAnalytics = () => {
+  // Track when the Score button is clicked (modal open is requested)
+  document.addEventListener(
+    "click",
+    (e) => {
+      const btn = e.target.closest && e.target.closest("#score-btn");
+      if (btn) {
+        track("score_open", { component: "game" });
+      }
+    },
+    true,
+  );
+
+  // Delegate inside the score modal
+  document.addEventListener(
+    "click",
+    (e) => {
+      const within = e.target.closest && e.target.closest("#score-modal");
+      if (!within) return;
+
+      // Share link clicks
+      const shareLink =
+        e.target.closest && e.target.closest("#score-modal a[href]");
+      if (shareLink) {
+        try {
+          const url = new URL(shareLink.href);
+          let platform = "other";
+          if (url.hostname.includes("twitter.com")) platform = "x";
+          else if (url.hostname.includes("facebook.com")) platform = "facebook";
+          else if (url.hostname.includes("linkedin.com")) platform = "linkedin";
+          track("share_click", { platform, component: "game" });
+        } catch (_e) {
+          // ignore URL parse errors
+        }
+        return;
+      }
+
+      // Modal close actions: close button, overlay, or any element calling hide(#score-modal)
+      if (
+        e.target.matches("#score-modal [aria-label='Close']") ||
+        e.target.matches("#score-modal .bg-black\\/50") ||
+        (e.target.closest &&
+          e.target.closest('[phx-click*="hide(#score-modal)"]'))
+      ) {
+        track("score_close", { component: "game" });
+      }
+    },
+    true,
+  );
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bindScoreAnalytics, {
+    once: true,
+  });
+} else {
+  bindScoreAnalytics();
+}
 const hooks = {
   ...colocatedHooks,
   DnDPool: {
@@ -38,12 +113,113 @@ const hooks = {
       this._pointerId = null;
       this._offsetX = 0;
       this._offsetY = 0;
+      // Auto-scroll state (initialized lazily)
+      this._scrollContainer = null;
+      this._autoScrollEdge = 48; // px from edge to begin auto-scroll
+      this._autoScrollMaxV = 18; // max px per frame during auto-scroll
+      this._autoScrollVx = 0;
+      this._autoScrollRAF = null;
+
+      // A11y live region announcer
+      this._announce = (msg) => {
+        const el = document.getElementById("a11y-live");
+        if (el) {
+          el.textContent = "";
+          el.textContent = msg;
+        }
+      };
+
+      // Keyboard support in pool: Enter/Space selects the card
+      this._onKeyDownPool = (e) => {
+        const card = e.target.closest("[data-event-id]");
+        if (!card) return;
+        const id = card.getAttribute("data-event-id");
+        if (!id) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          this.pushEvent("select_event", { id });
+          if (this._announce) {
+            const label = card.getAttribute("aria-label") || "event";
+            this._announce(
+              `Selected ${label}. Move focus to a slot and press Enter to place.`,
+            );
+          }
+        }
+      };
+      this.el.addEventListener("keydown", this._onKeyDownPool);
 
       // Helpers for pointer-based DnD (touch/pen)
       this._highlightSlot = (el) =>
         el && el.classList.add("border-primary", "bg-base-100");
       this._unhighlightSlot = (el) =>
         el && el.classList.remove("border-primary", "bg-base-100");
+
+      // Edge auto-scroll helpers (mobile-first, no-ops on desktop)
+      this._findScrollContainer = () => {
+        // Prefer explicit data attribute if present, then common fallbacks
+        let el =
+          document.querySelector("[data-dnd-scroll-container='true']") ||
+          (document.getElementById("timeline") &&
+            document
+              .getElementById("timeline")
+              .querySelector(".overflow-x-auto")) ||
+          document.querySelector("#timeline .overflow-x-auto") ||
+          document.querySelector(".overflow-x-auto");
+        return el || null;
+      };
+
+      this._setAutoScrollVX = (vx) => {
+        if (vx === this._autoScrollVx) return;
+        this._autoScrollVx = vx;
+        if (!vx) {
+          if (this._autoScrollRAF) {
+            cancelAnimationFrame(this._autoScrollRAF);
+            this._autoScrollRAF = null;
+          }
+          return;
+        }
+        if (this._autoScrollRAF) return;
+        const tick = () => {
+          const sc = this._scrollContainer;
+          if (!sc) {
+            this._setAutoScrollVX(0);
+            return;
+          }
+          sc.scrollLeft += this._autoScrollVx;
+          this._autoScrollRAF = requestAnimationFrame(tick);
+        };
+        this._autoScrollRAF = requestAnimationFrame(tick);
+      };
+
+      this._updateAutoScroll = (e) => {
+        if (!this._scrollContainer) {
+          this._scrollContainer =
+            this._findScrollContainer && this._findScrollContainer();
+        }
+        const sc = this._scrollContainer;
+        if (!sc) return;
+        const rect = sc.getBoundingClientRect();
+        const edge = this._autoScrollEdge || 48;
+        const maxV = this._autoScrollMaxV || 18;
+        let vx = 0;
+
+        // Left edge
+        if (e.clientX < rect.left + edge && sc.scrollLeft > 0) {
+          const t = (rect.left + edge - e.clientX) / edge; // 0..1
+          vx = -Math.ceil(maxV * Math.min(1, Math.max(0, t)));
+        }
+        // Right edge
+        else if (
+          e.clientX > rect.right - edge &&
+          sc.scrollLeft < sc.scrollWidth - sc.clientWidth
+        ) {
+          const t = (e.clientX - (rect.right - edge)) / edge; // 0..1
+          vx = Math.ceil(maxV * Math.min(1, Math.max(0, t)));
+        }
+
+        this._setAutoScrollVX(vx);
+      };
+
       this._slotAt = (x, y) => {
         const el = document.elementFromPoint(x, y);
         if (!el) return null;
@@ -96,6 +272,10 @@ const hooks = {
 
         // Prevent page scroll on touch while dragging
         e.preventDefault();
+        // Light haptic feedback on drag start (supported devices only)
+        if (navigator && typeof navigator.vibrate === "function") {
+          navigator.vibrate(8);
+        }
 
         this._activeCard = card;
         this._pointerId = e.pointerId;
@@ -156,6 +336,9 @@ const hooks = {
           this._hoverSlot = slot;
           this._highlightSlot(this._hoverSlot);
         }
+
+        // Update edge auto-scroll based on pointer position
+        this._updateAutoScroll && this._updateAutoScroll(e);
       };
 
       this._onPointerUp = (e) => {
@@ -184,12 +367,22 @@ const hooks = {
           // Subtle placement animation
           slot.classList.add("animate-pulse");
           setTimeout(() => slot.classList.remove("animate-pulse"), 250);
+          // Haptic tick on successful drop (supported devices only)
+          if (navigator && typeof navigator.vibrate === "function") {
+            navigator.vibrate(12);
+          }
           this.pushEvent("place_selected", { id, slot: parseInt(idx, 10) });
+          if (this._announce) {
+            this._announce(`Placed into slot ${parseInt(idx, 10) + 1}`);
+          }
         }
 
         this._hoverSlot = null;
         this._activeCard = null;
         this._pointerId = null;
+
+        // Stop edge auto-scroll loop
+        if (this._setAutoScrollVX) this._setAutoScrollVX(0);
 
         window.removeEventListener("pointermove", this._boundPointerMove);
         window.removeEventListener("pointerup", this._boundPointerUp);
@@ -207,9 +400,11 @@ const hooks = {
       this.el.removeEventListener("dragstart", this._onDragStart);
       this.el.removeEventListener("dragend", this._onDragEnd);
       this.el.removeEventListener("pointerdown", this._onPointerDown);
+      this.el.removeEventListener("keydown", this._onKeyDownPool);
       window.removeEventListener("pointermove", this._boundPointerMove);
       window.removeEventListener("pointerup", this._boundPointerUp);
       window.removeEventListener("pointercancel", this._boundPointerUp);
+      if (this._autoScrollRAF) cancelAnimationFrame(this._autoScrollRAF);
     },
   },
   DnDSlots: {
@@ -225,6 +420,53 @@ const hooks = {
       const unhighlight = (el) =>
         el.classList.remove("border-primary", "bg-base-100");
       this.el.querySelectorAll("[data-slot-idx]").forEach((slot) => {
+        // Make slots focusable for keyboard users
+        if (!slot.hasAttribute("tabindex")) {
+          slot.setAttribute("tabindex", "0");
+        }
+        // A11y live region announcer (shared pattern)
+        if (!this._announce) {
+          this._announce = (msg) => {
+            const el = document.getElementById("a11y-live");
+            if (el) {
+              el.textContent = "";
+              el.textContent = msg;
+            }
+          };
+        }
+        // Keyboard controls: Enter/Space places selected, Backspace/Delete removes
+        const onKeyDown = (e) => {
+          const key = e.key;
+          if (key === "Enter" || key === " ") {
+            e.preventDefault();
+            const selected = document.querySelector(
+              "#pool [aria-pressed='true'][data-event-id]",
+            );
+            const id = selected && selected.getAttribute("data-event-id");
+            const idx = slot.getAttribute("data-slot-idx");
+            if (id && idx != null) {
+              this.pushEvent("place_selected", {
+                id,
+                slot: parseInt(idx, 10),
+              });
+              if (this._announce) {
+                this._announce(`Placed into slot ${parseInt(idx, 10) + 1}`);
+              }
+            }
+          } else if (key === "Backspace" || key === "Delete") {
+            e.preventDefault();
+            const idx = slot.getAttribute("data-slot-idx");
+            if (idx != null) {
+              this.pushEvent("remove_from_slot", {
+                slot: parseInt(idx, 10),
+              });
+              if (this._announce) {
+                this._announce(`Removed from slot ${parseInt(idx, 10) + 1}`);
+              }
+            }
+          }
+        };
+        slot.addEventListener("keydown", onKeyDown);
         const isFilled = () => slot.getAttribute("data-filled") === "true";
         const onDragOver = (e) => {
           if (isFilled()) {
@@ -251,6 +493,9 @@ const hooks = {
               id: eventId,
               slot: parseInt(idx, 10),
             });
+            if (this._announce) {
+              this._announce(`Placed into slot ${parseInt(idx, 10) + 1}`);
+            }
           }
         };
         slot.addEventListener("dragover", onDragOver);
