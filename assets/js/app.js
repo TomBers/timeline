@@ -695,11 +695,11 @@ const hooks = {
     mounted() {
       // Canvas and context
       this._ctx = this.el.getContext("2d");
-      // Config
-      this._padding = { left: 40, right: 20, top: 32, bottom: 24 };
-      this._headerH = 36;
-      this._laneH = 88;
-      this._laneGap = 18;
+      // Config (smaller defaults for per-row single-event canvas)
+      this._padding = { left: 40, right: 20, top: 16, bottom: 16 };
+      this._headerH = 24;
+      this._laneH = 64;
+      this._laneGap = 12;
       this._drag = null;
       this._rects = new Map(); // id -> {x,y,w,h,lane}
 
@@ -711,10 +711,15 @@ const hooks = {
         .split(",")
         .map((t) => parseInt(t, 10))
         .filter((n) => Number.isFinite(n));
-      this._placed = (d.placed || "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
+      {
+        const placedRaw = d.placed || "";
+        this._placed =
+          typeof placedRaw === "string"
+            ? (placedRaw.includes(",") ? placedRaw.split(",") : [placedRaw])
+                .map((s) => s.trim())
+                .filter(Boolean)
+            : [];
+      }
       this._laneCount = parseInt(d.laneCount || "1", 10);
       this._laneOverrides = {};
       try {
@@ -723,6 +728,14 @@ const hooks = {
         }
       } catch (_e) {}
       // Show answers removed; no truth overlays rendered
+      this._isRow = String(d.rowMode || "").toLowerCase() === "true";
+      if (this._isRow) {
+        // Tweak padding/sizing for per-row canvases
+        this._padding = { left: 40, right: 20, top: 12, bottom: 12 };
+        this._headerH = 22;
+        this._laneH = 56;
+        this._laneGap = 10;
+      }
 
       // Events meta from hidden DOM
       this._eventsById = {};
@@ -869,51 +882,53 @@ const hooks = {
         ctx.lineTo(this._padding.left + this._drawW(), axisY);
         ctx.stroke();
 
-        // Grid vertical lines
-        {
-          const __bcGrid = getComputedStyle(document.documentElement)
-            .getPropertyValue("--bc")
-            .trim();
-          ctx.strokeStyle = __bcGrid
-            ? `rgba(${__bcGrid.replace(/\s+/g, ", ")}, 0.15)`
-            : "rgba(0,0,0,0.15)";
-        }
-        ctx.lineWidth = 1.25;
-        const yTop = this._padding.top + this._headerH;
-        const yBottom =
-          this._padding.top +
-          this._headerH +
-          Math.max(this._laneCount || 1, 1) * (this._laneH + this._laneGap) -
-          this._laneGap;
-        const colStart = this._yearToCol(this._axisMin);
-        const colEnd = this._yearToCol(this._axisMax);
-        for (let c = colStart; c <= colEnd; c++) {
-          const x = this._yearToX(this._colToYear(c));
+        if ((this._placed || []).length > 0) {
+          // Grid vertical lines
+          {
+            const __bcGrid = getComputedStyle(document.documentElement)
+              .getPropertyValue("--bc")
+              .trim();
+            ctx.strokeStyle = __bcGrid
+              ? `rgba(${__bcGrid.replace(/\s+/g, ", ")}, 0.15)`
+              : "rgba(0,0,0,0.15)";
+          }
+          ctx.lineWidth = 1.25;
+          const yTop = this._padding.top + this._headerH;
+          const yBottom =
+            this._padding.top +
+            this._headerH +
+            Math.max(this._laneCount || 1, 1) * (this._laneH + this._laneGap) -
+            this._laneGap;
+          const colStart = this._yearToCol(this._axisMin);
+          const colEnd = this._yearToCol(this._axisMax);
+          for (let c = colStart; c <= colEnd; c++) {
+            const x = this._yearToX(this._colToYear(c));
+            ctx.beginPath();
+            ctx.moveTo(x, yTop);
+            ctx.lineTo(x, yBottom);
+            ctx.stroke();
+          }
+          // Grid horizontal boundaries (single top and bottom lines)
+          {
+            const __bcGrid = getComputedStyle(document.documentElement)
+              .getPropertyValue("--bc")
+              .trim();
+            ctx.strokeStyle = __bcGrid
+              ? `rgba(${__bcGrid.replace(/\s+/g, ", ")}, 0.15)`
+              : "rgba(0,0,0,0.15)";
+          }
+          ctx.lineWidth = 1.25;
+          // Top boundary
           ctx.beginPath();
-          ctx.moveTo(x, yTop);
-          ctx.lineTo(x, yBottom);
+          ctx.moveTo(this._padding.left, yTop);
+          ctx.lineTo(this._padding.left + this._drawW(), yTop);
+          ctx.stroke();
+          // Bottom boundary
+          ctx.beginPath();
+          ctx.moveTo(this._padding.left, yBottom);
+          ctx.lineTo(this._padding.left + this._drawW(), yBottom);
           ctx.stroke();
         }
-        // Grid horizontal boundaries (single top and bottom lines)
-        {
-          const __bcGrid = getComputedStyle(document.documentElement)
-            .getPropertyValue("--bc")
-            .trim();
-          ctx.strokeStyle = __bcGrid
-            ? `rgba(${__bcGrid.replace(/\s+/g, ", ")}, 0.15)`
-            : "rgba(0,0,0,0.15)";
-        }
-        ctx.lineWidth = 1.25;
-        // Top boundary
-        ctx.beginPath();
-        ctx.moveTo(this._padding.left, yTop);
-        ctx.lineTo(this._padding.left + this._drawW(), yTop);
-        ctx.stroke();
-        // Bottom boundary
-        ctx.beginPath();
-        ctx.moveTo(this._padding.left, yBottom);
-        ctx.lineTo(this._padding.left + this._drawW(), yBottom);
-        ctx.stroke();
 
         // Ticks and labels (evenly spaced, theme-aware)
         ctx.textBaseline = "top";
@@ -953,7 +968,10 @@ const hooks = {
             });
           }
         }
-
+        // If no placed ids (master axis), draw only axis/ticks and exit
+        if ((this._placed || []).length === 0) {
+          return;
+        }
         // Draw lanes: truth and blocks
         this._rects.clear();
 
@@ -1020,6 +1038,30 @@ const hooks = {
           ctx.roundRect(gx, y - gh / 2, Math.max(6, gw), gh, 6);
           ctx.fill();
           ctx.stroke();
+
+          // Drag handles (visual affordances)
+          ctx.save();
+          ctx.fillStyle = "rgba(255,255,255,0.9)";
+          ctx.strokeStyle = "rgba(0,0,0,0.25)";
+          ctx.lineWidth = 1;
+          const handleW = 6;
+          const handleH = Math.max(12, gh - 12);
+          const hy = y - handleH / 2;
+          const hxL = gx + 3;
+          const hxR = gx + Math.max(6, gw) - handleW - 3;
+
+          // left handle
+          ctx.beginPath();
+          ctx.roundRect(hxL, hy, handleW, handleH, 3);
+          ctx.fill();
+          ctx.stroke();
+
+          // right handle
+          ctx.beginPath();
+          ctx.roundRect(hxR, hy, handleW, handleH, 3);
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
 
           // Thumbnail (if available)
           if (meta.image && gw >= 140) {
@@ -1171,6 +1213,8 @@ const hooks = {
         e.preventDefault();
         const hit = this._hitTest(e.clientX, e.clientY);
         if (!hit) return;
+        // Cursor feedback
+        this.el.style.cursor = "grabbing";
 
         const meta = this._eventsById[hit.id];
         const dur = Math.max(meta.guessEnd - meta.guessStart, 1);
@@ -1193,6 +1237,8 @@ const hooks = {
         window.addEventListener("pointercancel", this._boundUp, {
           passive: false,
         });
+        // Cursor feedback while dragging
+        this.el.style.cursor = "grabbing";
       };
 
       this._onPointerMove = (e) => {
@@ -1217,16 +1263,8 @@ const hooks = {
         }
 
         // Collision constraints (single lane): prevent overlaps with other placed blocks
-        let lane = Number.isFinite(meta.lane) ? meta.lane : 0;
-        const targetLane = this._laneFromY(e.clientY);
-        if (Number.isFinite(targetLane) && targetLane !== lane) {
-          lane = Math.max(0, Math.min((this._laneCount || 1) - 1, targetLane));
-          meta.lane = lane;
-          this._laneOverrides = this._laneOverrides || {};
-          this._laneOverrides[id] = lane;
-          // Persist overrides on canvas dataset for future LV updates
-          this.el.dataset.laneOverrides = JSON.stringify(this._laneOverrides);
-        }
+        // Restrict interaction to horizontal dragging only (no lane changes)
+        const lane = Number.isFinite(meta.lane) ? meta.lane : 0;
 
         // Snap to grid and enforce non-overlap using discrete columns
         let startCol = this._yearToCol(
@@ -1309,6 +1347,9 @@ const hooks = {
         window.removeEventListener("pointerup", this._boundUp);
         window.removeEventListener("pointercancel", this._boundUp);
         this._drag = null;
+        // Update cursor based on hover hit-test after drag ends
+        const hit = this._hitTest(e.clientX, e.clientY);
+        this.el.style.cursor = hit ? "grab" : "default";
       };
 
       // Desktop HTML5 drag-and-drop from pool onto canvas
@@ -1434,6 +1475,12 @@ const hooks = {
       this.el.addEventListener("pointerdown", this._onPointerDown, {
         passive: false,
       });
+      // Hover feedback for draggable bars (no resize, horizontal drag only)
+      this.el.addEventListener("pointermove", (e) => {
+        if (this._drag) return;
+        const hit = this._hitTest(e.clientX, e.clientY);
+        this.el.style.cursor = hit ? "grab" : "default";
+      });
       this.el.addEventListener("dragover", this._onDragOver);
       this.el.addEventListener("dragleave", this._onDragLeave);
       this.el.addEventListener("drop", this._onDrop);
@@ -1467,10 +1514,15 @@ const hooks = {
         .split(",")
         .map((t) => parseInt(t, 10))
         .filter((n) => Number.isFinite(n));
-      this._placed = (d.placed || "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
+      {
+        const placedRaw2 = d.placed || "";
+        this._placed =
+          typeof placedRaw2 === "string"
+            ? (placedRaw2.includes(",") ? placedRaw2.split(",") : [placedRaw2])
+                .map((s) => s.trim())
+                .filter(Boolean)
+            : [];
+      }
       this._laneCount = parseInt(d.laneCount || `${this._laneCount || 1}`, 10);
       try {
         this._laneOverrides = d.laneOverrides

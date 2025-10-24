@@ -3,7 +3,7 @@
     <header class="space-y-2">
       <h1 class="text-2xl font-bold">Timeline — Periods Mode</h1>
       <p class="text-base text-base-content/70">
-        For each row, position and scale the bar so it matches the real historic period on the master axis. Then click Score.
+        Drag each bar left or right to match its true time range on the master axis. All events are pre-placed with their duration; just align them and click Score.
       </p>
     </header>
 
@@ -133,39 +133,69 @@
     >
       <div class="rounded-box bg-base-200 p-3">
         <canvas
-          id="timeline-canvas"
+          id="timeline-master-axis"
           width="1600"
-          height="400"
+          height="80"
           class="w-full h-auto block"
           phx-hook="TimelineCanvas"
           data-axis-min={@axis_min}
           data-axis-max={@axis_max}
           data-ticks={Enum.join(@ticks, ",")}
-          data-placed={Enum.join(@placed, ",")}
-          data-lane-count={@lane_count}
+          data-placed=""
+          data-lane-count="1"
           data-lane-overrides=""
         >
         </canvas>
-
-        <div id="timeline-canvas-data" class="hidden">
-          <%= for id <- @order do %>
-            <% p = @periods_by_id[id] %>
-            <div
-              data-id={id}
-              data-title={p.title}
-              data-start={p.start_year}
-              data-end={p.end_year}
-              data-guess-start={p.guess_start}
-              data-guess-end={p.guess_end}
-              data-image-src={p.image_src}
-              data-lane={@lane_by_id[id]}
-            />
-          <% end %>
-        </div>
+      </div>
+      <div id="rows" class="space-y-4">
+        <%= for id <- @order do %>
+          <% p = @periods_by_id[id] %>
+          <div class="grid grid-cols-12 gap-4 rounded-box bg-base-200 p-3">
+            <div class="col-span-12 md:col-span-3 flex items-center gap-3">
+              <div class="w-12 h-12 rounded overflow-hidden bg-base-300 flex items-center justify-center">
+                <%= if p.image_src do %>
+                  <img src={p.image_src} alt={p.title} class="w-full h-full object-cover" />
+                <% else %>
+                  <div class="text-xs text-base-content/60 px-1 text-center">No image</div>
+                <% end %>
+              </div>
+              <div class="text-sm font-medium">{p.title}</div>
+            </div>
+            <div class="col-span-12 md:col-span-9">
+              <canvas
+                id={"timeline-canvas-#{id}"}
+                width="1600"
+                height="120"
+                class="w-full h-auto block"
+                phx-hook="TimelineCanvas"
+                data-axis-min={@axis_min}
+                data-axis-max={@axis_max}
+                data-ticks={Enum.join(@ticks, ",")}
+                data-placed={id}
+                data-lane-count="1"
+                data-lane-overrides=""
+                data-row-mode="true"
+              >
+              </canvas>
+              <div class="hidden">
+                <div
+                  data-id={id}
+                  data-title={p.title}
+                  data-start={p.start_year}
+                  data-end={p.end_year}
+                  data-guess-start={p.guess_start}
+                  data-guess-end={p.guess_end}
+                  data-image-src={p.image_src}
+                  data-lane="0"
+                />
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
     </section>
 
-    <section aria-label="pool" id="pool" phx-hook="DnDPool" class="space-y-3">
+    <section aria-label="pool" id="pool" class="hidden">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Event Pool</h2>
         <button id="shuffle-btn" class="btn btn-ghost btn-sm" phx-click="shuffle_pool">

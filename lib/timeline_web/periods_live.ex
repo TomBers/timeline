@@ -379,35 +379,70 @@ defmodule TimelineWeb.PeriodsLive do
           {base_periods, nil}
       end
 
-    # Anchor-based windowing: pick a random anchor, then pick nearest (by midpoint) events to fill the round
+    # Balanced sampling: prefer events near the median time and duration to avoid extremes
     {sample, _anchor} =
       if size > 0 and base_scoped != [] do
-        anchor =
-          case base_scoped do
-            [] -> nil
-            bs -> Enum.random(bs)
+        # Compute center time and median duration for balancing
+        mids =
+          base_scoped
+          |> Enum.map(fn p -> div(p.start_year + p.end_year, 2) end)
+          |> Enum.sort()
+
+        center_mid =
+          case forced_axis do
+            {amin, amax} ->
+              div(amin + amax, 2)
+
+            _ ->
+              case mids do
+                [] -> 0
+                _ -> Enum.at(mids, div(length(mids), 2)) || 0
+              end
           end
 
-        others = Enum.reject(base_scoped, &(&1 == anchor))
+        durs =
+          base_scoped
+          |> Enum.map(fn p -> max(p.end_year - p.start_year, @min_duration_years) end)
+          |> Enum.sort()
 
-        anchor_mid =
-          case anchor do
-            nil -> 0
-            a -> div(a.start_year + a.end_year, 2)
+        med_dur =
+          case durs do
+            [] -> @min_duration_years
+            _ -> Enum.at(durs, div(length(durs), 2)) || @min_duration_years
           end
 
-        others_sorted =
-          Enum.sort_by(others, fn p -> abs(div(p.start_year + p.end_year, 2) - anchor_mid) end)
+        {min_start, max_end} =
+          if base_scoped == [] do
+            {0, 1}
+          else
+            {
+              base_scoped |> Enum.min_by(& &1.start_year) |> Map.get(:start_year),
+              base_scoped |> Enum.max_by(& &1.end_year) |> Map.get(:end_year)
+            }
+          end
 
-        take_n = max(size - 1, 0) |> min(length(others_sorted))
+        span0 = max(max_end - min_start, 1)
+
+        # Score by closeness to center time (normalized) and closeness to median duration (log-scale)
+        scored =
+          Enum.map(base_scoped, fn p ->
+            mid = div(p.start_year + p.end_year, 2)
+            dur = max(p.end_year - p.start_year, @min_duration_years)
+            time_norm = abs(mid - center_mid) / span0
+            dur_norm = abs(:math.log(max(dur, 1) * 1.0) - :math.log(max(med_dur, 1) * 1.0))
+            score = time_norm * 0.7 + dur_norm * 0.3
+            {score, p}
+          end)
 
         selected =
-          case anchor do
-            nil -> Enum.take(base_scoped, size)
-            a -> [a | Enum.take(others_sorted, take_n)]
-          end
+          scored
+          |> Enum.sort_by(fn {score, p} -> {score, p.start_year, p.end_year, p.title} end)
+          |> Enum.take(min(length(scored), max(size * 2, size)))
+          |> Enum.shuffle()
+          |> Enum.take(size)
+          |> Enum.map(fn {_score, p} -> p end)
 
-        {Enum.sort_by(selected, fn p -> {p.start_year, p.end_year, p.title} end), anchor}
+        {Enum.sort_by(selected, fn p -> {p.start_year, p.end_year, p.title} end), nil}
       else
         {[], nil}
       end
@@ -420,10 +455,14 @@ defmodule TimelineWeb.PeriodsLive do
           {amin, amax}
 
         _ ->
-          {
-            sample |> Enum.map(& &1.start_year) |> Enum.min(fn -> 0 end),
-            sample |> Enum.map(& &1.end_year) |> Enum.max(fn -> 1 end)
-          }
+          if sample == [] do
+            {0, 1}
+          else
+            {
+              sample |> Enum.map(& &1.start_year) |> Enum.min(),
+              sample |> Enum.map(& &1.end_year) |> Enum.max()
+            }
+          end
       end
 
     span = max(axis_max - axis_min, 1)
@@ -434,12 +473,15 @@ defmodule TimelineWeb.PeriodsLive do
         duration = max(p.end_year - p.start_year, @min_duration_years)
         max_start = axis_max - duration
         min_start = axis_min
+        center = div(axis_min + axis_max, 2)
 
         guess_start =
           if max_start <= min_start do
             min_start
           else
-            :rand.uniform(max_start - min_start + 1) + min_start - 1
+            (center - div(duration, 2))
+            |> max(min_start)
+            |> min(max_start)
           end
 
         guess_end = guess_start + duration
@@ -462,8 +504,8 @@ defmodule TimelineWeb.PeriodsLive do
 
     periods_by_id = Map.new(with_meta, &{&1.id, &1})
     order = Enum.map(with_meta, & &1.id)
-    pool = order
-    placed = []
+    pool = []
+    placed = order
 
     {periods_by_id, order, axis_min, axis_max, pool, placed}
   end
