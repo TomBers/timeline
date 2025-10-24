@@ -827,7 +827,7 @@ const hooks = {
       };
 
       this._drawW = () =>
-        this.el.width - (this._padding.left + this._padding.right);
+        this._cssWidth - (this._padding.left + this._padding.right);
 
       this._resizeCanvas = () => {
         const dpr = window.devicePixelRatio || 1;
@@ -841,19 +841,22 @@ const hooks = {
           this._laneGap +
           this._padding.bottom;
 
-        // Set intrinsic size for crisp drawing
-        this.el.width = Math.max(1, Math.floor(rect.width * dpr));
-        this.el.height = Math.max(1, Math.floor(heightCss * dpr));
-        // Scale context
+        // Compute CSS pixel size and set intrinsic size for crisp drawing
+        this._cssWidth = Math.max(1, Math.floor(rect.width));
+        this._cssHeight = Math.max(1, Math.floor(heightCss));
+        this.el.width = Math.max(1, Math.floor(this._cssWidth * dpr));
+        this.el.height = Math.max(1, Math.floor(this._cssHeight * dpr));
+        // Scale context so drawing uses CSS pixels
         this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        // Also set CSS height to match
-        this.el.style.height = `${heightCss}px`;
+        // Ensure CSS size reflects CSS pixels
+        this.el.style.width = "100%";
+        this.el.style.height = `${this._cssHeight}px`;
       };
 
       this._draw = () => {
         const ctx = this._ctx;
         // Clear
-        ctx.clearRect(0, 0, this.el.width, this.el.height);
+        ctx.clearRect(0, 0, this._cssWidth, this._cssHeight);
 
         // Axis header line (emphasized and theme-aware)
         const axisY = this._padding.top + this._headerH / 2;
