@@ -132,22 +132,18 @@
       class="space-y-4"
     >
       <div class="rounded-box bg-base-200 p-3">
-        <div class="overflow-x-auto" style="-webkit-overflow-scrolling: touch;">
-          <canvas
-            id="timeline-canvas"
-            width="1600"
-            height="400"
-            class="w-full h-auto block"
-            phx-hook="TimelineCanvas"
-            data-axis-min={@axis_min}
-            data-axis-max={@axis_max}
-            data-ticks={Enum.join(@ticks, ",")}
-            data-placed={Enum.join(@placed, ",")}
-            data-lane-count={@lane_count}
-            data-lane-overrides=""
-          >
-          </canvas>
-        </div>
+        <canvas
+          id="timeline-canvas"
+          class="w-full h-auto block"
+          phx-hook="TimelineCanvas"
+          data-axis-min={@axis_min}
+          data-axis-max={@axis_max}
+          data-ticks={Enum.join(@ticks, ",")}
+          data-placed={Enum.join(@placed, ",")}
+          data-lane-count={@lane_count}
+          data-lane-overrides=""
+        >
+        </canvas>
 
         <div id="timeline-canvas-data" class="hidden">
           <%= for id <- @order do %>
