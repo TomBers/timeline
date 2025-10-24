@@ -5,7 +5,13 @@
       <div class="ml-auto flex items-center gap-2">
         <.geo_compass class="w-10 h-10" />
         <div class="flex gap-2">
-          <button id="score-btn" class="btn btn-sm btn-primary" phx-click="score">Score</button>
+          <button
+            id="score-btn"
+            class="btn btn-sm btn-primary"
+            phx-click={JS.push("score") |> show("#score-modal")}
+          >
+            Score
+          </button>
           <button id="reset-btn" class="btn btn-sm" phx-click="reset">New game</button>
           <button id="shuffle-btn" class="btn btn-sm btn-ghost" phx-click="shuffle_pool">
             Shuffle
@@ -14,36 +20,107 @@
       </div>
     </header>
 
-    <%= if @score do %>
-      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-2">
-        <div class="flex flex-wrap gap-3 items-center">
-          <div>
-            <div class="text-2xl font-extrabold">{@score.percent_correct}%</div>
-            <div class="text-xs text-base-content/70">Correct positions</div>
-          </div>
-          <div>
-            <div class="text-lg font-semibold">
-              {@score.correct_positions} / {@score.total_slots}
+    <div
+      id="score-modal"
+      class="fixed inset-0 z-50 hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="score-modal-title"
+    >
+      <div class="absolute inset-0 bg-black/50" phx-click={hide("#score-modal")}></div>
+
+      <div class="relative max-w-lg w-[92vw] sm:w-full mx-auto mt-16">
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body gap-4">
+            <div class="flex items-start">
+              <h3 id="score-modal-title" class="text-xl font-bold">Your Results</h3>
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm ml-auto"
+                aria-label="Close"
+                phx-click={hide("#score-modal")}
+              >
+                <.icon name="hero-x-mark" class="w-5 h-5" />
+              </button>
             </div>
-            <div class="text-xs text-base-content/70">Exactly right</div>
-          </div>
-          <div>
-            <div class="text-lg font-semibold">{@score.total_manhattan_displacement}</div>
-            <div class="text-xs text-base-content/70">Total Manhattan displacement</div>
-          </div>
-          <div class="ml-auto">
-            <%= cond do %>
-              <% @score.filled_slots < @score.total_slots -> %>
-                <span class="text-xs text-warning">
-                  Score based on {@score.filled_slots} of {@score.total_slots} placed.
-                </span>
-              <% true -> %>
-                <span class="text-xs text-success">All cells filled. Nice!</span>
+
+            <%= if @score do %>
+              <div class="grid sm:grid-cols-2 gap-4 items-center">
+                <div>
+                  <div class="text-4xl font-extrabold">{@score.percent_correct}%</div>
+                  <div class="text-sm text-base-content/70">Correct placements</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">
+                    {@score.correct_positions} / {@score.total_slots}
+                  </div>
+                  <div class="text-sm text-base-content/70">Exactly right</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">{@score.total_manhattan_displacement}</div>
+                  <div class="text-sm text-base-content/70">Total Manhattan displacement</div>
+                </div>
+              </div>
+
+              <div class="divider">Share</div>
+              <div class="flex flex-wrap gap-2">
+                <% share_url = TimelineWeb.Endpoint.url() <> ~p"/" %>
+                <% tweet_text = "I scored #{@score.percent_correct}% on Timeline Geo 3×3!" %>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://twitter.com/intent/tweet?text=" <> URI.encode_www_form(tweet_text) <> "&url=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-arrow-up-right" class="w-4 h-4" />
+                  <span class="ml-1">Post on X</span>
+                </a>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://www.facebook.com/sharer/sharer.php?u=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-share" class="w-4 h-4" />
+                  <span class="ml-1">Share on Facebook</span>
+                </a>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://www.linkedin.com/sharing/share-offsite/?url=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-briefcase" class="w-4 h-4" />
+                  <span class="ml-1">Share on LinkedIn</span>
+                </a>
+              </div>
+            <% else %>
+              <div class="flex items-center gap-2 text-base-content/70">
+                <.icon name="hero-arrow-path" class="w-4 h-4 motion-safe:animate-spin" />
+                Calculating score...
+              </div>
             <% end %>
+
+            <div class="flex flex-wrap gap-2 justify-end pt-2">
+              <button
+                type="button"
+                class="btn"
+                phx-click={hide("#score-modal")}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                phx-click={JS.push("reset") |> hide("#score-modal")}
+              >
+                Play again
+              </button>
+            </div>
           </div>
         </div>
-      </section>
-    <% end %>
+      </div>
+    </div>
 
     <section aria-label="play" class="grid gap-4 lg:grid-cols-12 items-start">
       <aside

@@ -8,43 +8,134 @@
     </header>
 
     <section aria-label="controls" class="flex flex-wrap gap-3 items-center">
-      <button id="score-btn" class="btn btn-primary" phx-click="score">Score</button>
+      <button
+        id="score-btn"
+        class="btn btn-primary"
+        phx-click={JS.push("score") |> show("#score-modal")}
+      >
+        Score
+      </button>
       <button id="reset-btn" class="btn" phx-click="reset">New game</button>
       <button id="shuffle-btn" class="btn btn-ghost" phx-click="shuffle_pool">
         Shuffle pool
       </button>
     </section>
 
-    <%= if @score do %>
-      <section aria-label="score" id="score-panel" class="rounded-box bg-base-200 p-4">
-        <div class="flex flex-wrap gap-6 items-center">
-          <div>
-            <div class="text-3xl font-extrabold">{@score.percent_correct}%</div>
-            <div class="text-sm text-base-content/70">Correct positions</div>
-          </div>
-          <div>
-            <div class="text-xl font-semibold">
-              {@score.correct_positions} / {@score.total_slots}
+    <div id="a11y-live" class="sr-only" role="status" aria-live="polite"></div>
+
+    <div
+      id="score-modal"
+      class="fixed inset-0 z-50 hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="score-modal-title"
+    >
+      <div class="absolute inset-0 bg-black/50" phx-click={hide("#score-modal")}></div>
+
+      <div class="relative max-w-lg w-[92vw] sm:w-full mx-auto mt-16">
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body gap-4">
+            <div class="flex items-start">
+              <h3 id="score-modal-title" class="text-xl font-bold">Your Results</h3>
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm ml-auto"
+                aria-label="Close"
+                phx-click={hide("#score-modal")}
+              >
+                <.icon name="hero-x-mark" class="w-5 h-5" />
+              </button>
             </div>
-            <div class="text-sm text-base-content/70">Spots exactly right</div>
-          </div>
-          <div>
-            <div class="text-xl font-semibold">{@score.total_displacement}</div>
-            <div class="text-sm text-base-content/70">Total displacement (lower is better)</div>
-          </div>
-          <div class="ml-auto">
-            <%= cond do %>
-              <% @score.filled_slots < @score.total_slots -> %>
-                <span class="text-sm text-warning">
-                  Score based on {@score.filled_slots} of {@score.total_slots} placed.
-                </span>
-              <% true -> %>
-                <span class="text-sm text-success">All slots filled. Great!</span>
+
+            <%= if @score do %>
+              <div class="grid sm:grid-cols-2 gap-4 items-center">
+                <div>
+                  <div class="text-4xl font-extrabold">{@score.percent_correct}%</div>
+                  <div class="text-sm text-base-content/70">Correct positions</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">
+                    {@score.correct_positions} / {@score.total_slots}
+                  </div>
+                  <div class="text-sm text-base-content/70">Spots exactly right</div>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold">{@score.total_displacement}</div>
+                  <div class="text-sm text-base-content/70">
+                    Total displacement (lower is better)
+                  </div>
+                </div>
+                <div class="sm:col-span-2">
+                  <%= cond do %>
+                    <% @score.filled_slots < @score.total_slots -> %>
+                      <span class="text-sm text-warning">
+                        Score based on {@score.filled_slots} of {@score.total_slots} placed.
+                      </span>
+                    <% true -> %>
+                      <span class="text-sm text-success">All slots filled. Great!</span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="divider">Share</div>
+              <div class="flex flex-wrap gap-2">
+                <% share_url = TimelineWeb.Endpoint.url() <> ~p"/" %>
+                <% tweet_text = "I scored #{@score.percent_correct}% on Timeline!" %>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://twitter.com/intent/tweet?text=" <> URI.encode_www_form(tweet_text) <> "&url=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-arrow-up-right" class="w-4 h-4" />
+                  <span class="ml-1">Post on X</span>
+                </a>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://www.facebook.com/sharer/sharer.php?u=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-share" class="w-4 h-4" />
+                  <span class="ml-1">Share on Facebook</span>
+                </a>
+                <a
+                  class="btn btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                  href={"https://www.linkedin.com/sharing/share-offsite/?url=" <> URI.encode_www_form(share_url)}
+                >
+                  <.icon name="hero-briefcase" class="w-4 h-4" />
+                  <span class="ml-1">Share on LinkedIn</span>
+                </a>
+              </div>
+            <% else %>
+              <div class="flex items-center gap-2 text-base-content/70">
+                <.icon name="hero-arrow-path" class="w-4 h-4 motion-safe:animate-spin" />
+                Calculating score...
+              </div>
             <% end %>
+
+            <div class="flex flex-wrap gap-2 justify-end pt-2">
+              <button
+                type="button"
+                class="btn"
+                phx-click={hide("#score-modal")}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                phx-click={JS.push("reset") |> hide("#score-modal")}
+              >
+                Play again
+              </button>
+            </div>
           </div>
         </div>
-      </section>
-    <% end %>
+      </div>
+    </div>
 
     <section aria-label="timeline" id="timeline" phx-hook="DnDSlots" class="space-y-3">
       <h2 class="text-lg font-semibold">Timeline</h2>
@@ -59,6 +150,7 @@
       </div>
       <div
         class="grid gap-3 overflow-x-auto pb-2"
+        data-dnd-scroll-container="true"
         style={"grid-template-columns: repeat(#{length(@slots)}, minmax(clamp(11rem, 85vw, 16rem), 1fr)); -webkit-overflow-scrolling: touch;"}
       >
         <%= for {event_id, idx} <- Enum.with_index(@slots) do %>
@@ -132,20 +224,23 @@
           style="grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));"
         >
           <%= for event <- @pool do %>
-            <div
+            <button
               id={"pool-#{event.id}"}
+              type="button"
               data-event-id={event.id}
               draggable="true"
               phx-click="select_event"
               phx-value-id={event.id}
-              aria-selected={@selected_id == event.id}
+              aria-pressed={@selected_id == event.id}
+              aria-label={"Select " <> event.title}
               class={[
                 "card bg-base-100 border-2 border-base-300 hover:border-primary transition-colors cursor-move",
-                @selected_id == event.id && "ring ring-primary"
+                @selected_id == event.id && "ring ring-primary",
+                "text-left"
               ]}
             >
               <.event_card event={event} show_link={false} summary_text="Details" />
-            </div>
+            </button>
           <% end %>
         </div>
       <% end %>
