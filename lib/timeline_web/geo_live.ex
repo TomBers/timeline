@@ -83,17 +83,17 @@ defmodule TimelineWeb.GeoLive do
         else
           new_grid = List.replace_at(socket.assigns.grid, slot_idx, selected.id)
 
-          {:noreply,
-           socket
-           |> assign(:pool, new_pool)
-           |> assign(:grid, new_grid)
-           |> assign(
-             :score,
-             if(new_pool == [],
-               do: compute_score(new_grid, socket.assigns.places_by_id),
-               else: nil
-             )
-           )}
+          socket =
+            socket
+            |> assign(:pool, new_pool)
+            |> assign(:grid, new_grid)
+
+          if new_pool == [] do
+            score = compute_score(new_grid, socket.assigns.places_by_id)
+            {:noreply, assign(socket, :score, score) |> push_event("game_over", %{})}
+          else
+            {:noreply, assign(socket, :score, nil)}
+          end
         end
     end
   end

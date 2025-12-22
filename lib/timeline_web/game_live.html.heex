@@ -156,7 +156,7 @@
           <div
             id={"slot-#{idx}"}
             data-slot-idx={idx}
-            data-filled={not is_nil(event_id)}
+            data-filled={if event_id, do: "true", else: "false"}
             class={[
               "card",
               "bg-base-200",

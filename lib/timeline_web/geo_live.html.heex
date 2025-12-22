@@ -174,7 +174,7 @@
             <div
               id={"cell-#{idx}"}
               data-slot-idx={idx}
-              data-filled={not is_nil(id)}
+              data-filled={if id, do: "true", else: "false"}
               class={[
                 "card aspect-square bg-base-200 border-2 transition-colors relative overflow-hidden",
                 is_nil(id) && "border-dashed border-base-300 hover:border-primary",
