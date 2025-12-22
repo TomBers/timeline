@@ -410,6 +410,10 @@ const hooks = {
   DnDSlots: {
     mounted() {
       this.setup();
+      this.handleEvent("game_over", () => {
+        const btn = document.getElementById("score-btn");
+        if (btn) btn.click();
+      });
     },
     updated() {
       this.setup();

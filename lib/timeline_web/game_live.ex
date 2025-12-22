@@ -77,17 +77,17 @@ defmodule TimelineWeb.GameLive do
         else
           new_slots = List.replace_at(slots, slot_idx, selected.id)
 
-          {:noreply,
-           socket
-           |> assign(:pool, new_pool)
-           |> assign(:slots, new_slots)
-           |> assign(
-             :score,
-             if(new_pool == [],
-               do: compute_score(new_slots, socket.assigns.events_by_id),
-               else: nil
-             )
-           )}
+          socket =
+            socket
+            |> assign(:pool, new_pool)
+            |> assign(:slots, new_slots)
+
+          if new_pool == [] do
+            score = compute_score(new_slots, socket.assigns.events_by_id)
+            {:noreply, assign(socket, :score, score) |> push_event("game_over", %{})}
+          else
+            {:noreply, assign(socket, :score, nil)}
+          end
         end
     end
   end
