@@ -420,10 +420,10 @@ defmodule TimelineWeb.PeriodsLive do
           {amin, amax}
 
         _ ->
-          {
-            sample |> Enum.map(& &1.start_year) |> Enum.min(fn -> 0 end),
-            sample |> Enum.map(& &1.end_year) |> Enum.max(fn -> 1 end)
-          }
+          min_y = sample |> Enum.map(& &1.start_year) |> Enum.min(fn -> 0 end)
+          max_y = sample |> Enum.map(& &1.end_year) |> Enum.max(fn -> 1 end)
+          padding = max(div(max_y - min_y, 5), 10)
+          {min_y - padding, max_y + padding}
       end
 
     span = max(axis_max - axis_min, 1)

@@ -420,6 +420,9 @@ const hooks = {
       const unhighlight = (el) =>
         el.classList.remove("border-primary", "bg-base-100");
       this.el.querySelectorAll("[data-slot-idx]").forEach((slot) => {
+        if (slot.hasAttribute("data-dnd-init")) return;
+        slot.setAttribute("data-dnd-init", "true");
+
         // Make slots focusable for keyboard users
         if (!slot.hasAttribute("tabindex")) {
           slot.setAttribute("tabindex", "0");
